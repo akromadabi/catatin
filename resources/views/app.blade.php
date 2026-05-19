@@ -198,17 +198,23 @@
                             <p class="text-blue-100 text-sm font-medium opacity-90">Total Saldo</p>
                             <h1 class="text-4xl font-bold mt-1 mb-6" id="home-balance">Rp 0</h1>
                         </div>
-                        <div class="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 text-xs font-semibold">
-                            <i class="fas fa-chart-line"></i> <span id="home-change">+0%</span>
-                        </div>
+                        <button onclick="toggleBalance()" class="bg-white/20 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold hover:bg-white/30 transition">
+                            <i class="fas fa-eye" id="toggle-eye-icon"></i>
+                        </button>
                     </div>
 
                     <div class="flex gap-3 relative z-10">
-                        <button onclick="document.getElementById('nav-add').click()" class="flex-1 bg-white text-brand-600 rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-slate-50">
-                            <i class="fas fa-arrow-down"></i> Pemasukan
+                        <button onclick="document.getElementById('nav-add').click()" class="flex-1 bg-white text-brand-600 rounded-xl px-4 py-3 text-left hover:bg-slate-50 transition overflow-hidden">
+                            <div class="flex items-center gap-1.5 opacity-80 mb-1">
+                                <i class="fas fa-arrow-down text-[10px]"></i> <span class="text-[10px] font-bold uppercase tracking-wider">Pemasukan</span>
+                            </div>
+                            <div class="text-sm font-bold truncate balance-value" id="home-income">Rp 0</div>
                         </button>
-                        <button onclick="document.getElementById('nav-add').click()" class="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/20 rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2">
-                            <i class="fas fa-arrow-up"></i> Pengeluaran
+                        <button onclick="document.getElementById('nav-add').click()" class="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/20 rounded-xl px-4 py-3 text-left transition overflow-hidden">
+                            <div class="flex items-center gap-1.5 opacity-80 mb-1">
+                                <i class="fas fa-arrow-up text-[10px]"></i> <span class="text-[10px] font-bold uppercase tracking-wider">Pengeluaran</span>
+                            </div>
+                            <div class="text-sm font-bold truncate balance-value" id="home-expense">Rp 0</div>
                         </button>
                     </div>
                 </div>
@@ -426,15 +432,24 @@
                 <!-- Profile Header -->
                 <div class="flex flex-col items-center mb-8">
                     <div class="w-24 h-24 rounded-full overflow-hidden bg-slate-200 border-4 border-white shadow-md mb-4">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f1f5f9&color=475569" alt="Avatar" class="w-full h-full object-cover">
+                        <img id="profile-avatar-img" src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">
                     </div>
-                    <h2 class="text-xl font-bold text-slate-900">{{ auth()->user()->name }}</h2>
+                    <h2 id="profile-name-display" class="text-xl font-bold text-slate-900">{{ auth()->user()->name }}</h2>
                     <p class="text-sm text-slate-500">{{ auth()->user()->email }}</p>
                     <span class="mt-2 px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold uppercase tracking-wider">{{ auth()->user()->role }}</span>
                 </div>
 
                 <!-- Settings Blocks -->
                 <div class="bg-white border border-slate-100 shadow-sm rounded-3xl overflow-hidden mb-6">
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openEditProfileModal()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <i class="fas fa-user-edit"></i>
+                            </div>
+                            <span class="font-semibold text-slate-700">Edit Profil</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
                     <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="navigateTo('categories')">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
@@ -688,8 +703,102 @@
 </div>
 
 <!-- TOAST -->
-<div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-50 transition-all duration-300 transform -translate-y-20 opacity-0">
+<div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-[9999] transition-all duration-300 transform -translate-y-20 opacity-0">
     Message
+</div>
+
+<!-- EDIT TXN MODAL -->
+<div id="edit-txn-modal" style="display:none" class="fixed inset-0 z-[60] bg-slate-900/50 items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="font-bold text-slate-800 text-lg">Edit Transaksi</h3>
+            <button onclick="closeEditTxnModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto">
+            <form id="edit-txn-form" onsubmit="submitEditTxn(event)">
+                <input type="hidden" id="edit-txn-id">
+                <input type="hidden" id="edit-txn-type">
+                
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nominal</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <span class="text-slate-500 font-bold">Rp</span>
+                        </div>
+                        <input type="text" id="edit-txn-amount" class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-lg font-bold rounded-2xl focus:ring-brand-500 focus:border-brand-500 block pl-12 p-3.5 outline-none transition" required oninput="formatCurrencyInput(this)">
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kategori</label>
+                    <select id="edit-txn-category" class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 outline-none transition appearance-none" required>
+                    </select>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tanggal</label>
+                    <input type="date" id="edit-txn-date" class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 outline-none transition" required>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Catatan <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                    <input type="text" id="edit-txn-desc" class="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 outline-none transition" placeholder="Contoh: Makan siang bareng teman">
+                </div>
+
+                <button type="submit" class="w-full text-white bg-brand-600 hover:bg-brand-700 font-bold rounded-2xl text-sm px-5 py-4 text-center transition shadow-lg shadow-brand-500/30">
+                    Simpan Perubahan
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT PROFILE MODAL -->
+<div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="font-bold text-slate-800 text-lg">Edit Profil</h3>
+            <button onclick="closeEditProfileModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto">
+            <form id="edit-profile-form" onsubmit="submitEditProfile(event)" enctype="multipart/form-data">
+                <div class="mb-6 flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full overflow-hidden bg-slate-200 border-4 border-white shadow-md mb-3 relative group cursor-pointer" onclick="document.getElementById('edit-profile-avatar').click()">
+                        <img id="edit-profile-preview" src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-camera text-white text-xl"></i>
+                        </div>
+                    </div>
+                    <span class="text-xs text-brand-600 font-semibold cursor-pointer" onclick="document.getElementById('edit-profile-avatar').click()">Ganti Foto</span>
+                    <input type="file" id="edit-profile-avatar" accept="image/*" class="hidden" onchange="previewAvatar(this)">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Lengkap</label>
+                    <input type="text" id="edit-profile-name" value="{{ auth()->user()->name }}" class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 outline-none transition" required>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Password Baru <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                    <div class="relative">
+                        <input type="password" id="edit-profile-password" class="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 pr-12 outline-none transition" placeholder="Biarkan kosong jika tidak diubah">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600">
+                            <i class="fas fa-eye" id="edit-profile-password-eye"></i>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-1.5">*Isi jika ingin mengatur password (misal bagi pendaftar Google).</p>
+                </div>
+
+                <button type="submit" id="btn-save-profile" class="w-full text-white bg-brand-600 hover:bg-brand-700 font-bold rounded-2xl text-sm px-5 py-4 text-center transition shadow-lg shadow-brand-500/30 flex justify-center items-center gap-2">
+                    Simpan Profil
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- PDF REPORT TEMPLATE (Hidden until generated) -->

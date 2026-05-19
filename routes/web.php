@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/api/transactions/{id}', [ApiController::class, 'deleteTransaction']);
     Route::post('/api/categories', [ApiController::class, 'storeCategory']);
     Route::delete('/api/categories/{id}', [ApiController::class, 'deleteCategory']);
+    Route::post('/api/profile', [ApiController::class, 'updateProfile']);
 });
 
 require __DIR__.'/auth.php';

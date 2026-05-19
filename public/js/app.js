@@ -225,11 +225,54 @@ function handleManualSubmit() {
     navigateTo('home');
 }
 
+let isBalanceHidden = localStorage.getItem('hideBalance') === 'true';
+
+function applyBalanceVisibility() {
+    const hiddenText = 'Rp •••••••';
+    const balanceEl = document.getElementById('home-balance');
+    const incomeEl = document.getElementById('home-income');
+    const expenseEl = document.getElementById('home-expense');
+    const eyeIcon = document.getElementById('toggle-eye-icon');
+    
+    if(isBalanceHidden) {
+        if(balanceEl) balanceEl.textContent = hiddenText;
+        if(incomeEl) incomeEl.textContent = hiddenText;
+        if(expenseEl) expenseEl.textContent = hiddenText;
+        if(eyeIcon) {
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        }
+    } else {
+        if(balanceEl) balanceEl.textContent = balanceEl.dataset.value;
+        if(incomeEl) incomeEl.textContent = incomeEl.dataset.value;
+        if(expenseEl) expenseEl.textContent = expenseEl.dataset.value;
+        if(eyeIcon) {
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+}
+
+function toggleBalance() {
+    isBalanceHidden = !isBalanceHidden;
+    localStorage.setItem('hideBalance', isBalanceHidden);
+    applyBalanceVisibility();
+}
+
 /* ================= HOME ================= */
 function updateDashboard() {
     const { totalIn, totalOut, balance } = calculateBalances();
     
-    document.getElementById('home-balance').textContent = formatRupiah(balance);
+    const balanceEl = document.getElementById('home-balance');
+    if(balanceEl) balanceEl.dataset.value = formatRupiah(balance);
+    
+    const incomeEl = document.getElementById('home-income');
+    if(incomeEl) incomeEl.dataset.value = formatRupiah(totalIn);
+    
+    const expenseEl = document.getElementById('home-expense');
+    if(expenseEl) expenseEl.dataset.value = formatRupiah(totalOut);
+    
+    applyBalanceVisibility();
     
     // Recent Txns
     const list = document.getElementById('home-recent-list');
@@ -769,7 +812,7 @@ function createTxnListItem(t, showDelete = false) {
     const dateStr = new Date(t.date).toLocaleDateString('id-ID', {day:'2-digit', month:'short'});
     const actionBtns = showDelete ? `
         <div class="flex items-center ml-2">
-            <button onclick="handleEdit('${t.id}')" class="text-blue-400 bg-blue-50 w-7 h-7 rounded-full flex items-center justify-center shrink-0 hover:bg-blue-100 transition mr-1">
+            <button data-edit-id="${t.id}" class="btn-edit-txn text-blue-400 bg-blue-50 w-7 h-7 rounded-full flex items-center justify-center shrink-0 hover:bg-blue-100 transition mr-1">
                 <i class="fas fa-pen text-[10px]"></i>
             </button>
             <button onclick="handleDelete('${t.id}')" class="text-rose-400 bg-rose-50 w-7 h-7 rounded-full flex items-center justify-center shrink-0 hover:bg-rose-100 transition">
@@ -796,44 +839,45 @@ function createTxnListItem(t, showDelete = false) {
     `;
 }
 
-function handleEdit(id) {
-    const t = appData.transactions.find(x => x.id === id);
-    if(!t) return;
-    
+/* ================= EDIT TRANSACTION (rebuilt) ================= */
+function openEditTxnModal(id) {
+    const t = appData.transactions.find(x => String(x.id) === String(id));
+    if (!t) {
+        alert('Transaksi tidak ditemukan (id=' + id + ')');
+        return;
+    }
+
+    // Populate hidden fields
     document.getElementById('edit-txn-id').value = id;
-    document.getElementById('edit-txn-type').value = t.type;
-    
-    // Set form fields
-    document.getElementById('edit-txn-amount').value = parseFloat(t.amount).toLocaleString('id-ID');
-    
-    // Set category options
+    document.getElementById('edit-txn-type').value = t.type || 'pengeluaran';
+
+    // Amount
+    document.getElementById('edit-txn-amount').value = t.amount ? parseFloat(t.amount).toLocaleString('id-ID') : '';
+
+    // Category dropdown
     const catSelect = document.getElementById('edit-txn-category');
     catSelect.innerHTML = '';
-    const cats = appData.categories[t.type] || [];
+    const cats = (appData.categories && appData.categories[t.type]) ? appData.categories[t.type] : [];
     cats.forEach(c => {
-        catSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.textContent = c.name;
+        if (c.name === t.category) opt.selected = true;
+        catSelect.appendChild(opt);
     });
-    
-    // Select the category
-    let hasCat = false;
-    for (let i = 0; i < catSelect.options.length; i++) {
-        if (catSelect.options[i].value === t.category) {
-            catSelect.selectedIndex = i;
-            hasCat = true;
-            break;
-        }
-    }
-    if (!hasCat && catSelect.options.length > 0) catSelect.selectedIndex = 0;
-    
+
+    // Description & Date
     document.getElementById('edit-txn-desc').value = t.desc || '';
-    document.getElementById('edit-txn-date').value = t.date.split('T')[0];
-    
+    document.getElementById('edit-txn-date').value = t.date ? t.date.substring(0, 10) : '';
+
+    // Show modal
     const modal = document.getElementById('edit-txn-modal');
     modal.style.display = 'flex';
 }
 
 function closeEditTxnModal() {
-    document.getElementById('edit-txn-modal').style.display = 'none';
+    const modal = document.getElementById('edit-txn-modal');
+    modal.style.display = 'none';
     document.getElementById('edit-txn-form').reset();
 }
 
@@ -841,24 +885,34 @@ function submitEditTxn(e) {
     e.preventDefault();
     const id = document.getElementById('edit-txn-id').value;
     const type = document.getElementById('edit-txn-type').value;
-    const amountStr = document.getElementById('edit-txn-amount').value.replace(/\./g, '');
+    const amountStr = document.getElementById('edit-txn-amount').value.replace(/[^0-9]/g, '');
     const amount = parseFloat(amountStr);
     const category = document.getElementById('edit-txn-category').value;
     const desc = document.getElementById('edit-txn-desc').value;
     const date = document.getElementById('edit-txn-date').value;
 
     if (!amount || !category || !date) {
-        showToast('Harap isi semua kolom');
+        showToast('Harap isi semua kolom yang wajib');
         return;
     }
 
     updateTransaction(id, { type, amount, category, desc, date });
     showToast('Transaksi berhasil diperbarui!');
-    
     closeEditTxnModal();
     updateWallet();
-    updateDashboard(); // Also refresh home
+    updateDashboard();
+    if (currentPage === 'analytics') updateAnalytics(document.querySelector('.pill-tab.active')?.dataset.period || 'month');
 }
+
+// Event delegation — attached once after DOM ready
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn-edit-txn');
+    if (btn) {
+        const id = btn.getAttribute('data-edit-id');
+        openEditTxnModal(id);
+    }
+});
+
 
 function handleDelete(id) {
     if(confirm('Hapus transaksi ini?')) {
@@ -1099,4 +1153,100 @@ function confirmDeleteCategory() {
     const type = document.getElementById('edit-cat-type-val').value;
     closeEditCatModal();
     handleDeleteCategory(id, type);
+}
+
+/* ================= EDIT PROFILE ================= */
+function openEditProfileModal() {
+    document.getElementById('edit-profile-modal').classList.remove('hidden');
+}
+
+function closeEditProfileModal() {
+    document.getElementById('edit-profile-modal').classList.add('hidden');
+}
+
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('edit-profile-preview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function togglePasswordVisibility() {
+    const pwdInput = document.getElementById('edit-profile-password');
+    const icon = document.getElementById('edit-profile-password-eye');
+    if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        pwdInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+async function submitEditProfile(e) {
+    e.preventDefault();
+    if (!window.authUser) {
+        showToast('Hanya pengguna yang login yang bisa edit profil');
+        return;
+    }
+
+    const btn = document.getElementById('btn-save-profile');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+    btn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('edit-profile-name').value);
+    
+    const pwd = document.getElementById('edit-profile-password').value;
+    if (pwd) formData.append('password', pwd);
+    
+    const avatarFile = document.getElementById('edit-profile-avatar').files[0];
+    if (avatarFile) formData.append('avatar', avatarFile);
+
+    const url = window.baseUrl ? window.baseUrl + '/api/profile' : '/api/profile';
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': getCsrfToken()
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            showToast('Profil berhasil diperbarui!');
+            
+            // Update local user data
+            window.authUser.name = data.user.name;
+            if (data.user.avatar) window.authUser.avatar = data.user.avatar;
+            
+            // Update UI
+            const nameDisplays = document.querySelectorAll('#profile-name-display');
+            nameDisplays.forEach(el => el.textContent = data.user.name);
+            
+            if (data.user.avatar) {
+                const imgDisplays = document.querySelectorAll('#profile-avatar-img');
+                imgDisplays.forEach(el => el.src = data.user.avatar);
+            }
+            
+            // Clear password field
+            document.getElementById('edit-profile-password').value = '';
+            closeEditProfileModal();
+        } else {
+            const err = await response.json();
+            showToast(err.message || 'Gagal menyimpan profil');
+        }
+    } catch (error) {
+        console.error(error);
+        showToast('Terjadi kesalahan koneksi');
+    } finally {
+        btn.innerHTML = 'Simpan Profil';
+        btn.disabled = false;
+    }
 }

@@ -42,6 +42,32 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Seed default household categories
+        $defaultCategories = [
+            ['name' => 'Gaji/Upah', 'type' => 'pemasukan', 'icon' => 'fas fa-wallet'],
+            ['name' => 'Bonus/THR', 'type' => 'pemasukan', 'icon' => 'fas fa-gift'],
+            ['name' => 'Hasil Usaha', 'type' => 'pemasukan', 'icon' => 'fas fa-store'],
+            ['name' => 'Lain-lain', 'type' => 'pemasukan', 'icon' => 'fas fa-star'],
+            
+            ['name' => 'Makan & Belanja', 'type' => 'pengeluaran', 'icon' => 'fas fa-utensils'],
+            ['name' => 'Listrik/Air/Internet', 'type' => 'pengeluaran', 'icon' => 'fas fa-bolt'],
+            ['name' => 'Transportasi', 'type' => 'pengeluaran', 'icon' => 'fas fa-motorcycle'],
+            ['name' => 'Cicilan/Sewa', 'type' => 'pengeluaran', 'icon' => 'fas fa-home'],
+            ['name' => 'Kesehatan', 'type' => 'pengeluaran', 'icon' => 'fas fa-medkit'],
+            ['name' => 'Hiburan/Jajan', 'type' => 'pengeluaran', 'icon' => 'fas fa-gamepad'],
+            ['name' => 'Sedekah', 'type' => 'pengeluaran', 'icon' => 'fas fa-hands-helping'],
+            ['name' => 'Lain-lain', 'type' => 'pengeluaran', 'icon' => 'fas fa-money-bill-wave']
+        ];
+        
+        foreach ($defaultCategories as $cat) {
+            \App\Models\Category::create([
+                'user_id' => $user->id,
+                'name' => $cat['name'],
+                'type' => $cat['type'],
+                'icon' => $cat['icon']
+            ]);
+        }
+
         event(new Registered($user));
 
         Auth::login($user);

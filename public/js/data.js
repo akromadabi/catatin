@@ -8,23 +8,28 @@ const STORAGE_KEY = 'catatin_data_v1';
 // Default data structure
 const DEFAULT_DATA = {
   profile: {
-    name: 'Bos UMKM',
-    business: 'Usaha Mandiri',
+    name: 'Keluarga',
+    business: 'Keuangan Rumah Tangga',
     initialBalance: 0
   },
   categories: {
     pemasukan: [
-      { id: 'in_1', name: 'Penjualan', icon: 'fas fa-store' },
-      { id: 'in_2', name: 'Modal', icon: 'fas fa-wallet' },
-      { id: 'in_3', name: 'Lain-lain', icon: 'fas fa-star' }
+      { id: 'in_1', name: 'Gaji/Upah', icon: 'fas fa-wallet' },
+      { id: 'in_2', name: 'Bonus/THR', icon: 'fas fa-gift' },
+      { id: 'in_3', name: 'Hasil Usaha', icon: 'fas fa-store' },
+      { id: 'in_4', name: 'Pemberian', icon: 'fas fa-hand-holding-usd' },
+      { id: 'in_5', name: 'Lain-lain', icon: 'fas fa-star' }
     ],
     pengeluaran: [
-      { id: 'out_1', name: 'Bahan Baku', icon: 'fas fa-box' },
-      { id: 'out_2', name: 'Utilitas (Listrik/Air)', icon: 'fas fa-bolt' },
-      { id: 'out_3', name: 'Karyawan', icon: 'fas fa-users' },
-      { id: 'out_4', name: 'Transportasi', icon: 'fas fa-motorcycle' },
-      { id: 'out_5', name: 'Sewa', icon: 'fas fa-home' },
-      { id: 'out_6', name: 'Lain-lain', icon: 'fas fa-money-bill-wave' }
+      { id: 'out_1', name: 'Makan & Belanja Harian', icon: 'fas fa-utensils' },
+      { id: 'out_2', name: 'Listrik/Air/Internet', icon: 'fas fa-bolt' },
+      { id: 'out_3', name: 'Transportasi/Bensin', icon: 'fas fa-motorcycle' },
+      { id: 'out_4', name: 'Cicilan/Sewa', icon: 'fas fa-home' },
+      { id: 'out_5', name: 'Kesehatan/Obat', icon: 'fas fa-medkit' },
+      { id: 'out_6', name: 'Pendidikan', icon: 'fas fa-book' },
+      { id: 'out_7', name: 'Hiburan & Jajan', icon: 'fas fa-gamepad' },
+      { id: 'out_8', name: 'Sedekah/Sosial', icon: 'fas fa-hands-helping' },
+      { id: 'out_9', name: 'Lain-lain', icon: 'fas fa-money-bill-wave' }
     ]
   },
   transactions: []
