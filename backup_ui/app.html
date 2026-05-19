@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catat-in App — Kelola Keuangan UMKM</title>
+  <meta name="description" content="Dashboard keuangan UMKM. Catat transaksi dengan suara atau manual.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <span class="logo-emoji">💰</span>
+        <span>Catat<span class="accent">-in</span></span>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="add" id="nav-add">
+        <span class="nav-icon">➕</span>
+        <span>Tambah Transaksi</span>
+      </a>
+      <a href="#" class="nav-item" data-page="history" id="nav-history">
+        <span class="nav-icon">📋</span>
+        <span>Riwayat</span>
+      </a>
+      <a href="#" class="nav-item" data-page="report" id="nav-report">
+        <span class="nav-icon">📈</span>
+        <span>Laporan</span>
+      </a>
+      <a href="#" class="nav-item" data-page="settings" id="nav-settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Pengaturan</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">B</div>
+        <div class="user-info">
+          <span class="user-name" id="sidebar-username">Bos UMKM</span>
+          <span class="user-role">Pemilik Usaha</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="menu-btn" id="menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="notif-btn" title="Notifikasi">🔔</button>
+        <button class="icon-btn mic-quick" id="quick-mic-btn" title="Catat dengan Suara">🎙️</button>
+      </div>
+    </header>
+
+    <!-- ===== PAGES ===== -->
+
+    <!-- DASHBOARD PAGE -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-body">
+
+        <!-- Greeting -->
+        <div class="greeting-bar">
+          <div>
+            <h1 class="greeting-text" id="greeting-text">Selamat pagi, Bos! 👋</h1>
+            <p class="greeting-sub" id="greeting-date">Sabtu, 17 Mei 2026</p>
+          </div>
+          <button class="btn-voice-big" id="voice-btn-dashboard">
+            <span class="voice-icon">🎙️</span>
+            <span>Catat dengan Suara</span>
+          </button>
+        </div>
+
+        <!-- Balance Cards -->
+        <div class="balance-grid">
+          <div class="balance-card balance-main">
+            <div class="balance-label">Saldo Hari Ini</div>
+            <div class="balance-value" id="saldo-hari-ini">Rp 0</div>
+            <div class="balance-change" id="saldo-change">—</div>
+          </div>
+          <div class="balance-card balance-in">
+            <div class="balance-label">
+              <span class="balance-icon">↑</span> Pemasukan
+            </div>
+            <div class="balance-value" id="pemasukan-hari-ini">Rp 0</div>
+            <div class="balance-change" id="pemasukan-count">0 transaksi</div>
+          </div>
+          <div class="balance-card balance-out">
+            <div class="balance-label">
+              <span class="balance-icon">↓</span> Pengeluaran
+            </div>
+            <div class="balance-value" id="pengeluaran-hari-ini">Rp 0</div>
+            <div class="balance-change" id="pengeluaran-count">0 transaksi</div>
+          </div>
+        </div>
+
+        <!-- Insight -->
+        <div class="insight-card" id="insight-card">
+          <div class="insight-icon">💡</div>
+          <div class="insight-text" id="insight-text">Belum ada transaksi hari ini. Yuk mulai catat!</div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>Transaksi Terbaru</h2>
+            <button class="link-btn" onclick="navigateTo('history')">Lihat Semua →</button>
+          </div>
+          <div class="txn-list" id="recent-txn-list">
+            <div class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p>Belum ada transaksi. Mulai catat sekarang!</p>
+              <button class="btn-primary-sm" onclick="navigateTo('add')">+ Tambah Transaksi</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini Chart -->
+        <div class="section-card">
+          <div class="section-card-header">
+            <h2>Tren 7 Hari Terakhir</h2>
+          </div>
+          <div class="chart-wrapper-mini">
+            <canvas id="mini-chart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ADD TRANSACTION PAGE -->
+    <div class="page" id="page-add">
+      <div class="page-body">
+        <div class="page-header-inner">
+          <h1>Tambah Transaksi</h1>
+          <p>Catat dengan suara atau isi manual di bawah</p>
+        </div>
+
+        <!-- Voice Section -->
+        <div class="voice-section" id="voice-section">
+          <div class="voice-card">
+            <div class="voice-status-label" id="voice-status-label">Tekan tombol mikrofon untuk mulai</div>
+            <div class="voice-transcript-box" id="voice-transcript-box">
+              <span class="transcript-placeholder">Ucapan kamu akan muncul di sini...</span>
+            </div>
+            <button class="mic-button" id="mic-button" title="Mulai Merekam">
+              <div class="mic-rings">
+                <div class="mic-ring-inner"></div>
+              </div>
+              <span class="mic-emoji">🎙️</span>
+            </button>
+            <div class="voice-hint">Contoh: <em>"bayar listrik 150 ribu"</em> atau <em>"dapat bayaran 2 juta"</em></div>
+          </div>
+
+          <!-- Parsed Result -->
+          <div class="parsed-card" id="parsed-card" style="display:none">
+            <div class="parsed-header">
+              <span class="parsed-title">✨ Hasil Parsing Suara</span>
+              <button class="icon-btn" id="reparsed-close" title="Tutup">✕</button>
+            </div>
+            <div class="parsed-result" id="parsed-result">
+              <!-- filled by JS -->
+            </div>
+            <div class="parsed-actions">
+              <button class="btn-secondary" id="parsed-edit-btn">Edit Manual</button>
+              <button class="btn-primary" id="parsed-save-btn">✅ Simpan Transaksi</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="or-divider"><span>atau isi manual</span></div>
+
+        <!-- Manual Form -->
+        <div class="form-card" id="manual-form-card">
+          <form id="txn-form" autocomplete="off">
+            <!-- Type Toggle -->
+            <div class="form-group">
+              <label class="form-label">Tipe Transaksi</label>
+              <div class="type-toggle">
+                <button type="button" class="type-btn active" data-type="pengeluaran" id="btn-type-out">
+                  ↓ Pengeluaran
+                </button>
+                <button type="button" class="type-btn" data-type="pemasukan" id="btn-type-in">
+                  ↑ Pemasukan
+                </button>
+              </div>
+              <input type="hidden" id="txn-type" value="pengeluaran">
+            </div>
+
+            <!-- Amount -->
+            <div class="form-group">
+              <label class="form-label" for="txn-amount">Nominal (Rp)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">Rp</span>
+                <input type="number" id="txn-amount" class="form-input" placeholder="0" min="0" required>
+              </div>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+              <label class="form-label" for="txn-category">Kategori</label>
+              <select id="txn-category" class="form-select" required>
+                <option value="">— Pilih Kategori —</option>
+              </select>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label class="form-label" for="txn-desc">Keterangan</label>
+              <input type="text" id="txn-desc" class="form-input" placeholder="Contoh: Bayar listrik bulan Mei">
+            </div>
+
+            <!-- Date -->
+            <div class="form-group">
+              <label class="form-label" for="txn-date">Tanggal</label>
+              <input type="date" id="txn-date" class="form-input" required>
+            </div>
+
+            <!-- Note/Photo -->
+            <div class="form-group">
+              <label class="form-label">Foto Nota (Opsional)</label>
+              <label class="photo-upload" for="txn-photo">
+                <span class="photo-icon">📷</span>
+                <span id="photo-label">Klik untuk upload foto nota</span>
+                <input type="file" id="txn-photo" accept="image/*" style="display:none">
+              </label>
+              <div id="photo-preview" class="photo-preview" style="display:none"></div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
+              <button type="submit" class="btn-primary">💾 Simpan Transaksi</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY PAGE -->
+    <div class="page" id="page-history">
+      <div class="page-body">
+        <div class="page-header-inner">
+          <h1>Riwayat Transaksi</h1>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Cari transaksi..." class="search-input">
+          </div>
+          <select id="filter-type" class="filter-select">
+            <option value="all">Semua Tipe</option>
+            <option value="pemasukan">Pemasukan</option>
+            <option value="pengeluaran">Pengeluaran</option>
+          </select>
+          <select id="filter-cat" class="filter-select">
+            <option value="all">Semua Kategori</option>
+          </select>
+          <select id="filter-period" class="filter-select">
+            <option value="all">Semua Waktu</option>
+            <option value="today">Hari Ini</option>
+            <option value="week">Minggu Ini</option>
+            <option value="month">Bulan Ini</option>
+          </select>
+        </div>
+
+        <!-- Summary -->
+        <div class="history-summary" id="history-summary">
+          <div class="hs-item">Total: <strong id="hs-total">0 transaksi</strong></div>
+          <div class="hs-item in">Masuk: <strong id="hs-in">Rp 0</strong></div>
+          <div class="hs-item out">Keluar: <strong id="hs-out">Rp 0</strong></div>
+        </div>
+
+        <!-- List -->
+        <div class="txn-list" id="history-txn-list">
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <p>Belum ada transaksi.</p>
+          </div>
+        </div>
+
+        <!-- Export -->
+        <div class="export-bar">
+          <button class="btn-secondary" id="export-csv-btn">📄 Export CSV</button>
+          <button class="btn-secondary" id="export-pdf-btn">🖨️ Cetak PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORT PAGE -->
+    <div class="page" id="page-report">
+      <div class="page-body">
+        <div class="page-header-inner">
+          <h1>Laporan Keuangan</h1>
+          <div class="report-period-selector">
+            <button class="period-btn active" data-period="week" id="rp-week">Minggu Ini</button>
+            <button class="period-btn" data-period="month" id="rp-month">Bulan Ini</button>
+            <button class="period-btn" data-period="3month" id="rp-3month">3 Bulan</button>
+            <button class="period-btn" data-period="all" id="rp-all">Semua</button>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="report-summary">
+          <div class="rsum-card rsum-in">
+            <div class="rsum-label">Total Pemasukan</div>
+            <div class="rsum-value" id="rsum-in">Rp 0</div>
+          </div>
+          <div class="rsum-card rsum-out">
+            <div class="rsum-label">Total Pengeluaran</div>
+            <div class="rsum-value" id="rsum-out">Rp 0</div>
+          </div>
+          <div class="rsum-card rsum-profit">
+            <div class="rsum-label">Keuntungan Bersih</div>
+            <div class="rsum-value" id="rsum-profit">Rp 0</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Pemasukan vs Pengeluaran</h3>
+            <canvas id="bar-chart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Pengeluaran per Kategori</h3>
+            <canvas id="pie-chart-out"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Pemasukan per Kategori</h3>
+            <canvas id="pie-chart-in"></canvas>
+          </div>
+        </div>
+
+        <!-- Insight AI -->
+        <div class="insight-full" id="insight-full">
+          <h3>💡 Insight Keuangan</h3>
+          <div id="insight-list" class="insight-list">
+            <p class="insight-empty">Tambah lebih banyak transaksi untuk mendapatkan insight.</p>
+          </div>
+        </div>
+
+        <div class="export-bar">
+          <button class="btn-primary" id="report-pdf-btn">🖨️ Cetak Laporan PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="page-settings">
+      <div class="page-body">
+        <div class="page-header-inner">
+          <h1>Pengaturan</h1>
+        </div>
+
+        <div class="settings-grid">
+          <!-- Profile -->
+          <div class="settings-card">
+            <h3>👤 Profil Usaha</h3>
+            <div class="form-group">
+              <label class="form-label" for="setting-name">Nama Pemilik / Panggilan</label>
+              <input type="text" id="setting-name" class="form-input" placeholder="Contoh: Budi, Bu Sari...">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setting-business">Nama Usaha</label>
+              <input type="text" id="setting-business" class="form-input" placeholder="Contoh: Warung Budi Jaya">
+            </div>
+            <button class="btn-primary" id="save-profile-btn">Simpan Profil</button>
+          </div>
+
+          <!-- Categories -->
+          <div class="settings-card">
+            <h3>🏷️ Kelola Kategori</h3>
+            <div class="cat-type-tabs">
+              <button class="cat-tab active" data-cat-type="pengeluaran" id="cat-tab-out">Pengeluaran</button>
+              <button class="cat-tab" data-cat-type="pemasukan" id="cat-tab-in">Pemasukan</button>
+            </div>
+            <div class="cat-list" id="cat-list"></div>
+            <div class="cat-add-row">
+              <input type="text" id="new-cat-input" class="form-input" placeholder="Nama kategori baru...">
+              <input type="text" id="new-cat-icon" class="form-input form-input-sm" placeholder="Emoji">
+              <button class="btn-primary-sm" id="add-cat-btn">Tambah</button>
+            </div>
+          </div>
+
+          <!-- Balance -->
+          <div class="settings-card">
+            <h3>💵 Sesuaikan Saldo Awal</h3>
+            <p class="settings-desc">Masukkan saldo usaha saat ini sebagai titik awal.</p>
+            <div class="form-group">
+              <label class="form-label" for="setting-balance">Saldo Awal (Rp)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">Rp</span>
+                <input type="number" id="setting-balance" class="form-input" placeholder="0" min="0">
+              </div>
+            </div>
+            <button class="btn-primary" id="save-balance-btn">Sesuaikan Saldo</button>
+          </div>
+
+          <!-- Data -->
+          <div class="settings-card settings-danger">
+            <h3>⚠️ Kelola Data</h3>
+            <p class="settings-desc">Hapus semua data transaksi. Tindakan ini tidak bisa dibatalkan!</p>
+            <button class="btn-danger" id="clear-data-btn">🗑️ Hapus Semua Data</button>
+            <button class="btn-secondary" id="export-all-btn" style="margin-top:10px">📦 Export Semua Data (JSON)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- VOICE OVERLAY MODAL -->
+  <div class="voice-overlay" id="voice-overlay">
+    <div class="voice-modal">
+      <button class="voice-modal-close" id="voice-modal-close">✕</button>
+      <div class="voice-modal-title">🎙️ Sedang Mendengarkan...</div>
+      <div class="voice-modal-bars">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div>
+      </div>
+      <div class="voice-modal-transcript" id="voice-modal-transcript">Silakan berbicara...</div>
+      <div class="voice-modal-hint">Ucapkan transaksi seperti <em>"bayar listrik 150 ribu"</em></div>
+      <button class="mic-button-modal active" id="mic-stop-btn">
+        <span>⏹️ Berhenti</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- CONFIRM MODAL -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box">
+      <div class="modal-title" id="confirm-title">Konfirmasi</div>
+      <div class="modal-body" id="confirm-body"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="confirm-cancel">Batal</button>
+        <button class="btn-danger" id="confirm-ok">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/report.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

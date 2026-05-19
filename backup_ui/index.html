@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catat-in — Catat Keuangan UMKM Pakai Suara</title>
+  <meta name="description" content="Aplikasi pencatatan keuangan UMKM terpintar. Cukup ucapkan transaksimu, Catat-in akan mencatatnya otomatis. Gratis, mudah, dan akurat.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">💰</div>
+        <span>Catat<span class="accent">-in</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#fitur">Fitur</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#testimoni">Testimoni</a>
+        <a href="app.html" class="btn-nav">Mulai Gratis →</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Aplikasi Keuangan UMKM #1 Indonesia
+        </div>
+        <h1 class="hero-title">
+          Catat Keuangan<br>
+          <span class="gradient-text">Pakai Suara</span><br>
+          Semudah Ngobrol
+        </h1>
+        <p class="hero-desc">
+          Cukup ucapkan <em>"bayar listrik 150rb"</em> atau <em>"dapat bayaran 2 juta"</em> —
+          Catat-in langsung mencatat, mengelompokkan, dan melapor otomatis.
+          Tanpa ribet, tanpa salah.
+        </p>
+        <div class="hero-actions">
+          <a href="app.html" class="btn-primary" id="cta-hero">
+            <span>🎙️</span> Coba Sekarang — Gratis
+          </a>
+          <a href="#cara-kerja" class="btn-ghost">
+            Lihat Demo ↓
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>50K+</strong>
+            <span>UMKM Terbantu</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <strong>2 Juta+</strong>
+            <span>Transaksi Dicatat</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <strong>98%</strong>
+            <span>Akurasi Suara</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="mock-header">
+              <div class="mock-greeting">Selamat pagi, Bos! 👋</div>
+              <div class="mock-date">Sabtu, 17 Mei 2026</div>
+            </div>
+            <div class="mock-balance">
+              <div class="mock-balance-label">Saldo Hari Ini</div>
+              <div class="mock-balance-value">Rp 4.750.000</div>
+              <div class="mock-balance-row">
+                <div class="mock-in">↑ Rp 6.200.000</div>
+                <div class="mock-out">↓ Rp 1.450.000</div>
+              </div>
+            </div>
+            <div class="mock-voice-card">
+              <div class="mock-mic-icon">🎙️</div>
+              <div class="mock-voice-text">"bayar supplier beras 500rb"</div>
+              <div class="mock-voice-parsed">
+                <span class="parsed-badge out">Pengeluaran</span>
+                <span class="parsed-amount">Rp 500.000</span>
+              </div>
+            </div>
+            <div class="mock-txn-list">
+              <div class="mock-txn in">
+                <span class="txn-icon">🛍️</span>
+                <div class="txn-detail">
+                  <span>Hasil jualan</span>
+                  <small>09:30</small>
+                </div>
+                <span class="txn-amount green">+2.500.000</span>
+              </div>
+              <div class="mock-txn out">
+                <span class="txn-icon">🧾</span>
+                <div class="txn-detail">
+                  <span>Bayar listrik</span>
+                  <small>08:15</small>
+                </div>
+                <span class="txn-amount red">-150.000</span>
+              </div>
+              <div class="mock-txn in">
+                <span class="txn-icon">💵</span>
+                <div class="txn-detail">
+                  <span>Customer bayar</span>
+                  <small>07:45</small>
+                </div>
+                <span class="txn-amount green">+350.000</span>
+              </div>
+            </div>
+          </div>
+          <div class="mic-pulse">
+            <div class="mic-ring ring-1"></div>
+            <div class="mic-ring ring-2"></div>
+            <div class="mic-ring ring-3"></div>
+            <button class="mic-btn-hero">🎙️</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="fitur">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Fitur Unggulan</div>
+        <h2>Semua yang Kamu Butuhkan<br>untuk Kelola Keuangan Usaha</h2>
+        <p>Dari pencatatan cepat sampai laporan mendalam, semuanya ada di Catat-in.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card feature-primary">
+          <div class="feature-icon">🎙️</div>
+          <h3>Voice to Transaction</h3>
+          <p>Fitur andalan kami. Ucapkan transaksi dalam bahasa sehari-hari — Catat-in memahami dan mencatatnya secara otomatis.</p>
+          <div class="feature-examples">
+            <div class="example">"bayar listrik 150rb" →</div>
+            <div class="example-result">✅ Pengeluaran Rp 150.000 | Utilitas</div>
+            <div class="example">"dapat bayaran 2 juta" →</div>
+            <div class="example-result">✅ Pemasukan Rp 2.000.000 | Penjualan</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Laporan Otomatis</h3>
+          <p>Laporan harian, mingguan, dan bulanan dibuat otomatis. Lihat tren keuangan usahamu dalam sekali pandang.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>Insight Cerdas</h3>
+          <p>Dapatkan analisis pola keuangan dan saran dari AI untuk mengembangkan usahamu.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏷️</div>
+          <h3>Kategori Fleksibel</h3>
+          <p>50+ kategori bawaan: bahan jualan, bayar karyawan, modal, dan lainnya. Bisa custom sesuai usahamu.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🖨️</div>
+          <h3>Export Laporan PDF</h3>
+          <p>Cetak laporan keuangan profesional kapan saja untuk keperluan bisnis atau pembukuan.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">☁️</div>
+          <h3>Tersimpan Aman</h3>
+          <p>Data tersimpan lokal di browser kamu. Privasi terjaga, akses cepat, tanpa khawatir kehilangan data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section section-dark" id="cara-kerja">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Cara Kerja</div>
+        <h2>Catat Transaksi dalam<br><span class="gradient-text">3 Detik</span></h2>
+        <p>Sesederhana berbicara dengan teman.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <div class="step-icon">👆</div>
+          <h3>Tekan Tombol Mic</h3>
+          <p>Klik tombol mikrofon di dashboard. Izinkan akses mikrofon browser.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <div class="step-icon">🗣️</div>
+          <h3>Ucapkan Transaksi</h3>
+          <p>Bicara normal seperti biasa: <em>"beli bahan jualan 300 ribu"</em></p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <div class="step-icon">✅</div>
+          <h3>Konfirmasi & Simpan</h3>
+          <p>Cek hasil parsing, koreksi jika perlu, lalu simpan. Selesai!</p>
+        </div>
+      </div>
+
+      <!-- Live demo -->
+      <div class="demo-box">
+        <div class="demo-label">✨ Contoh Kalimat yang Bisa Diucapkan</div>
+        <div class="demo-examples">
+          <div class="demo-chip out">bayar listrik 150 ribu</div>
+          <div class="demo-chip in">dapat bayaran 2 juta</div>
+          <div class="demo-chip out">beli bahan jualan 300rb</div>
+          <div class="demo-chip in">customer bayar 750 ribu</div>
+          <div class="demo-chip out">bayar karyawan 1.5 juta</div>
+          <div class="demo-chip in">hasil jualan hari ini 4 juta</div>
+          <div class="demo-chip out">bayar gojek 25 ribu</div>
+          <div class="demo-chip in">pelanggan transfer 500rb</div>
+          <div class="demo-chip out">modal usaha masuk 10 juta</div>
+          <div class="demo-chip out">bayar internet 250 ribu</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" id="testimoni">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Testimoni</div>
+        <h2>Mereka Sudah Merasakan<br>Manfaatnya</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p>"Dulu catat di buku, sering lupa & salah. Sekarang tinggal ngomong ke HP, langsung kerekam. Laporan bulanan langsung jadi!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:#10b981">S</div>
+            <div>
+              <strong>Sari</strong>
+              <span>Pemilik Warung Sembako</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card testi-featured">
+          <div class="testi-stars">★★★★★</div>
+          <p>"Bisnis online shop makin gampang dikelola. Pas lagi packing, tinggal bilang 'customer bayar 150rb' langsung tercatat. Nggak perlu buka notes dulu!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:#8b5cf6">A</div>
+            <div>
+              <strong>Andi</strong>
+              <span>Online Shop Owner</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p>"Fitur laporan PDF-nya keren banget. Langsung bisa kirim ke akuntan. Hemat waktu & uang!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:#f59e0b">R</div>
+            <div>
+              <strong>Rina</strong>
+              <span>Pengusaha Katering</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section-cta">
+    <div class="container">
+      <div class="cta-box">
+        <div class="cta-blob"></div>
+        <h2>Siap Kelola Keuangan<br>Usahamu Lebih Cerdas?</h2>
+        <p>Gratis selamanya untuk fitur dasar. Mulai dalam 30 detik.</p>
+        <a href="app.html" class="btn-primary btn-large" id="cta-bottom">
+          <span>🚀</span> Mulai Gratis Sekarang
+        </a>
+        <div class="cta-note">Tidak perlu daftar. Langsung pakai.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <div class="logo-icon">💰</div>
+            <span>Catat<span class="accent">-in</span></span>
+          </div>
+          <p>Aplikasi pencatatan keuangan UMKM<br>dengan teknologi voice recognition.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Produk</h4>
+            <a href="#fitur">Fitur</a>
+            <a href="#cara-kerja">Cara Kerja</a>
+            <a href="app.html">Mulai Pakai</a>
+          </div>
+          <div class="footer-col">
+            <h4>Dukungan</h4>
+            <a href="#">Panduan</a>
+            <a href="#">FAQ</a>
+            <a href="#">Kontak</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Catat-in. Dibuat dengan ❤️ untuk UMKM Indonesia.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('open');
+      this.classList.toggle('active');
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .step, .testi-card').forEach(el => {
+      el.classList.add('animate-on-scroll');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
