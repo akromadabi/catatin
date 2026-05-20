@@ -1310,6 +1310,12 @@ function renderProjectList() {
                    <i class="fas fa-trash text-[10px]"></i>
                </button>`
             : '';
+        const editBtn = (_projectManageMode)
+            ? `<button onclick="event.stopPropagation();closeProjectSwitcher();openProjectModal(${JSON.stringify({id: p.id, name: p.name, color: color, icon: p.icon}).replace(/"/g, '&quot;')})"
+                      class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-slate-200 transition ml-1">
+                   <i class="fas fa-pen text-[10px]"></i>
+               </button>`
+            : '';
         
         const color = p.color || '#6c63ff';
         const isFa = p.icon && (p.icon.startsWith('fa') || p.icon.includes('fa-'));
@@ -1323,7 +1329,7 @@ function renderProjectList() {
                 <p class="font-bold text-slate-900 text-sm">${p.name}</p>
                 <p class="text-xs text-slate-400">${p.transactions_count ?? 0} transaksi</p>
             </div>
-            ${activeBadge}${deleteBtn}
+            ${activeBadge}${editBtn}${deleteBtn}
         </div>`;
     }).join('');
 }
@@ -1479,19 +1485,33 @@ async function submitAddCatModal() {
     } catch(e) { showToast('Terjadi kesalahan'); }
 }
 
-/* ================= ADD PROJECT MODAL ================= */
-function openAddProjectModal() {
-    document.getElementById('add-proj-name-input').value = '';
-    document.getElementById('add-proj-charcount').textContent = '0/40';
-    document.getElementById('add-proj-preview-name').textContent = 'Nama Proyek';
-    selectAddProjColor('#6c63ff');
-    selectAddProjIcon('fa-wallet');
+/* ================= PROJECT MODAL (ADD & EDIT) ================= */
+window.editProjectId = null;
+
+function openProjectModal(editProject = null) {
+    if (editProject) {
+        window.editProjectId = editProject.id;
+        document.getElementById('modal-project-title').textContent = 'Edit Proyek';
+        document.getElementById('add-proj-name-input').value = editProject.name;
+        document.getElementById('add-proj-charcount').textContent = editProject.name.length + '/40';
+        selectAddProjColor(editProject.color || '#6c63ff');
+        selectAddProjIcon(editProject.icon ? editProject.icon.replace('fas ', '') : 'fa-wallet');
+        document.getElementById('btn-submit-project').textContent = 'Simpan Perubahan';
+    } else {
+        window.editProjectId = null;
+        document.getElementById('modal-project-title').textContent = 'Proyek Baru';
+        document.getElementById('add-proj-name-input').value = '';
+        document.getElementById('add-proj-charcount').textContent = '0/40';
+        selectAddProjColor('#6c63ff');
+        selectAddProjIcon('fa-wallet');
+        document.getElementById('btn-submit-project').textContent = 'Buat Proyek';
+    }
     const m = document.getElementById('add-project-modal');
     m.style.removeProperty('display');
     m.style.display = 'flex';
     setTimeout(() => document.getElementById('add-proj-name-input').focus(), 200);
 }
-function closeAddProjectModal() {
+function closeProjectModal() {
     document.getElementById('add-project-modal').style.display = 'none';
 }
 function selectAddProjColor(hex) {
@@ -1529,20 +1549,31 @@ function updateAddProjPreview() {
     previewIcon.style.color = color;
     previewIcon.innerHTML = `<i class="${icon}"></i>`;
 }
-async function submitAddProjectModal() {
+async function submitProjectModal() {
     const name  = document.getElementById('add-proj-name-input').value.trim();
     const icon  = document.getElementById('add-proj-selected-icon').value;
     const color = document.getElementById('add-proj-selected-color').value;
     if (!name) { showToast('Masukkan nama proyek'); return; }
+    
+    const isEdit = window.editProjectId !== null;
+    const url = isEdit ? `${window.baseUrl}/api/projects/${window.editProjectId}` : `${window.baseUrl}/api/projects`;
+    const method = isEdit ? 'PUT' : 'POST';
+
     try {
-        const res = await fetch(`${window.baseUrl}/api/projects`, {
-            method: 'POST',
+        const res = await fetch(url, {
+            method: method,
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
             body: JSON.stringify({ name, icon, color })
         });
-        if (res.ok) { showToast('Proyek berhasil dibuat!'); setTimeout(() => location.reload(), 800); }
-        else showToast('Gagal membuat proyek');
-    } catch(e) { showToast('Terjadi kesalahan'); }
+        const data = await res.json();
+        if (data.success) {
+            showToast(isEdit ? 'Proyek berhasil diperbarui!' : 'Proyek berhasil dibuat!');
+            closeProjectModal();
+            setTimeout(() => location.reload(), 800);
+        } else {
+            showToast('Gagal memproses proyek');
+        }
+    } catch(e) { showToast('Terjadi kesalahan jaringan'); }
 }
 
 /* ================= COLLABORATION / MEMBERS ================= */

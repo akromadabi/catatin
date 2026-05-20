@@ -85,6 +85,38 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'project' => $project]);
     }
 
+    /** Update proyek (owner & admin only) */
+    public function update(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+        
+        // Ensure user is owner or admin (or just member if you want to allow everyone, but usually owner)
+        abort_unless($project->isOwner(auth()->id()), 403, 'Hanya pemilik yang bisa mengedit proyek.');
+
+        $request->validate([
+            'name'  => 'required|string|max:100',
+            'icon'  => 'nullable|string|max:100',
+            'color' => 'nullable|string|max:20',
+        ]);
+
+        $project->update([
+            'name'  => $request->name,
+            'icon'  => $request->icon ?? $project->icon,
+            'color' => $request->color ?? $project->color,
+        ]);
+        
+        // Log activity
+        \App\Models\ActivityLog::create([
+            'project_id' => $project->id,
+            'user_id'    => auth()->id(),
+            'action'     => 'updated',
+            'model_type' => 'Project',
+            'data'       => ['name' => $project->name],
+        ]);
+
+        return response()->json(['success' => true, 'project' => $project]);
+    }
+
     /** Hapus proyek beserta semua kategori & transaksinya (owner only) */
     public function destroy($id)
     {

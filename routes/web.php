@@ -98,6 +98,7 @@ Route::middleware('auth')->group(function () {
     // Project Routes
     Route::get('/api/projects', [ProjectController::class, 'index']);
     Route::post('/api/projects', [ProjectController::class, 'store']);
+    Route::put('/api/projects/{id}', [ProjectController::class, 'update']);
     Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
     Route::post('/api/projects/{id}/switch', [ProjectController::class, 'switchProject']);
 
