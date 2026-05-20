@@ -214,8 +214,7 @@
                 <div class="flex items-center gap-3 shrink-0">
                     <button onclick="openNotificationsModal()" class="w-10 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 rounded-full relative transition border border-slate-100 bg-white shrink-0 shadow-sm">
                         <i class="fas fa-bell text-sm"></i>
-                        <span id="notif-badge" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full hidden animate-ping"></span>
-                        <span id="notif-badge-static" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full hidden"></span>
+                        <span id="notif-badge-static" class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-rose-500 text-white text-[10px] font-bold rounded-full border-2 border-white hidden">0</span>
                     </button>
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 cursor-pointer border-2 border-white shadow-sm" onclick="navigateTo('profile')">
                         <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">

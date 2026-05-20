@@ -2152,11 +2152,11 @@ async function loadNotifications() {
         const data = await res.json();
         
         let html = '';
-        let hasPending = false;
+        let pendingCount = 0;
         
         // Render Invites
         if (data.invites && data.invites.length > 0) {
-            hasPending = true;
+            pendingCount = data.invites.length;
             html += `<h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Undangan Proyek</h4>`;
             html += data.invites.map(inv => `
                 <div class="p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl mb-3">
@@ -2207,11 +2207,12 @@ async function loadNotifications() {
         if (container) container.innerHTML = html;
         
         // Update badge
-        if (hasPending) {
-            if (badgePing) badgePing.classList.remove('hidden');
-            if (badgeStatic) badgeStatic.classList.remove('hidden');
+        if (pendingCount > 0) {
+            if (badgeStatic) {
+                badgeStatic.innerText = pendingCount > 99 ? '99+' : pendingCount;
+                badgeStatic.classList.remove('hidden');
+            }
         } else {
-            if (badgePing) badgePing.classList.add('hidden');
             if (badgeStatic) badgeStatic.classList.add('hidden');
         }
         
@@ -2259,10 +2260,12 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(r => r.json())
         .then(data => {
             if (data.invites && data.invites.length > 0) {
+                const pendingCount = data.invites.length;
                 const badgeStatic = document.getElementById('notif-badge-static');
-                const badgePing = document.getElementById('notif-badge');
-                if (badgePing) badgePing.classList.remove('hidden');
-                if (badgeStatic) badgeStatic.classList.remove('hidden');
+                if (badgeStatic) {
+                    badgeStatic.innerText = pendingCount > 99 ? '99+' : pendingCount;
+                    badgeStatic.classList.remove('hidden');
+                }
             }
         }).catch(e => console.error(e));
 });
