@@ -6,7 +6,7 @@ echo "🚀 MEMULAI DEPLOYMENT CATAT-IN"
 echo "=========================================="
 
 # Pindah ke direktori aplikasi (sesuaikan jika path di aaPanel berbeda)
-cd /www/wwwroot/catatin
+cd /www/wwwroot/siapp.in
 
 echo "⬇️ 1. Menarik pembaruan terbaru dari GitHub..."
 git pull origin main
