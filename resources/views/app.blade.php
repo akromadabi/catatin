@@ -6,6 +6,8 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Catat-in App</title>
   <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
   <!-- pdfmake PDF library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
@@ -216,6 +218,24 @@
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 cursor-pointer border-2 border-white shadow-sm" onclick="navigateTo('profile')">
                         <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">
                     </div>
+                </div>
+            </div>
+
+            <!-- PWA Install Banner -->
+            <div id="pwa-install-banner" class="px-6 mb-2 hidden">
+                <div class="bg-brand-50 border border-brand-100 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-600 shrink-0">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm">Install Catat-in</h3>
+                            <p class="text-[10px] text-slate-500">Akses lebih cepat & mudah dari layar utama</p>
+                        </div>
+                    </div>
+                    <button onclick="installPWA()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm shadow-brand-500/30 transition shrink-0">
+                        Install
+                    </button>
                 </div>
             </div>
 
@@ -519,6 +539,21 @@
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
+
+                    <!-- PWA Install Button -->
+                    <div id="pwa-install-setting" class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition hidden" onclick="installPWA()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Install Aplikasi</span>
+                                <p class="text-xs text-slate-400">Tambahkan ke layar utama HP</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-download text-brand-500 text-sm"></i>
+                    </div>
+
                     <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="navigateTo('categories')">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">

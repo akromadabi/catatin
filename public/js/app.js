@@ -2072,3 +2072,69 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }).catch(e => console.error(e));
 });
+
+/* ================= PWA LOGIC ================= */
+let deferredPrompt;
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('ServiceWorker registered'))
+            .catch(err => console.log('ServiceWorker registration failed: ', err));
+    });
+}
+
+// Catch beforeinstallprompt
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    
+    // Show the install UI elements
+    const pwaBanner = document.getElementById('pwa-install-banner');
+    if (pwaBanner) pwaBanner.classList.remove('hidden');
+    
+    const pwaSetting = document.getElementById('pwa-install-setting');
+    if (pwaSetting) pwaSetting.classList.remove('hidden');
+});
+
+// Detect when the app is successfully installed
+window.addEventListener('appinstalled', (evt) => {
+    console.log('Catat-in App installed');
+    
+    // Hide the install UI elements
+    const pwaBanner = document.getElementById('pwa-install-banner');
+    if (pwaBanner) pwaBanner.classList.add('hidden');
+    
+    const pwaSetting = document.getElementById('pwa-install-setting');
+    if (pwaSetting) pwaSetting.classList.add('hidden');
+});
+
+// Function triggered by the Install buttons
+function installPWA() {
+    if (!deferredPrompt) {
+        showToast('Fitur install tidak tersedia di browser ini atau aplikasi sudah diinstall.');
+        return;
+    }
+    // Show the install prompt
+    deferredPrompt.prompt();
+    
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+            // Hide UI immediately since they accepted
+            const pwaBanner = document.getElementById('pwa-install-banner');
+            if (pwaBanner) pwaBanner.classList.add('hidden');
+            const pwaSetting = document.getElementById('pwa-install-setting');
+            if (pwaSetting) pwaSetting.classList.add('hidden');
+        } else {
+            console.log('User dismissed the install prompt');
+        }
+        // We can only use the prompt once, but if they dismissed, they might trigger it again on page reload.
+        // Modern browsers usually reset it on reload.
+        deferredPrompt = null;
+    });
+}
