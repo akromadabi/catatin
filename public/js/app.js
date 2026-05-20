@@ -70,74 +70,6 @@ function toggleSortMenu() {
     menu?.classList.toggle('hidden');
 }
 
-/* ================= MANUAL ENTRY MODAL ================= */
-let _manualEntryType = 'pengeluaran';
-
-function openManualEntryModal(preType = 'pengeluaran') {
-    _manualEntryType = preType;
-    const m = document.getElementById('manual-entry-modal');
-    m.style.removeProperty('display');
-    m.style.display = 'flex';
-    // Set default date
-    document.getElementById('manual-date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('manual-amount').value = '';
-    document.getElementById('manual-desc').value = '';
-    setManualType(preType);
-}
-
-function closeManualEntryModal() {
-    document.getElementById('manual-entry-modal').style.display = 'none';
-}
-
-function setManualType(type) {
-    _manualEntryType = type;
-    const btnPengeluaran = document.getElementById('manual-type-pengeluaran');
-    const btnPemasukan   = document.getElementById('manual-type-pemasukan');
-    if (type === 'pengeluaran') {
-        btnPengeluaran.className = 'flex-1 py-2 rounded-xl font-bold text-sm transition bg-white text-rose-600 shadow-sm';
-        btnPemasukan.className   = 'flex-1 py-2 rounded-xl font-bold text-sm transition text-slate-500';
-    } else {
-        btnPemasukan.className   = 'flex-1 py-2 rounded-xl font-bold text-sm transition bg-white text-emerald-600 shadow-sm';
-        btnPengeluaran.className = 'flex-1 py-2 rounded-xl font-bold text-sm transition text-slate-500';
-    }
-    // Populate categories
-    const catSelect = document.getElementById('manual-category');
-    const cats = (appData?.categories?.[type]) || [];
-    catSelect.innerHTML = '<option value="">Pilih Kategori</option>';
-    cats.forEach(c => {
-        catSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
-    });
-}
-
-async function submitManualEntry() {
-    const amountRaw = document.getElementById('manual-amount').value.replace(/\./g, '').replace(/,/g, '');
-    const amount    = parseFloat(amountRaw);
-    const category  = document.getElementById('manual-category').value;
-    const date      = document.getElementById('manual-date').value;
-    const desc      = document.getElementById('manual-desc').value.trim();
-
-    if (!amount || amount <= 0) { showToast('Nominal tidak valid'); return; }
-    if (!category)              { showToast('Pilih kategori terlebih dahulu'); return; }
-    if (!date)                  { showToast('Pilih tanggal'); return; }
-
-    const btn = document.getElementById('manual-submit-btn');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Menyimpan...';
-    btn.disabled = true;
-
-    try {
-        addTransaction({ type: _manualEntryType, amount, category, desc, date });
-        showToast('Transaksi berhasil disimpan! ✅');
-        closeManualEntryModal();
-        updateDashboard();
-    } catch(e) {
-        showToast('Terjadi kesalahan');
-    } finally {
-        btn.innerHTML = '<i class="fas fa-check mr-1"></i>Simpan';
-        btn.disabled = false;
-    }
-}
-
-
 function setSortOption(val) {
     document.getElementById('wallet-sort').value = val;
     document.getElementById('sort-menu')?.classList.add('hidden');
@@ -1959,7 +1891,16 @@ async function leaveProjectAction() {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': getCsrfToken() }
         });
-        if (res.ok) { showToast('Keluar dari proyek...'); setTimeout(() => location.reload(), 800)
+        if (res.ok) { 
+            showToast('Keluar dari proyek...'); 
+            setTimeout(() => location.reload(), 800);
+        } else {
+            showToast('Gagal keluar dari proyek');
+        }
+    } catch(e) {
+        showToast('Terjadi kesalahan');
+    }
+}
 
 
 /* ================= ACTIVITY LOG & UNDO ================= */
@@ -2108,7 +2049,7 @@ async function undoActivityAction(logId) {
     } catch(e) { showToast('Terjadi kesalahan'); }
 }
 
-async function inviteByEmailAction() {
+async function inviteByEmailAction2() {
     const emailInput = document.getElementById('invite-email-input');
     const email = emailInput?.value?.trim();
     if (!email) { showToast('Masukkan email terlebih dahulu'); return; }

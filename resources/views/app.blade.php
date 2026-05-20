@@ -148,8 +148,9 @@
         backdrop-filter: blur(8px);
         display: none; justify-content: center; align-items: flex-end;
         z-index: 100;
+        pointer-events: none;
     }
-    .voice-overlay.active { display: flex; }
+    .voice-overlay.active { display: flex; pointer-events: auto; }
     .voice-modal {
         background: white; width: 100%; max-width: 480px;
         border-radius: 24px 24px 0 0; padding: 32px 24px;
@@ -528,15 +529,12 @@
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openActivityLogModal()">
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="navigateTo('categories')">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
-                                <i class="fas fa-history"></i>
+                            <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                                <i class="fas fa-tags"></i>
                             </div>
-                            <div>
-                                <span class="font-semibold text-slate-700">Log Aktivitas</span>
-                                <p class="text-xs text-slate-400">Log aksi, masuk, & unduh laporan</p>
-                            </div>
+                            <span class="font-semibold text-slate-700">Kelola Kategori</span>
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
@@ -569,12 +567,15 @@
                         <i class="fas fa-download text-brand-500 text-sm"></i>
                     </div>
 
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="navigateTo('categories')">
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openActivityLogModal()">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
-                                <i class="fas fa-tags"></i>
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <i class="fas fa-history"></i>
                             </div>
-                            <span class="font-semibold text-slate-700">Kelola Kategori</span>
+                            <div>
+                                <span class="font-semibold text-slate-700">Log Aktivitas</span>
+                                <p class="text-xs text-slate-400">Log aksi, masuk, & unduh laporan</p>
+                            </div>
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
@@ -848,86 +849,21 @@
         <h3 class="text-xl font-bold text-slate-900 mb-2">Mendengarkan...</h3>
         <p class="text-slate-500 text-sm mb-6" id="voice-modal-transcript">Coba sebutkan "Bayar listrik 150 ribu"</p>
         
-        <button class="w-full bg-white border border-slate-200 text-slate-600 rounded-xl py-3 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition mb-3" onclick="closeVoiceOverlay(); openManualEntryModal()">
-            <i class="fas fa-keyboard text-sm"></i> Ketik Manual
-        </button>
-        <button class="w-full bg-slate-900 text-white rounded-xl py-4 font-bold text-sm" id="mic-stop-btn">
-            Berhenti Merekam
-        </button>
+
+        <div class="w-full flex gap-3 mt-4">
+            <button class="flex-1 bg-white border border-slate-200 text-slate-600 rounded-xl py-3 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition" onclick="closeVoiceOverlay(); navigateTo('add')">
+                <i class="fas fa-keyboard"></i> Ketik Manual
+            </button>
+            <button class="flex-1 bg-slate-900 text-white rounded-xl py-3 font-bold text-sm" id="mic-stop-btn">
+                Berhenti Merekam
+            </button>
+        </div>
     </div>
 </div>
 
 <!-- TOAST -->
 <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-[9999] transition-all duration-300 transform -translate-y-20 opacity-0">
     Message
-</div>
-
-<!-- MANUAL ENTRY MODAL -->
-<div id="manual-entry-modal" class="fixed inset-0 z-[85] flex items-end justify-center" style="display:none !important">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeManualEntryModal()"></div>
-    <div class="relative bg-white w-full max-w-sm rounded-t-3xl shadow-2xl flex flex-col max-h-[92vh]">
-        <!-- Handle -->
-        <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-1 shrink-0"></div>
-
-        <!-- Type Toggle -->
-        <div class="px-5 pt-3 pb-0 shrink-0">
-            <div class="flex bg-slate-100 rounded-2xl p-1 gap-1">
-                <button id="manual-type-pengeluaran"
-                    onclick="setManualType('pengeluaran')"
-                    class="flex-1 py-2 rounded-xl font-bold text-sm transition bg-white text-rose-600 shadow-sm">
-                    <i class="fas fa-arrow-up mr-1"></i>Pengeluaran
-                </button>
-                <button id="manual-type-pemasukan"
-                    onclick="setManualType('pemasukan')"
-                    class="flex-1 py-2 rounded-xl font-bold text-sm transition text-slate-500">
-                    <i class="fas fa-arrow-down mr-1"></i>Pemasukan
-                </button>
-            </div>
-        </div>
-
-        <div class="overflow-y-auto flex-1 px-5 pt-4 pb-2 space-y-4">
-            <!-- Amount -->
-            <div>
-                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nominal (Rp)</label>
-                <input type="text" id="manual-amount" inputmode="numeric"
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-2xl font-bold rounded-2xl p-4 outline-none focus:border-brand-500 transition"
-                    placeholder="0" oninput="formatCurrencyInput(this)">
-            </div>
-
-            <!-- Category -->
-            <div>
-                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori</label>
-                <select id="manual-category"
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl p-3.5 outline-none focus:border-brand-500 transition appearance-none">
-                    <option value="">Pilih Kategori</option>
-                </select>
-            </div>
-
-            <!-- Date -->
-            <div>
-                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
-                <input type="date" id="manual-date"
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl p-3.5 outline-none focus:border-brand-500 transition">
-            </div>
-
-            <!-- Desc -->
-            <div>
-                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Catatan <span class="text-slate-400 font-normal">(Opsional)</span></label>
-                <input type="text" id="manual-desc"
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl p-3.5 outline-none focus:border-brand-500 transition"
-                    placeholder="Misal: Makan siang...">
-            </div>
-        </div>
-
-        <div class="px-5 py-4 border-t border-slate-100 shrink-0 flex gap-3">
-            <button onclick="closeManualEntryModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-2xl py-3.5 font-bold text-sm hover:bg-slate-200 transition">
-                Batal
-            </button>
-            <button onclick="submitManualEntry()" class="flex-1 text-white rounded-2xl py-3.5 font-bold text-sm shadow-lg transition" id="manual-submit-btn" style="background:#6c63ff">
-                <i class="fas fa-check mr-1"></i>Simpan
-            </button>
-        </div>
-    </div>
 </div>
 
 <!-- EDIT TXN MODAL -->
@@ -1233,7 +1169,7 @@
 </div>
 
 <!-- PDF REPORT TEMPLATE (Hidden until generated) -->
-<div id="pdf-report-template" style="position:absolute; top:-99999px; left:-99999px; width:794px; background:white; padding:40px; font-family: 'Inter', sans-serif; z-index:99999; min-height:1px;">
+<div id="pdf-report-template" style="position:absolute; top:-99999px; left:-99999px; width:794px; background:white; padding:40px; font-family: 'Inter', sans-serif; z-index:99999; min-height:1px; pointer-events:none;">
     <!-- Header -->
     <div class="border-b-2 border-slate-200 pb-4 mb-6 text-center">
         <h1 class="text-2xl font-bold text-brand-600 mb-1">Laporan Keuangan Catat-in</h1>
@@ -1298,7 +1234,6 @@
 <script src="{{ asset('js/voice.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
 </body>
-</html>
 
 
 
