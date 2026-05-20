@@ -54,6 +54,10 @@
     /* Hide scrollbar for clean app look */
     ::-webkit-scrollbar { width: 0px; background: transparent; }
     
+    @media all and (display-mode: standalone) {
+        #pwa-install-setting, #pwa-install-banner { display: none !important; }
+    }
+
     /* App Container for Desktop to look like mobile */
     .app-container {
         max-width: 480px;
@@ -553,7 +557,7 @@
                     </div>
 
                     <!-- PWA Install Button -->
-                    <div id="pwa-install-setting" class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition hidden" onclick="installPWA()">
+                    <div id="pwa-install-setting" class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="installPWA()">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
                                 <i class="fas fa-mobile-alt"></i>
