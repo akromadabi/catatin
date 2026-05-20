@@ -7,7 +7,8 @@
         <title>{{ config('app.name', 'Catat-in') }} - Login</title>
         <meta name="theme-color" content="#ffffff">
         <link rel="manifest" href="/manifest.json">
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png?v=2">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,8 +42,8 @@
     <body class="antialiased">
         <div class="min-h-screen flex flex-col justify-center items-center px-4 py-8">
             <div class="mb-8 text-center">
-                <div class="w-16 h-16 bg-brand-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg shadow-brand-500/30 mb-4 text-white text-2xl font-bold">
-                    C
+                <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <img src="{{ asset('icons/icon-192x192.png') }}?v=2" alt="Catat-in Logo" class="w-full h-full object-contain">
                 </div>
                 <h1 class="text-2xl font-bold text-slate-900">Masuk ke Catat-in</h1>
                 <p class="text-sm text-slate-500 mt-2">Kelola keuangan Anda lebih mudah.</p>

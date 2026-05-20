@@ -7,8 +7,9 @@
   <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
   <title>Catat-in App</title>
   <meta name="theme-color" content="#ffffff">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <link rel="manifest" href="/manifest.json?v=2">
+  <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png?v=2">
   <!-- pdfmake PDF library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
