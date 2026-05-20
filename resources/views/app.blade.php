@@ -800,11 +800,8 @@
         
         <!-- CENTER MIC BUTTON -->
         <div class="relative w-16 flex justify-center">
-            <button class="absolute -top-14 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90" onclick="openVoiceModal()" id="fab-mic">
+            <button class="absolute -top-10 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90" onclick="openVoiceModal()" id="fab-mic">
                 <i class="fas fa-microphone"></i>
-            </button>
-            <button class="absolute -top-1 whitespace-nowrap bg-white border border-slate-200 text-slate-600 rounded-full text-[9px] font-bold px-2 py-0.5 shadow-sm hover:bg-slate-50 transition" onclick="openManualEntryModal()">
-                <i class="fas fa-keyboard text-[8px] mr-0.5"></i>Ketik
             </button>
         </div>
 
@@ -831,11 +828,11 @@
         <h3 class="text-xl font-bold text-slate-900 mb-2">Mendengarkan...</h3>
         <p class="text-slate-500 text-sm mb-6" id="voice-modal-transcript">Coba sebutkan "Bayar listrik 150 ribu"</p>
         
-        <button class="w-full bg-slate-900 text-white rounded-xl py-4 font-bold text-sm mb-3" id="mic-stop-btn">
-            Berhenti Merekam
-        </button>
-        <button class="w-full bg-white border border-slate-200 text-slate-600 rounded-xl py-3 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition" onclick="closeVoiceOverlay(); openManualEntryModal()">
+        <button class="w-full bg-white border border-slate-200 text-slate-600 rounded-xl py-3 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition mb-3" onclick="closeVoiceOverlay(); openManualEntryModal()">
             <i class="fas fa-keyboard text-sm"></i> Ketik Manual
+        </button>
+        <button class="w-full bg-slate-900 text-white rounded-xl py-4 font-bold text-sm" id="mic-stop-btn">
+            Berhenti Merekam
         </button>
     </div>
 </div>
