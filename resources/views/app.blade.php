@@ -174,44 +174,46 @@
         <!-- PAGE: HOME -->
         <div class="page active" id="page-home">
             <!-- Header -->
-            <div class="px-6 pt-8 pb-4 flex justify-between items-center bg-white">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200">
+            <div class="px-6 pt-8 pb-4 grid grid-cols-3 items-center bg-white">
+                <!-- Left: Profile -->
+                <div class="flex items-center gap-3 justify-start">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 cursor-pointer" onclick="navigateTo('profile')">
                         <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">
                     </div>
-                    <div>
-                        <p class="text-xs text-slate-500 font-medium">Selamat datang,</p>
-                        <h2 class="text-sm font-bold text-slate-900" id="header-name">{{ explode(' ', auth()->user()->name)[0] }}</h2>
+                    <div class="min-w-0">
+                        <p class="text-[10px] text-slate-500 font-medium">Halo,</p>
+                        <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate" id="header-name">{{ explode(' ', auth()->user()->name)[0] }}</h2>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <!-- Bell Notifications button -->
-                    <button onclick="openNotificationsModal()" class="w-9 h-9 flex items-center justify-center text-slate-500 hover:bg-slate-50 rounded-full relative transition border border-slate-100 bg-white shrink-0">
-                        <i class="fas fa-bell text-sm"></i>
-                        <span id="notif-badge" class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full hidden animate-ping"></span>
-                        <span id="notif-badge-static" class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full hidden"></span>
-                    </button>
-
+                
+                <!-- Center: Project Switcher (Icon Only) -->
+                <div class="flex items-center justify-center">
                     @if(isset($activeProject) && $activeProject)
                     @php
                         $projColor = $activeProject->color ?? '#6c63ff';
                         $isFa = str_starts_with($activeProject->icon ?? '', 'fas') || str_contains($activeProject->icon ?? '', 'fa-');
                     @endphp
-                    <button onclick="openProjectSwitcher(false)" class="flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-xs font-bold transition max-w-[145px]" style="background:{{ $projColor }}11; border-color:{{ $projColor }}33; color:{{ $projColor }};">
+                    <button onclick="openProjectSwitcher(false)" class="flex items-center justify-center w-10 h-10 rounded-full transition shadow-sm" style="background:{{ $projColor }}11; border: 1px solid {{ $projColor }}33; color:{{ $projColor }};">
                         @if($isFa)
-                            <i class="{{ $activeProject->icon }} text-[11px] shrink-0"></i>
+                            <i class="{{ $activeProject->icon }} text-base"></i>
                         @else
-                            <span class="text-[11px] leading-none shrink-0">{{ $activeProject->icon }}</span>
+                            <span class="text-base leading-none">{{ $activeProject->icon }}</span>
                         @endif
-                        <span class="truncate">{{ $activeProject->name }}</span>
-                        <i class="fas fa-chevron-down text-[8px] opacity-60"></i>
                     </button>
                     @else
-                    <button onclick="openProjectSwitcher(false)" class="flex items-center gap-1.5 bg-rose-50 border border-rose-100 text-rose-600 rounded-full px-3 py-1.5 text-xs font-bold hover:bg-rose-100 transition">
-                        <i class="fas fa-plus text-[9px]"></i>
-                        <span>Buat Proyek</span>
+                    <button onclick="openProjectSwitcher(false)" class="flex items-center justify-center w-10 h-10 bg-rose-50 border border-rose-100 text-rose-600 rounded-full transition shadow-sm">
+                        <i class="fas fa-plus text-base"></i>
                     </button>
                     @endif
+                </div>
+
+                <!-- Right: Notification Bell -->
+                <div class="flex items-center justify-end">
+                    <button onclick="openNotificationsModal()" class="w-10 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 rounded-full relative transition border border-slate-100 bg-white shrink-0 shadow-sm">
+                        <i class="fas fa-bell text-sm"></i>
+                        <span id="notif-badge" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full hidden animate-ping"></span>
+                        <span id="notif-badge-static" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full hidden"></span>
+                    </button>
                 </div>
             </div>
 
@@ -454,7 +456,7 @@
         <!-- PAGE: PROFILE / SETTINGS -->
         <div class="page" id="page-profile">
             <div class="px-6 pt-8 pb-4 bg-white sticky top-0 z-20 border-b border-slate-100">
-                <h1 class="text-xl font-bold text-slate-900 text-center">Profil</h1>
+                <h1 class="text-xl font-bold text-slate-900 text-center">Pengaturan</h1>
             </div>
 
             <div class="px-6 mt-6">
@@ -524,15 +526,7 @@
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <span class="font-semibold text-slate-700">Atur Saldo Awal</span>
-                        </div>
-                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
-                    </div>
+
                     @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}" class="p-4 border-b border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
                         <div class="flex items-center gap-3">
@@ -764,8 +758,8 @@
             <span class="text-[10px] font-bold">Riwayat</span>
         </a>
         <a href="#" class="bottom-nav-item flex flex-col items-center gap-1 w-16" data-page="profile" id="nav-profile">
-            <i class="fas fa-user text-xl"></i>
-            <span class="text-[10px] font-bold">Profil</span>
+            <i class="fas fa-cog text-xl mb-1 nav-icon transition duration-300"></i>
+            <span class="text-[10px] font-bold">Pengaturan</span>
         </a>
         <a href="#" class="hidden" data-page="add" id="nav-add"></a>
     </nav>
