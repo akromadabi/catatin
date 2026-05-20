@@ -39,16 +39,6 @@ function initUI() {
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('txn-date');
     if(dateInput) dateInput.value = today;
-
-    // Initialize Pull-to-refresh
-    if (typeof PullToRefresh !== 'undefined') {
-        PullToRefresh.init({
-            mainElement: 'body',
-            onRefresh() {
-                window.location.reload();
-            }
-        });
-    }
 }
 
 function initEvents() {

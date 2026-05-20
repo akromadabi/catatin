@@ -49,9 +49,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pulltorefreshjs/0.1.22/index.umd.min.js"></script>
   <style>
-    body, html { margin: 0; padding: 0; height: 100%; background-color: #f8fafc; overflow: hidden; }
+    body, html { margin: 0; padding: 0; height: 100%; background-color: #f8fafc; overscroll-behavior-y: auto; }
     /* Hide scrollbar for clean app look */
     ::-webkit-scrollbar { width: 0px; background: transparent; }
     
