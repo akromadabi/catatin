@@ -13,6 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
     initEvents();
     initVoice();
     updateDashboard();
+
+    // History API (Back button) support
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.pageId) {
+            navigateTo(e.state.pageId, false);
+        } else {
+            navigateTo('home', false);
+        }
+    });
+
+    const initialHash = window.location.hash.replace('#', '');
+    if (initialHash && document.getElementById('page-' + initialHash)) {
+        history.replaceState({ pageId: initialHash }, '', '#' + initialHash);
+        navigateTo(initialHash, false);
+    } else {
+        history.replaceState({ pageId: 'home' }, '', '#home');
+        navigateTo('home', false);
+    }
 });
 
 function initUI() {
@@ -21,6 +39,16 @@ function initUI() {
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('txn-date');
     if(dateInput) dateInput.value = today;
+
+    // Initialize Pull-to-refresh
+    if (typeof PullToRefresh !== 'undefined') {
+        PullToRefresh.init({
+            mainElement: 'body',
+            onRefresh() {
+                window.location.reload();
+            }
+        });
+    }
 }
 
 function initEvents() {
@@ -87,7 +115,7 @@ function setSortOption(val) {
     updateWallet();
 }
 
-function navigateTo(pageId) {
+function navigateTo(pageId, pushToHistory = true) {
 
     // Nav active state
     document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
@@ -98,7 +126,12 @@ function navigateTo(pageId) {
 
     // Page active state
     document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-    document.getElementById('page-' + pageId).classList.add('active');
+    const targetPage = document.getElementById('page-' + pageId);
+    if (targetPage) targetPage.classList.add('active');
+
+    if (pushToHistory) {
+        history.pushState({ pageId: pageId }, '', '#' + pageId);
+    }
 
     // Remove the logic that hides the center mic button
     // It should stay visible so the navigation bar layout doesn't break.
