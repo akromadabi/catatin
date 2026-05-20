@@ -72,6 +72,11 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        // If there's a pending invite token, redirect to accept it
+        if ($request->has('invite') && $request->invite) {
+            return redirect("/invite/{$request->invite}");
+        }
+
         return redirect(route('dashboard', absolute: false));
     }
 }

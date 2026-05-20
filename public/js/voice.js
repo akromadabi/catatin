@@ -106,81 +106,100 @@ function parseTransactionText(text) {
 
   // 2. Extract Amount
   // Match numbers and potential multipliers (e.g., 150 ribu, 2.5 juta, 50000)
-  const regexNum = /([\d\.,]+)\s*(ribu|juta|miliar)?/gi;
+  const regexNum = /([\d\.,]+)\s*(ribu|ribuan|juta|jutaan|miliar)?/gi;
   let match;
   let maxAmount = 0;
   
   while ((match = regexNum.exec(text)) !== null) {
-    let numStr = match[1].replace(/\./g, '').replace(/,/g, '.'); // Handle ID locale numbers
-    let num = parseFloat(numStr);
+    let numStr = match[1];
     
+    // Parse Indonesian locale numbers correctly
+    if (numStr.includes('.') && numStr.includes(',')) {
+        numStr = numStr.replace(/\./g, '').replace(/,/g, '.');
+    } else if (numStr.includes('.')) {
+        // If last dot is followed by exactly 3 digits, it's a thousands separator
+        if (/\.\d{3}$/.test(numStr)) {
+            numStr = numStr.replace(/\./g, '');
+        }
+    } else if (numStr.includes(',')) {
+        numStr = numStr.replace(/,/g, '.');
+    }
+    
+    let num = parseFloat(numStr);
     if (isNaN(num)) continue;
 
     let mult = match[2] ? match[2].toLowerCase() : '';
     if (DICT.multipliers[mult]) {
       num *= DICT.multipliers[mult];
     } else if (num < 1000 && !mult) {
-       // if user says "seratus lima puluh" often speech to text writes "150"
-       // but in context of IDR, 150 usually means 150.000 if not specified.
-       // Let's keep it literal for now to avoid wrong guesses, unless it's very small
+       // e.g. "bayar listrik 150" -> 150000
        if(num > 0 && num < 1000) num *= 1000; 
     }
 
     if (num > maxAmount) maxAmount = num;
   }
   
-  // Try matching words like "seratus ribu" if numbers fail (simplified)
+  // Try matching words if numbers fail
   if (maxAmount === 0) {
      if(text.includes('cepek')) maxAmount = 100000;
      if(text.includes('goceng')) maxAmount = 5000;
      if(text.includes('ceban')) maxAmount = 10000;
+     if(text.includes('sejut') || text.includes('satu juta')) maxAmount = 1000000;
   }
 
   amount = maxAmount;
 
-  // Clean description from amount if found
-  if (amount > 0) {
-    // Basic cleanup - just use the original text as desc, it's safer.
-  }
-
   // 3. Match Category
-  const cats = appData.categories[type];
-  for (let cat of cats) {
-    const catNameLower = cat.name.toLowerCase();
-    // basic matching
-    if (text.includes(catNameLower) || text.includes(catNameLower.split(' ')[0])) {
-      category = cat.name;
-      break;
-    }
-  }
+  const cats = appData.categories[type] || [];
   
-  // Custom keyword to category mapping for common items
+  // Pre-defined mapping for standard keywords
   const catMap = {
-    'listrik': 'Utilitas (Listrik/Air)',
-    'air': 'Utilitas (Listrik/Air)',
-    'pdam': 'Utilitas (Listrik/Air)',
-    'internet': 'Utilitas (Listrik/Air)',
-    'wifi': 'Utilitas (Listrik/Air)',
-    'gaji': 'Karyawan',
+    'listrik': 'Listrik',
+    'air': 'Air',
+    'pdam': 'Air',
+    'internet': 'Internet',
+    'wifi': 'Internet',
+    'gaji': 'Gaji',
     'karyawan': 'Karyawan',
-    'pegawai': 'Karyawan',
     'bensin': 'Transportasi',
     'gojek': 'Transportasi',
     'grab': 'Transportasi',
     'parkir': 'Transportasi',
-    'beras': 'Bahan Baku',
-    'sayur': 'Bahan Baku',
-    'daging': 'Bahan Baku',
-    'modal': 'Modal',
-    'jualan': 'Penjualan'
+    'makan': 'Makan',
+    'minum': 'Makan',
+    'jajan': 'Jajan',
+    'beras': 'Makan',
+    'sayur': 'Makan',
+    'belanja': 'Belanja',
+    'pulsa': 'Internet'
   };
 
   for (let key in catMap) {
     if (text.includes(key)) {
-      if (appData.categories[type].find(c => c.name === catMap[key])) {
-         category = catMap[key];
+      // Find a category that contains the mapped keyword
+      const matchedCat = cats.find(c => c.name.toLowerCase().includes(catMap[key].toLowerCase()));
+      if (matchedCat) {
+         category = matchedCat.name;
          break;
       }
+    }
+  }
+
+  if (!category) {
+    for (let cat of cats) {
+      const catNameLower = cat.name.toLowerCase();
+      const parts = catNameLower.split(/[\s/&]+/); 
+      if (text.includes(catNameLower)) {
+        category = cat.name;
+        break;
+      }
+      for (let part of parts) {
+        if (part.length > 2 && text.includes(part)) {
+          category = cat.name;
+          break;
+        }
+      }
+      if (category) break;
     }
   }
 
@@ -188,15 +207,28 @@ function parseTransactionText(text) {
     category = 'Lain-lain';
   }
 
-  // Clean description - remove number + multiplier patterns from the text
+  // 4. Clean Description
   let cleanDesc = text;
-  // Remove patterns like: 150 ribu, 2.5 juta, 50000, 7.000, rp 5000, rp5.000
+  // Remove action keywords to leave only the item name
+  const allKws = [...DICT.inKeywords, ...DICT.outKeywords];
+  for (let kw of allKws) {
+      cleanDesc = cleanDesc.replace(new RegExp(`\\b${kw}\\b`, 'gi'), '');
+  }
+  
+  // Remove numbers and multipliers
   cleanDesc = cleanDesc.replace(/rp\.?\s?/gi, '');
   cleanDesc = cleanDesc.replace(/[\d][\d\.,]*\s*(ribu|ribuan|juta|jutaan|miliar)?/gi, '');
   cleanDesc = cleanDesc.replace(/\s{2,}/g, ' ').trim();
   
   // If cleanup results in empty or too short string, fallback to original text without numbers
-  if (cleanDesc.length < 3) cleanDesc = text.replace(/[\d\.,]+\s*(ribu|juta|miliar)?/gi, '').trim();
+  if (cleanDesc.length < 3) {
+      cleanDesc = text.replace(/[\d\.,]+\s*(ribu|ribuan|juta|jutaan|miliar)?/gi, '').trim();
+      // Also remove rp
+      cleanDesc = cleanDesc.replace(/rp\.?\s?/gi, '').trim();
+  }
+  
+  // Final fallback if literally just a number was spoken
+  if (!cleanDesc) cleanDesc = type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran';
 
   return {
     type,

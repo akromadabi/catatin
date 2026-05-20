@@ -118,7 +118,7 @@
     .icon-circle-purple { background: #faf5ff; color: #a855f7; }
 
     /* Floating Action Button (FAB) */
-    .fab {
+    .floating-action-button {
         position: absolute;
         bottom: 90px;
         right: 20px;
@@ -136,7 +136,7 @@
         transition: transform 0.2s;
         z-index: 40;
     }
-    .fab:active { transform: scale(0.9); }
+    .floating-action-button:active { transform: scale(0.9); }
 
     /* Voice Modal Override */
     .voice-overlay {
@@ -157,7 +157,11 @@
   </style>
   <script>
     window.authUser = @json(auth()->user());
+    window.authUserId = {{ auth()->id() }};
     window.baseUrl = "{{ url('/') }}";
+    window.activeProject = @json($activeProject ?? null);
+    window.allProjects = @json($allProjects ?? []);
+    window.isCollaborative = {{ json_encode($isCollaborative ?? false) }};
   </script>
 </head>
 <body>
@@ -173,17 +177,42 @@
             <div class="px-6 pt-8 pb-4 flex justify-between items-center bg-white">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f1f5f9&color=475569" alt="Avatar" class="w-full h-full object-cover">
+                        <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">
                     </div>
                     <div>
                         <p class="text-xs text-slate-500 font-medium">Selamat datang,</p>
                         <h2 class="text-sm font-bold text-slate-900" id="header-name">{{ explode(' ', auth()->user()->name)[0] }}</h2>
                     </div>
                 </div>
-                <button class="w-10 h-10 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 relative">
-                    <i class="fas fa-bell"></i>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <!-- Bell Notifications button -->
+                    <button onclick="openNotificationsModal()" class="w-9 h-9 flex items-center justify-center text-slate-500 hover:bg-slate-50 rounded-full relative transition border border-slate-100 bg-white shrink-0">
+                        <i class="fas fa-bell text-sm"></i>
+                        <span id="notif-badge" class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full hidden animate-ping"></span>
+                        <span id="notif-badge-static" class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full hidden"></span>
+                    </button>
+
+                    @if(isset($activeProject) && $activeProject)
+                    @php
+                        $projColor = $activeProject->color ?? '#6c63ff';
+                        $isFa = str_starts_with($activeProject->icon ?? '', 'fas') || str_contains($activeProject->icon ?? '', 'fa-');
+                    @endphp
+                    <button onclick="openProjectSwitcher(false)" class="flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-xs font-bold transition max-w-[145px]" style="background:{{ $projColor }}11; border-color:{{ $projColor }}33; color:{{ $projColor }};">
+                        @if($isFa)
+                            <i class="{{ $activeProject->icon }} text-[11px] shrink-0"></i>
+                        @else
+                            <span class="text-[11px] leading-none shrink-0">{{ $activeProject->icon }}</span>
+                        @endif
+                        <span class="truncate">{{ $activeProject->name }}</span>
+                        <i class="fas fa-chevron-down text-[8px] opacity-60"></i>
+                    </button>
+                    @else
+                    <button onclick="openProjectSwitcher(false)" class="flex items-center gap-1.5 bg-rose-50 border border-rose-100 text-rose-600 rounded-full px-3 py-1.5 text-xs font-bold hover:bg-rose-100 transition">
+                        <i class="fas fa-plus text-[9px]"></i>
+                        <span>Buat Proyek</span>
+                    </button>
+                    @endif
+                </div>
             </div>
 
             <!-- Balance Card -->
@@ -450,6 +479,42 @@
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openProjectSwitcher(true)">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Kelola Proyek</span>
+                                <p class="text-xs text-slate-400" id="profile-project-count">{{ count($allProjects ?? []) }} proyek aktif</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openMembersModal()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Kelola Anggota</span>
+                                <p class="text-xs text-slate-400">Undang atau kelola kolaborator</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openActivityLogModal()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Log Aktivitas</span>
+                                <p class="text-xs text-slate-400">Log aksi, masuk, & unduh laporan</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
                     <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="navigateTo('categories')">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
@@ -555,42 +620,33 @@
             <h1 class="text-xl font-bold text-slate-900">Kelola Kategori</h1>
         </div>
 
-        <div class="flex-1 overflow-y-auto pb-8">
+        <div class="flex-1 overflow-y-auto pb-24">
             <div class="px-4 mt-4">
                 <!-- Tab -->
+                <input type="hidden" id="add-cat-type" value="pengeluaran">
                 <div class="flex bg-slate-200 rounded-xl p-1 mb-4">
                     <button class="flex-1 py-1.5 rounded-lg text-sm font-semibold bg-white shadow-sm text-slate-900" id="cat-tab-out" onclick="setCategoryTab('pengeluaran')">Pengeluaran</button>
                     <button class="flex-1 py-1.5 rounded-lg text-sm font-semibold text-slate-500" id="cat-tab-in" onclick="setCategoryTab('pemasukan')">Pemasukan</button>
                 </div>
-                
+
                 <!-- List -->
                 <div class="bg-white border border-slate-100 shadow-sm rounded-2xl mb-4" id="category-list-container">
                     <!-- Populated via JS -->
                 </div>
-
-                <!-- Add Form -->
-                <div class="bg-white border border-slate-100 shadow-sm rounded-2xl p-4">
-                    <h3 class="font-bold text-slate-900 mb-3 text-sm">Tambah Kategori Baru</h3>
-                    <form id="add-category-form" autocomplete="off" onsubmit="handleAddCategory(event)">
-                        <input type="hidden" id="add-cat-type" value="pengeluaran">
-                        <div class="flex gap-2">
-                            <input type="text" id="add-cat-name" required class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none" placeholder="Nama Kategori">
-                            <button type="submit" class="bg-brand-600 text-white px-4 rounded-xl font-bold hover:bg-brand-700 transition">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
+
+        <!-- FAB Button -->
+        <button onclick="openAddCatModal()" class="absolute bottom-6 right-6 w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-white text-2xl z-10 transition active:scale-95" style="background:#6c63ff">
+            <i class="fas fa-plus"></i>
+        </button>
       </div>
     </div>
 
     <!-- EDIT CATEGORY MODAL -->
-    <div id="edit-cat-modal" class="fixed inset-0 z-50 flex items-end justify-center" style="display:none !important">
+    <div id="edit-cat-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display:none !important">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditCatModal()"></div>
-        <div class="relative bg-white w-full max-w-[480px] rounded-t-3xl p-6">
-            <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-5"></div>
+        <div class="relative bg-white w-full max-w-sm rounded-2xl p-5">
             <h3 class="font-bold text-slate-900 mb-4 text-lg">Edit Kategori</h3>
             <input type="hidden" id="edit-cat-id">
             <input type="hidden" id="edit-cat-type-val">
@@ -609,51 +665,81 @@
         </div>
     </div>
 
-    <!-- EDIT TRANSACTION MODAL -->
-    <div id="edit-txn-modal" class="fixed inset-0 z-50 flex items-end justify-center" style="display:none !important">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditTxnModal()"></div>
-        <div class="relative bg-white w-full max-w-[480px] rounded-t-3xl p-6">
-            <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-5"></div>
-            <h3 class="font-bold text-slate-900 mb-4 text-lg">Edit Transaksi</h3>
-            
-            <form id="edit-txn-form" autocomplete="off" onsubmit="submitEditTxn(event)">
-                <input type="hidden" id="edit-txn-id">
-                <input type="hidden" id="edit-txn-type">
-                
-                <div class="mb-3">
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nominal</label>
-                    <input type="text" id="edit-txn-amount" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none" oninput="formatCurrencyInput(this)">
+    <!-- ADD CATEGORY MODAL (new rich modal) -->
+    <div id="add-cat-modal" class="fixed inset-0 z-[70] flex items-center justify-center p-4" style="display:none !important">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeAddCatModal()"></div>
+        <div class="relative bg-white w-full max-w-sm rounded-2xl flex flex-col max-h-[92vh]">
+            <div class="px-5 py-3 border-b border-slate-100 shrink-0">
+                <h3 class="font-bold text-slate-900 text-base">Kategori Baru</h3>
+            </div>
+
+            <div class="overflow-y-auto flex-1 px-5 py-4 space-y-4">
+                <!-- Type Toggle -->
+                <div class="flex bg-slate-100 rounded-xl p-1">
+                    <button id="add-cat-btn-out" onclick="setAddCatType('pengeluaran')" class="flex-1 py-2 rounded-lg text-sm font-semibold text-slate-500 transition">Pengeluaran</button>
+                    <button id="add-cat-btn-in" onclick="setAddCatType('pemasukan')" class="flex-1 py-2 rounded-lg text-sm font-semibold text-white transition" style="background:#6c63ff">Pemasukan</button>
                 </div>
-                
-                <div class="mb-3">
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori</label>
-                    <select id="edit-txn-category" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none">
-                    </select>
+
+                <!-- Preview -->
+                <div id="add-cat-preview" class="flex items-center gap-3 rounded-2xl px-4 py-3" style="background:#fef9c3">
+                    <div id="add-cat-preview-icon" class="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style="background:#fde68a;color:#b45309">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span id="add-cat-preview-name" class="font-bold text-slate-700 text-base">Nama Kategori</span>
                 </div>
-                
-                <div class="mb-3">
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Catatan</label>
-                    <input type="text" id="edit-txn-desc" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none">
+
+                <!-- Name Input -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nama Kategori</label>
+                    <input type="text" id="add-cat-name-input" maxlength="30" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-700 focus:border-[#6c63ff] outline-none" placeholder="Nama kategori..." oninput="updateAddCatPreview()">
+                    <p class="text-[10px] text-slate-400 mt-1" id="add-cat-charcount">0/30</p>
                 </div>
-                
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
-                    <input type="date" id="edit-txn-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none">
+
+                <!-- Color Picker -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Warna</label>
+                    <div class="flex gap-2 flex-wrap">
+                        @foreach(['#6c63ff','#3b82f6','#06b6d4','#10b981','#84cc16','#f59e0b','#ef4444','#ec4899','#8b5cf6','#f97316'] as $color)
+                        <button onclick="selectAddCatColor('{{ $color }}')" class="add-cat-color-btn w-9 h-9 rounded-full transition border-4 border-transparent hover:scale-110" style="background:{{ $color }}" data-color="{{ $color }}"></button>
+                        @endforeach
+                    </div>
                 </div>
-                
-                <div class="flex gap-3">
-                    <button type="button" onclick="closeEditTxnModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-xl py-3 font-bold text-sm transition hover:bg-slate-200">
-                        Batal
-                    </button>
-                    <button type="submit" class="flex-1 bg-brand-600 text-white rounded-xl py-3 font-bold text-sm transition hover:bg-brand-700">
-                        <i class="fas fa-save mr-2"></i>Simpan
-                    </button>
+
+                <!-- Icon Pack -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Ikon</label>
+                    <div class="grid grid-cols-5 gap-2" id="add-cat-icon-grid">
+                        @php
+                        $icons = [
+                            'fa-store','fa-credit-card','fa-piggy-bank','fa-landmark','fa-chart-line',
+                            'fa-shopping-basket','fa-bicycle','fa-utensils','fa-cash-register','fa-calculator',
+                            'fa-box','fa-dollar-sign','fa-ellipsis-h','fa-layer-group','fa-tag',
+                            'fa-star','fa-heart','fa-flag','fa-bookmark','fa-briefcase',
+                            'fa-car','fa-home','fa-plane','fa-graduation-cap','fa-medkit',
+                            'fa-bolt','fa-wifi','fa-gamepad','fa-music','fa-gift',
+                            'fa-wallet','fa-coins','fa-receipt','fa-percent','fa-mobile-alt'
+                        ];
+                        @endphp
+                        @foreach($icons as $icon)
+                        <button onclick="selectAddCatIcon('fa-{{ str_replace('fa-','',$icon) }}')" class="add-cat-icon-btn w-full aspect-square rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition text-sm" data-icon="fas {{ $icon }}">
+                            <i class="fas {{ $icon }}"></i>
+                        </button>
+                        @endforeach
+                    </div>
                 </div>
-            </form>
+
+                <input type="hidden" id="add-cat-selected-icon" value="fas fa-star">
+                <input type="hidden" id="add-cat-selected-color" value="#6c63ff">
+                <input type="hidden" id="add-cat-selected-type" value="pemasukan">
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="px-5 py-4 border-t border-slate-100 flex gap-3 shrink-0">
+                <button onclick="closeAddCatModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-2xl py-3 font-bold text-sm">Batal</button>
+                <button onclick="submitAddCatModal()" class="flex-1 text-white rounded-2xl py-3 font-bold text-sm" style="background:#6c63ff">Simpan</button>
+            </div>
         </div>
     </div>
-
-    <!-- FLOATING ACTION BUTTON (Old FAB removed) -->
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="absolute bottom-0 w-full bg-white shadow-[0_-4px_25px_rgba(0,0,0,0.05)] h-[72px] px-2 flex justify-around items-center z-30 pb-safe rounded-t-3xl">
@@ -708,12 +794,13 @@
 </div>
 
 <!-- EDIT TXN MODAL -->
-<div id="edit-txn-modal" style="display:none" class="fixed inset-0 z-[60] bg-slate-900/50 items-center justify-center p-4">
-    <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="font-bold text-slate-800 text-lg">Edit Transaksi</h3>
-            <button onclick="closeEditTxnModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300">
-                <i class="fas fa-times"></i>
+<div id="edit-txn-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditTxnModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+        <div class="px-6 py-3 flex justify-between items-center border-b border-slate-100">
+            <h3 class="font-bold text-slate-800 text-base">Edit Transaksi</h3>
+            <button onclick="closeEditTxnModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
             </button>
         </div>
         <div class="p-6 overflow-y-auto">
@@ -755,13 +842,189 @@
     </div>
 </div>
 
+<!-- ONBOARDING MODAL: shown when user has no project -->
+@if(empty($allProjects) || count($allProjects) === 0)
+<div id="onboarding-modal" class="fixed inset-0 z-[80] bg-slate-900/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 text-center">
+        <div class="w-16 h-16 bg-[#6c63ff]/10 text-[#6c63ff] rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
+            <i class="fas fa-wallet"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 mb-2">Selamat datang!</h2>
+        <p class="text-slate-500 text-sm mb-6">Buat proyek pertama Anda untuk mulai mencatat keuangan. Anda bisa membuat banyak proyek nanti (misal: Keluarga, Usaha, dll).</p>
+        <input type="text" id="onboarding-project-name" class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl p-4 outline-none mb-4 text-center text-lg focus:border-[#6c63ff]" placeholder="Nama proyek (misal: Keuangan Keluarga)" value="Keuangan Pribadi">
+        <div class="flex gap-2 justify-center mb-5 flex-wrap" id="onboarding-icon-picker">
+            @foreach(['fa-wallet','fa-home','fa-store','fa-briefcase','fa-plane','fa-graduation-cap','fa-heart','fa-star'] as $icon)
+            <button onclick="selectOnboardingIcon('fas {{ $icon }}')" class="w-10 h-10 rounded-xl flex items-center justify-center border-2 border-transparent hover:border-[#6c63ff] transition onboarding-icon-btn bg-slate-50 text-slate-500 {{ $icon === 'fa-wallet' ? 'border-[#6c63ff] bg-[#6c63ff]/10 text-[#6c63ff]' : '' }}" data-icon="fas {{ $icon }}">
+                <i class="fas {{ $icon }} text-base"></i>
+            </button>
+            @endforeach
+        </div>
+        <input type="hidden" id="onboarding-project-icon" value="fas fa-wallet">
+        <button onclick="submitOnboarding()" id="btn-onboarding-submit" class="w-full bg-[#6c63ff] hover:bg-[#5b52e0] text-white font-bold rounded-2xl py-4 text-base transition shadow-lg shadow-[#6c63ff]/30 flex items-center justify-center gap-2">
+            <i class="fas fa-rocket"></i> Mulai Sekarang
+        </button>
+    </div>
+</div>
+@endif
+
+<!-- PROJECT SWITCHER / MANAGER MODAL -->
+<div id="project-switcher-modal" class="fixed inset-0 z-[80] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeProjectSwitcher()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[80vh]">
+        <div class="px-5 py-3.5 flex justify-between items-center border-b border-slate-100">
+            <h3 class="font-bold text-slate-800 text-base" id="project-modal-title">Pilih Proyek</h3>
+            <button onclick="closeProjectSwitcher()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1" id="project-list-container"></div>
+        <div class="px-4 pb-4" id="project-modal-footer" style="display:none">
+            <button onclick="closeProjectSwitcher(); openAddProjectModal()" class="w-full flex items-center justify-center gap-2 bg-slate-50 border border-dashed border-slate-300 text-slate-600 rounded-2xl py-3 font-semibold text-sm hover:bg-slate-100 transition">
+                <i class="fas fa-plus text-xs"></i> Buat Proyek Baru
+            </button>
+        </div>
+    </div>
+</div>
+<!-- ADD PROJECT MODAL -->
+<div id="add-project-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeAddProjectModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[92vh]">
+        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
+            <h3 class="font-bold text-slate-900 text-base">Proyek Baru</h3>
+            <button onclick="closeAddProjectModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="overflow-y-auto flex-1 px-5 py-4 space-y-4">
+            <div id="add-proj-preview" class="flex items-center gap-3 rounded-2xl px-4 py-3" style="background:#6c63ff22">
+                <div id="add-proj-preview-icon" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:#6c63ff44;color:#6c63ff">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span id="add-proj-preview-name" class="font-bold text-slate-700 text-base">Nama Proyek</span>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nama Proyek</label>
+                <input type="text" id="add-proj-name-input" maxlength="40"
+                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-700 outline-none"
+                    placeholder="Nama proyek..." oninput="updateAddProjPreview()">
+                <p class="text-[10px] text-slate-400 mt-1" id="add-proj-charcount">0/40</p>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Warna</label>
+                <div class="flex gap-2 flex-wrap" id="add-proj-color-row">
+                    <button onclick="selectAddProjColor('#6c63ff')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-white outline outline-[3px] outline-[#6c63ff]" style="background:#6c63ff" data-color="#6c63ff"></button>
+                    <button onclick="selectAddProjColor('#3b82f6')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#3b82f6" data-color="#3b82f6"></button>
+                    <button onclick="selectAddProjColor('#06b6d4')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#06b6d4" data-color="#06b6d4"></button>
+                    <button onclick="selectAddProjColor('#10b981')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#10b981" data-color="#10b981"></button>
+                    <button onclick="selectAddProjColor('#f59e0b')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#f59e0b" data-color="#f59e0b"></button>
+                    <button onclick="selectAddProjColor('#ef4444')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#ef4444" data-color="#ef4444"></button>
+                    <button onclick="selectAddProjColor('#ec4899')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#ec4899" data-color="#ec4899"></button>
+                    <button onclick="selectAddProjColor('#f97316')" class="add-proj-color-btn w-9 h-9 rounded-full hover:scale-110 transition border-4 border-transparent" style="background:#f97316" data-color="#f97316"></button>
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Ikon</label>
+                <div class="grid grid-cols-5 gap-2">
+                    @foreach(['fa-wallet','fa-home','fa-store','fa-briefcase','fa-plane','fa-graduation-cap','fa-heart','fa-leaf','fa-car','fa-utensils','fa-piggy-bank','fa-chart-line','fa-gift','fa-star','fa-gamepad','fa-music','fa-medkit','fa-bolt','fa-landmark','fa-coins','fa-credit-card','fa-bicycle','fa-shopping-basket','fa-tag','fa-flag'] as $projIcon)
+                    <button onclick="selectAddProjIcon('{{ $projIcon }}')" class="add-proj-icon-btn w-full aspect-square rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition text-sm" data-icon="fas {{ $projIcon }}">
+                        <i class="fas {{ $projIcon }}"></i>
+                    </button>
+                    @endforeach
+                </div>
+            </div>
+            <input type="hidden" id="add-proj-selected-icon" value="fas fa-wallet">
+            <input type="hidden" id="add-proj-selected-color" value="#6c63ff">
+        </div>
+        <div class="px-5 py-4 border-t border-slate-100 flex gap-3 shrink-0">
+            <button onclick="closeAddProjectModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-2xl py-3 font-bold text-sm">Batal</button>
+            <button onclick="submitAddProjectModal()" class="flex-1 text-white rounded-2xl py-3 font-bold text-sm" style="background:#6c63ff">Buat Proyek</button>
+        </div>
+    </div>
+</div>
+
+<!-- COLLABORATION: MEMBERS MODAL -->
+<div id="members-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeMembersModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
+        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
+            <h3 class="font-bold text-slate-900 text-base">Anggota Proyek</h3>
+            <button onclick="closeMembersModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="overflow-y-auto flex-1 p-4" id="members-list-container">
+            <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
+        </div>
+        <!-- Invite via Email & Link Section (Shown dynamically for Owner) -->
+        <div class="px-4 pb-4 space-y-3 shrink-0 hidden border-t border-slate-100 pt-3" id="invite-box-section">
+            <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Undang via Email</label>
+                <div class="flex gap-2">
+                    <input type="email" id="invite-email-input" placeholder="Masukkan email..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 outline-none focus:border-[#6c63ff] transition">
+                    <button onclick="inviteByEmailAction()" class="bg-[#6c63ff] text-white rounded-xl px-4 py-2 font-bold text-xs hover:bg-[#5b52e5] transition shrink-0">Undang</button>
+                </div>
+            </div>
+            <div class="space-y-1.5">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Metode Lain</label>
+                <div class="flex gap-2">
+                    <button id="invite-wa-btn" onclick="generateInviteLink(true)" class="flex-1 flex items-center justify-center gap-1.5 text-white rounded-xl py-2 font-bold text-xs transition" style="background:#25D366"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button onclick="generateInviteLink(false)" class="flex-1 flex items-center justify-center gap-1.5 bg-slate-100 text-slate-700 rounded-xl py-2 font-bold text-xs hover:bg-slate-200 transition"><i class="fas fa-link"></i> Buat Link</button>
+                </div>
+                <div id="copy-link-wrapper" class="hidden mt-1 bg-slate-50 rounded-xl p-2.5 border border-slate-100 flex items-center gap-2">
+                    <input type="text" id="invite-link-display" readonly class="bg-transparent border-0 text-[10px] text-slate-500 w-full outline-none focus:ring-0 p-0 font-mono" onclick="this.select()">
+                    <button onclick="copyInviteLinkAction()" class="text-xs text-[#6c63ff] font-bold shrink-0 hover:underline">Salin</button>
+                </div>
+            </div>
+        </div>
+        <div class="px-4 pb-4 space-y-2 shrink-0" id="members-footer">
+            <!-- Populated by JS: leave button (member only) -->
+        </div>
+    </div>
+</div>
+
+<!-- COLLABORATION: ACTIVITY LOG & UNDO MODAL -->
+<div id="activity-log-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeActivityLogModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
+        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
+            <h3 class="font-bold text-slate-900 text-base">Log Aktivitas</h3>
+            <button onclick="closeActivityLogModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="overflow-y-auto flex-1 p-4 space-y-3" id="activity-log-container">
+            <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
+        </div>
+    </div>
+</div>
+
+<!-- NOTIFICATIONS & IN-APP INVITES MODAL -->
+<div id="notifications-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeNotificationsModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[80vh]">
+        <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center shrink-0">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-bell text-[#6c63ff] text-base"></i>
+                <h3 class="font-bold text-slate-900 text-base">Notifikasi</h3>
+            </div>
+            <button onclick="closeNotificationsModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 transition">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="overflow-y-auto flex-1 p-4 space-y-4" id="notifications-container">
+            <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
+        </div>
+    </div>
+</div>
+
 <!-- EDIT PROFILE MODAL -->
-<div id="edit-profile-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="font-bold text-slate-800 text-lg">Edit Profil</h3>
-            <button onclick="closeEditProfileModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300">
-                <i class="fas fa-times"></i>
+<div id="edit-profile-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditProfileModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+        <div class="px-6 py-3 flex justify-between items-center border-b border-slate-100">
+            <h3 class="font-bold text-slate-800 text-base">Edit Profil</h3>
+            <button onclick="closeEditProfileModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
             </button>
         </div>
         <div class="p-6 overflow-y-auto">
@@ -868,3 +1131,6 @@
 <script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
 </body>
 </html>
+
+
+

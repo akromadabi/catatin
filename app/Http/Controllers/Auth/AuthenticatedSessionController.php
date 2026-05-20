@@ -28,6 +28,24 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Log successful login activity
+        $user = auth()->user();
+        $project = $user->accessibleProjects()->first();
+        if ($project) {
+            \App\Models\ActivityLog::create([
+                'project_id' => $project->id,
+                'user_id'    => $user->id,
+                'action'     => 'login',
+                'model_type' => 'User',
+                'data'       => ['user_name' => $user->name],
+            ]);
+        }
+
+        // If there's a pending invite token, redirect to accept it
+        if ($request->has('invite') && $request->invite) {
+            return redirect("/invite/{$request->invite}");
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

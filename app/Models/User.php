@@ -21,6 +21,22 @@ class User extends Authenticatable
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }
+
+    public function projects() {
+        return $this->hasMany(Project::class);
+    }
+
+    /** All projects this user can access (owned + collaborated) */
+    public function accessibleProjects() {
+        return Project::whereHas('members', function ($q) {
+            $q->where('user_id', $this->id)->where('status', 'active');
+        });
+    }
+
+    /** Membership records */
+    public function projectMemberships() {
+        return $this->hasMany(ProjectMember::class);
+    }
     
     public function package() {
         return $this->belongsTo(Package::class);

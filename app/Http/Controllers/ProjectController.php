@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Project;
+use App\Models\ProjectMember;
+use Illuminate\Http\Request;
+
+class ProjectController extends Controller
+{
+    /** Ambil semua proyek yang bisa diakses user (owned + collaborated) */
+    public function index()
+    {
+        $projects = auth()->user()->accessibleProjects()
+            ->withCount(['transactions', 'categories', 'members' => fn($q) => $q->where('status', 'active')])
+            ->orderBy('created_at')
+            ->get();
+
+        // Add role info for current user
+        $projects->each(function ($p) {
+            $membership = ProjectMember::where('project_id', $p->id)
+                ->where('user_id', auth()->id())
+                ->where('status', 'active')
+                ->first();
+            $p->my_role = $membership?->role ?? 'member';
+        });
+
+        return response()->json($projects);
+    }
+
+    /** Buat proyek baru dan seed kategori default */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'  => 'required|string|max:100',
+            'icon'  => 'nullable|string|max:100',
+            'color' => 'nullable|string|max:20',
+        ]);
+
+        $project = Project::create([
+            'user_id' => auth()->id(),
+            'name'    => $request->name,
+            'icon'    => $request->icon ?? 'fas fa-wallet',
+            'color'   => $request->color ?? '#6c63ff',
+        ]);
+
+        // Insert owner into project_members
+        ProjectMember::create([
+            'project_id' => $project->id,
+            'user_id'    => auth()->id(),
+            'role'       => 'owner',
+            'status'     => 'active',
+            'joined_at'  => now(),
+        ]);
+
+        // Seed default household categories for the new project
+        $defaultCategories = [
+            ['name' => 'Gaji/Upah',        'type' => 'pemasukan',   'icon' => 'fas fa-wallet'],
+            ['name' => 'Bonus/THR',         'type' => 'pemasukan',   'icon' => 'fas fa-gift'],
+            ['name' => 'Hasil Usaha',       'type' => 'pemasukan',   'icon' => 'fas fa-store'],
+            ['name' => 'Lain-lain',         'type' => 'pemasukan',   'icon' => 'fas fa-star'],
+            ['name' => 'Makan & Belanja',   'type' => 'pengeluaran', 'icon' => 'fas fa-utensils'],
+            ['name' => 'Listrik/Air/Internet', 'type' => 'pengeluaran', 'icon' => 'fas fa-bolt'],
+            ['name' => 'Transportasi',      'type' => 'pengeluaran', 'icon' => 'fas fa-motorcycle'],
+            ['name' => 'Cicilan/Sewa',      'type' => 'pengeluaran', 'icon' => 'fas fa-home'],
+            ['name' => 'Kesehatan',         'type' => 'pengeluaran', 'icon' => 'fas fa-medkit'],
+            ['name' => 'Hiburan/Jajan',     'type' => 'pengeluaran', 'icon' => 'fas fa-gamepad'],
+            ['name' => 'Sedekah',           'type' => 'pengeluaran', 'icon' => 'fas fa-hands-helping'],
+            ['name' => 'Lain-lain',         'type' => 'pengeluaran', 'icon' => 'fas fa-money-bill-wave'],
+        ];
+
+        foreach ($defaultCategories as $cat) {
+            \App\Models\Category::create([
+                'user_id'    => auth()->id(),
+                'project_id' => $project->id,
+                'name'       => $cat['name'],
+                'type'       => $cat['type'],
+                'icon'       => $cat['icon'],
+            ]);
+        }
+
+        // Set as active project
+        session(['active_project_id' => $project->id]);
+
+        return response()->json(['success' => true, 'project' => $project]);
+    }
+
+    /** Hapus proyek beserta semua kategori & transaksinya (owner only) */
+    public function destroy($id)
+    {
+        $project = Project::findOrFail($id);
+        abort_unless($project->isOwner(auth()->id()), 403, 'Hanya pemilik yang bisa menghapus proyek.');
+        
+        // If deleting active project, clear session
+        if (session('active_project_id') == $project->id) {
+            session()->forget('active_project_id');
+        }
+
+        $project->delete(); // cascade deletes categories, transactions, members, logs
+
+        return response()->json(['success' => true]);
+    }
+
+    /** Ganti proyek aktif (simpan di session) */
+    public function switchProject($id)
+    {
+        $project = Project::findOrFail($id);
+        abort_unless($project->isMember(auth()->id()), 403, 'Kamu bukan anggota proyek ini.');
+        session(['active_project_id' => $project->id]);
+        return response()->json(['success' => true, 'project' => $project]);
+    }
+}

@@ -604,6 +604,7 @@ function downloadReport() {
     try {
         pdfMake.createPdf(docDef).download(filename, () => {
             showToast('Laporan PDF berhasil diunduh!');
+            logGenericActivityOnBackend('download_pdf', 'Project', { period: periodLabel });
         });
     } catch(err) {
         console.error('pdfmake error:', err);
@@ -828,7 +829,7 @@ function createTxnListItem(t, showDelete = false) {
             </div>
             <div class="min-w-0">
                 <h4 class="text-sm font-bold text-slate-900 leading-tight truncate">${t.desc || t.category}</h4>
-                <p class="text-[11px] text-slate-500 mt-0.5">${t.category} • ${dateStr}</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">${t.category} • ${dateStr}${window.isCollaborative && t.user ? ' • <span class=\"text-slate-400\">' + (t.user.name || '').split(' ')[0] + '</span>' : ''}</p>
             </div>
         </div>
         <div class="flex items-center shrink-0 ml-2">
@@ -952,32 +953,50 @@ window.onVoiceError = (err) => {
 
 function processVoiceText(text) {
     const parsed = parseTransactionText(text);
+    
+    // First, navigate to the Add page which will reset the form
+    navigateTo('add');
+
     if (!parsed || parsed.amount === 0) {
         showToast('Nominal tidak dikenali. Silakan input manual.');
-        navigateTo('add');
         return;
     }
 
     // Pre-fill the form instead of saving directly
     setTxnType(parsed.type);
-    document.getElementById('txn-amount').value = parsed.amount.toLocaleString('id-ID');
+    
+    // Use formatRupiah or just exact number for input type=number
+    // If the input is type=number, it cannot take dots from toLocaleString.
+    const amountInput = document.getElementById('txn-amount');
+    if (amountInput) {
+        // If it's a formatted text input we could use toLocaleString, but in Catat-in it's a number input.
+        amountInput.value = parsed.amount; 
+        
+        // Trigger formatting logic if any exists on input
+        const event = new Event('input', { bubbles: true });
+        amountInput.dispatchEvent(event);
+    }
     
     const catSelect = document.getElementById('txn-category');
-    let hasCat = false;
-    for (let i = 0; i < catSelect.options.length; i++) {
-        if (catSelect.options[i].value === parsed.category) {
-            catSelect.selectedIndex = i;
-            hasCat = true;
-            break;
+    if (catSelect) {
+        let hasCat = false;
+        for (let i = 0; i < catSelect.options.length; i++) {
+            if (catSelect.options[i].value === parsed.category) {
+                catSelect.selectedIndex = i;
+                hasCat = true;
+                break;
+            }
         }
+        if (!hasCat) catSelect.selectedIndex = 0;
     }
-    if (!hasCat) catSelect.selectedIndex = 0;
 
-    document.getElementById('txn-desc').value = parsed.desc;
-    document.getElementById('txn-date').value = new Date().toISOString().split('T')[0];
+    const descInput = document.getElementById('txn-desc');
+    if (descInput) descInput.value = parsed.desc;
+    
+    const dateInput = document.getElementById('txn-date');
+    if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
 
     showToast('Harap tinjau kembali sebelum menyimpan.');
-    navigateTo('add');
 }
 
 /* ================= UTILS ================= */
@@ -1157,11 +1176,12 @@ function confirmDeleteCategory() {
 
 /* ================= EDIT PROFILE ================= */
 function openEditProfileModal() {
-    document.getElementById('edit-profile-modal').classList.remove('hidden');
+    const m = document.getElementById('edit-profile-modal');
+    m.style.removeProperty('display');
+    m.style.display = 'flex';
 }
-
 function closeEditProfileModal() {
-    document.getElementById('edit-profile-modal').classList.add('hidden');
+    document.getElementById('edit-profile-modal').style.display = 'none';
 }
 
 function previewAvatar(input) {
@@ -1250,3 +1270,745 @@ async function submitEditProfile(e) {
         btn.disabled = false;
     }
 }
+
+/* ================= PROJECT MANAGEMENT ================= */
+let _projectManageMode = false;
+
+function openProjectSwitcher(manageMode = false) {
+    _projectManageMode = manageMode;
+    // Update title
+    const title = document.getElementById('project-modal-title');
+    if (title) title.textContent = manageMode ? 'Kelola Proyek' : 'Pilih Proyek';
+    // Show/hide add footer
+    const footer = document.getElementById('project-modal-footer');
+    if (footer) footer.style.display = manageMode ? 'block' : 'none';
+    renderProjectList();
+    const modal = document.getElementById('project-switcher-modal');
+    modal.style.removeProperty('display');
+    modal.style.display = 'flex';
+}
+
+function closeProjectSwitcher() {
+    const modal = document.getElementById('project-switcher-modal');
+    modal.style.display = 'none';
+}
+
+function renderProjectList() {
+    const container = document.getElementById('project-list-container');
+    if (!container) return;
+    const projects = window.allProjects || [];
+    const activeId = window.activeProject ? window.activeProject.id : null;
+    if (projects.length === 0) {
+        container.innerHTML = '<div class="text-center text-slate-400 py-8 text-sm">Belum ada proyek. Buat proyek baru di bawah.</div>';
+        return;
+    }
+    container.innerHTML = projects.map(p => {
+        const isActive = p.id === activeId;
+        const deleteBtn = (_projectManageMode && !isActive)
+            ? `<button onclick="event.stopPropagation();deleteProject(${p.id},'${p.name.replace(/'/g,"\\'")}')"
+                      class="w-8 h-8 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-100 transition ml-1">
+                   <i class="fas fa-trash text-[10px]"></i>
+               </button>`
+            : '';
+        
+        const color = p.color || '#6c63ff';
+        const isFa = p.icon && (p.icon.startsWith('fa') || p.icon.includes('fa-'));
+        const iconHtml = isFa ? `<i class="${p.icon}"></i>` : p.icon || '💰';
+        const activeBadge = isActive ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:${color}22;color:${color}">Aktif</span>` : '';
+        const clickAction = isActive ? '' : `onclick="switchToProject(${p.id})"`;
+
+        return `<div class="flex items-center gap-3 p-3 rounded-2xl mb-2 cursor-pointer transition ${isActive ? 'border' : 'hover:bg-slate-50 border border-transparent'}" style="${isActive ? 'border-color:' + color + '33;background:' + color + '0a' : ''}" ${clickAction}>
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shrink-0" style="background:${color}22;color:${color}">${iconHtml}</div>
+            <div class="flex-1 min-w-0">
+                <p class="font-bold text-slate-900 text-sm">${p.name}</p>
+                <p class="text-xs text-slate-400">${p.transactions_count ?? 0} transaksi</p>
+            </div>
+            ${activeBadge}${deleteBtn}
+        </div>`;
+    }).join('');
+}
+async function switchToProject(id) {
+    try {
+        await fetch(`${window.baseUrl}/api/projects/${id}/switch`, { method: 'POST', headers: { 'X-CSRF-TOKEN': getCsrfToken() } });
+        showToast('Berpindah proyek...');
+        setTimeout(() => location.reload(), 800);
+    } catch (e) { showToast('Gagal berpindah proyek'); }
+}
+async function createNewProject() {
+    const name = document.getElementById('new-project-name').value.trim();
+    const icon = document.getElementById('new-project-icon').value;
+    if (!name) { showToast('Masukkan nama proyek terlebih dahulu'); return; }
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
+            body: JSON.stringify({ name, icon })
+        });
+        if (res.ok) { showToast('Proyek dibuat!'); setTimeout(() => location.reload(), 900); }
+        else showToast('Gagal membuat proyek');
+    } catch (e) { showToast('Terjadi kesalahan koneksi'); }
+}
+async function deleteProject(id, name) {
+    if (!confirm(`Hapus proyek "${name}"?\nSemua transaksi & kategori akan ikut terhapus!`)) return;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${id}`, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': getCsrfToken() } });
+        if (res.ok) { showToast('Proyek dihapus'); setTimeout(() => location.reload(), 800); }
+        else showToast('Gagal menghapus proyek');
+    } catch (e) { showToast('Terjadi kesalahan'); }
+}
+function selectOnboardingIcon(icon) {
+    document.getElementById('onboarding-project-icon').value = icon;
+    document.querySelectorAll('.onboarding-icon-btn').forEach(btn => {
+        const match = btn.dataset.icon === icon;
+        btn.style.borderColor = match ? '#6c63ff' : 'transparent';
+        btn.style.background = match ? '#6c63ff22' : '';
+        btn.style.color = match ? '#6c63ff' : '';
+    });
+}
+async function submitOnboarding() {
+    const name = document.getElementById('onboarding-project-name')?.value?.trim();
+    const icon = document.getElementById('onboarding-project-icon')?.value || 'fas fa-wallet';
+    if (!name) { showToast('Masukkan nama proyek'); return; }
+    const btn = document.getElementById('btn-onboarding-submit');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Membuat...';
+    btn.disabled = true;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
+            body: JSON.stringify({ name, icon })
+        });
+        if (res.ok) { showToast('Proyek berhasil dibuat!'); setTimeout(() => location.reload(), 800); }
+        else { showToast('Gagal membuat proyek'); btn.innerHTML = '<i class="fas fa-rocket"></i> Mulai Sekarang'; btn.disabled = false; }
+    } catch (e) { showToast('Terjadi kesalahan'); btn.innerHTML = '<i class="fas fa-rocket"></i> Mulai Sekarang'; btn.disabled = false; }
+}
+
+/* ================= ADD CATEGORY MODAL ================= */
+function openAddCatModal() {
+    // Reset state
+    setAddCatType('pemasukan');
+    document.getElementById('add-cat-name-input').value = '';
+    document.getElementById('add-cat-charcount').textContent = '0/30';
+    document.getElementById('add-cat-preview-name').textContent = 'Nama Kategori';
+    selectAddCatColor('#6c63ff');
+    selectAddCatIcon('fa-star');
+    const m = document.getElementById('add-cat-modal');
+    m.style.removeProperty('display');
+    m.style.display = 'flex';
+    setTimeout(() => document.getElementById('add-cat-name-input').focus(), 300);
+}
+
+function closeAddCatModal() {
+    document.getElementById('add-cat-modal').style.display = 'none';
+}
+
+function setAddCatType(type) {
+    document.getElementById('add-cat-selected-type').value = type;
+    const btnOut = document.getElementById('add-cat-btn-out');
+    const btnIn  = document.getElementById('add-cat-btn-in');
+    if (type === 'pengeluaran') {
+        btnOut.style.cssText = 'background:#6c63ff;color:white';
+        btnIn.style.cssText  = 'background:transparent;color:#64748b';
+    } else {
+        btnIn.style.cssText  = 'background:#6c63ff;color:white';
+        btnOut.style.cssText = 'background:transparent;color:#64748b';
+    }
+    updateAddCatPreview();
+}
+
+function selectAddCatColor(hex) {
+    document.getElementById('add-cat-selected-color').value = hex;
+    document.querySelectorAll('.add-cat-color-btn').forEach(btn => {
+        const selected = btn.dataset.color === hex;
+        btn.style.borderColor = selected ? '#fff' : 'transparent';
+        btn.style.outline = selected ? `3px solid ${hex}` : 'none';
+        btn.style.transform = selected ? 'scale(1.15)' : 'scale(1)';
+    });
+    updateAddCatPreview();
+}
+
+function selectAddCatIcon(iconName) {
+    const full = 'fas ' + iconName;
+    document.getElementById('add-cat-selected-icon').value = full;
+    const color = document.getElementById('add-cat-selected-color').value || '#6c63ff';
+    document.querySelectorAll('.add-cat-icon-btn').forEach(btn => {
+        const selected = btn.dataset.icon === full;
+        btn.style.background = selected ? color + '22' : '';
+        btn.style.color = selected ? color : '';
+        btn.style.outline = selected ? `2px solid ${color}` : 'none';
+    });
+    updateAddCatPreview();
+}
+
+function updateAddCatPreview() {
+    const name  = document.getElementById('add-cat-name-input').value || 'Nama Kategori';
+    const icon  = document.getElementById('add-cat-selected-icon').value || 'fas fa-star';
+    const color = document.getElementById('add-cat-selected-color').value || '#6c63ff';
+    const count = document.getElementById('add-cat-name-input').value.length;
+    document.getElementById('add-cat-charcount').textContent = count + '/30';
+    document.getElementById('add-cat-preview-name').textContent = name;
+    const preview     = document.getElementById('add-cat-preview');
+    const previewIcon = document.getElementById('add-cat-preview-icon');
+    preview.style.background = color + '22';
+    previewIcon.style.background = color + '44';
+    previewIcon.style.color = color;
+    previewIcon.innerHTML = `<i class="${icon}"></i>`;
+}
+
+async function submitAddCatModal() {
+    const name  = document.getElementById('add-cat-name-input').value.trim();
+    const type  = document.getElementById('add-cat-selected-type').value;
+    const icon  = document.getElementById('add-cat-selected-icon').value;
+    const color = document.getElementById('add-cat-selected-color').value;
+    if (!name) { showToast('Masukkan nama kategori'); return; }
+    try {
+        const res = await fetch(`${window.baseUrl}/api/categories`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
+            body: JSON.stringify({ name, type, icon, color })
+        });
+        if (res.ok) {
+            const cat = await res.json();
+            if (!appData.categories[type]) appData.categories[type] = [];
+            appData.categories[type].push({ id: cat.id, name, type, icon, color });
+            saveData(appData);
+            updateCategoriesPage();
+            showToast('Kategori berhasil ditambahkan!');
+            closeAddCatModal();
+        } else showToast('Gagal menyimpan kategori');
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+/* ================= ADD PROJECT MODAL ================= */
+function openAddProjectModal() {
+    document.getElementById('add-proj-name-input').value = '';
+    document.getElementById('add-proj-charcount').textContent = '0/40';
+    document.getElementById('add-proj-preview-name').textContent = 'Nama Proyek';
+    selectAddProjColor('#6c63ff');
+    selectAddProjIcon('fa-wallet');
+    const m = document.getElementById('add-project-modal');
+    m.style.removeProperty('display');
+    m.style.display = 'flex';
+    setTimeout(() => document.getElementById('add-proj-name-input').focus(), 200);
+}
+function closeAddProjectModal() {
+    document.getElementById('add-project-modal').style.display = 'none';
+}
+function selectAddProjColor(hex) {
+    document.getElementById('add-proj-selected-color').value = hex;
+    document.querySelectorAll('.add-proj-color-btn').forEach(btn => {
+        const sel = btn.dataset.color === hex;
+        btn.style.outline = sel ? `3px solid ${hex}` : 'none';
+        btn.style.borderColor = sel ? '#fff' : 'transparent';
+        btn.style.transform = sel ? 'scale(1.15)' : 'scale(1)';
+    });
+    updateAddProjPreview();
+}
+function selectAddProjIcon(iconName) {
+    const full = 'fas ' + iconName;
+    document.getElementById('add-proj-selected-icon').value = full;
+    const color = document.getElementById('add-proj-selected-color').value || '#6c63ff';
+    document.querySelectorAll('.add-proj-icon-btn').forEach(btn => {
+        const sel = btn.dataset.icon === full;
+        btn.style.background = sel ? color + '22' : '';
+        btn.style.color = sel ? color : '';
+        btn.style.outline = sel ? `2px solid ${color}` : 'none';
+    });
+    updateAddProjPreview();
+}
+function updateAddProjPreview() {
+    const name  = document.getElementById('add-proj-name-input').value || 'Nama Proyek';
+    const icon  = document.getElementById('add-proj-selected-icon').value || 'fas fa-wallet';
+    const color = document.getElementById('add-proj-selected-color').value || '#6c63ff';
+    document.getElementById('add-proj-charcount').textContent = document.getElementById('add-proj-name-input').value.length + '/40';
+    document.getElementById('add-proj-preview-name').textContent = name;
+    const preview = document.getElementById('add-proj-preview');
+    const previewIcon = document.getElementById('add-proj-preview-icon');
+    preview.style.background = color + '22';
+    previewIcon.style.background = color + '44';
+    previewIcon.style.color = color;
+    previewIcon.innerHTML = `<i class="${icon}"></i>`;
+}
+async function submitAddProjectModal() {
+    const name  = document.getElementById('add-proj-name-input').value.trim();
+    const icon  = document.getElementById('add-proj-selected-icon').value;
+    const color = document.getElementById('add-proj-selected-color').value;
+    if (!name) { showToast('Masukkan nama proyek'); return; }
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
+            body: JSON.stringify({ name, icon, color })
+        });
+        if (res.ok) { showToast('Proyek berhasil dibuat!'); setTimeout(() => location.reload(), 800); }
+        else showToast('Gagal membuat proyek');
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+/* ================= COLLABORATION / MEMBERS ================= */
+function openMembersModal() {
+    const m = document.getElementById('members-modal');
+    m.style.removeProperty('display');
+    m.style.display = 'flex';
+    loadMembers();
+}
+function closeMembersModal() {
+    document.getElementById('members-modal').style.display = 'none';
+}
+
+async function loadMembers() {
+    const projectId = window.activeProject?.id;
+    if (!projectId) { showToast('Pilih proyek terlebih dahulu'); return; }
+    const container = document.getElementById('members-list-container');
+    const footer = document.getElementById('members-footer');
+    container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>';
+    footer.innerHTML = '';
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/members`, {
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Accept': 'application/json' }
+        });
+        const data = await res.json();
+        renderMembers(data.members, data.is_owner);
+    } catch(e) { container.innerHTML = '<div class="text-center text-rose-400 py-8">Gagal memuat anggota</div>'; }
+}
+
+function renderMembers(members, isOwner) {
+    const container = document.getElementById('members-list-container');
+    const footer = document.getElementById('members-footer');
+    if (!members || members.length === 0) {
+        container.innerHTML = '<div class="text-center text-slate-400 py-8 text-sm">Belum ada anggota</div>';
+        return;
+    }
+    container.innerHTML = members.map(m => {
+        const avatarUrl = m.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=f1f5f9&color=475569&size=80`;
+        const roleLabel = m.role === 'owner'
+            ? '<span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Pemilik</span>'
+            : '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Anggota</span>';
+        const removeBtn = (isOwner && m.role !== 'owner')
+            ? `<button onclick="event.stopPropagation();removeMemberAction(${m.user_id},'${m.name.replace(/'/g,"\\'")}')" class="w-7 h-7 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-100 transition shrink-0"><i class="fas fa-times text-[10px]"></i></button>`
+            : '';
+        return `<div class="flex items-center gap-3 p-3 rounded-2xl mb-2 hover:bg-slate-50 transition">
+            <img src="${avatarUrl}" class="w-10 h-10 rounded-full object-cover shrink-0" alt="">
+            <div class="flex-1 min-w-0">
+                <p class="font-bold text-slate-900 text-sm truncate">${m.name}</p>
+                <p class="text-xs text-slate-400 truncate">${m.email}</p>
+            </div>
+            ${roleLabel}${removeBtn}
+        </div>`;
+    }).join('');
+
+    // Show/hide invite section based on role
+    const inviteBox = document.getElementById('invite-box-section');
+    if (inviteBox) {
+        if (isOwner) {
+            inviteBox.classList.remove('hidden');
+        } else {
+            inviteBox.classList.add('hidden');
+        }
+        // Clear inputs on load
+        document.getElementById('invite-email-input').value = '';
+        document.getElementById('copy-link-wrapper').classList.add('hidden');
+        document.getElementById('invite-link-display').value = '';
+    }
+
+    // Footer buttons
+    let footerHtml = '';
+    if (!isOwner) {
+        footerHtml += `<button onclick="leaveProjectAction()" class="w-full flex items-center justify-center gap-2 bg-rose-50 text-rose-600 border border-rose-200 rounded-2xl py-3 font-bold text-sm hover:bg-rose-100 transition"><i class="fas fa-sign-out-alt"></i> Keluar dari Proyek</button>`;
+    }
+    footer.innerHTML = footerHtml;
+}
+
+async function generateInviteLink(isWa = false) {
+    const projectId = window.activeProject?.id;
+    if (!projectId) return;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/invite`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        if (data.link) {
+            const wrapper = document.getElementById('copy-link-wrapper');
+            const display = document.getElementById('invite-link-display');
+            if (wrapper && display) {
+                wrapper.classList.remove('hidden');
+                display.value = data.link;
+            }
+            
+            if (isWa && data.wa_url) {
+                const opened = window.open(data.wa_url, '_blank');
+                if (!opened) {
+                    showToast('Link dibuat! Salin di bawah karena pop-up diblokir.');
+                } else {
+                    showToast('Link undangan siap dibagikan!');
+                }
+            } else {
+                showToast('Link undangan berhasil dibuat!');
+            }
+        } else {
+            showToast('Gagal membuat undangan');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+async function removeMemberAction(userId, name) {
+    if (!confirm(`Hapus ${name} dari proyek ini?`)) return;
+    const projectId = window.activeProject?.id;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/members/${userId}`, {
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken() }
+        });
+        if (res.ok) { showToast('Anggota dihapus'); loadMembers(); }
+        else { const d = await res.json(); showToast(d.error || 'Gagal menghapus'); }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+async function leaveProjectAction() {
+    if (!confirm('Keluar dari proyek ini? Kamu tidak bisa mengakses data proyek ini lagi.')) return;
+    const projectId = window.activeProject?.id;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/leave`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken() }
+        });
+        if (res.ok) { showToast('Keluar dari proyek...'); setTimeout(() => location.reload(), 800); }
+        else { const d = await res.json(); showToast(d.error || 'Gagal keluar'); }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+/* ================= ACTIVITY LOG & UNDO ================= */
+function openActivityLogModal() {
+    const m = document.getElementById('activity-log-modal');
+    m.style.removeProperty('display');
+    m.style.display = 'flex';
+    loadActivityLog();
+}
+function closeActivityLogModal() {
+    document.getElementById('activity-log-modal').style.display = 'none';
+}
+
+async function loadActivityLog() {
+    const projectId = window.activeProject?.id;
+    if (!projectId) { showToast('Pilih proyek terlebih dahulu'); return; }
+    const container = document.getElementById('activity-log-container');
+    container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>';
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/activity`, {
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Accept': 'application/json' }
+        });
+        const logs = await res.json();
+        renderActivityLog(logs);
+    } catch(e) { container.innerHTML = '<div class="text-center text-rose-400 py-8">Gagal memuat riwayat aktivitas</div>'; }
+}
+
+function renderActivityLog(logs) {
+    const container = document.getElementById('activity-log-container');
+    if (!logs || logs.length === 0) {
+        container.innerHTML = '<div class="text-center text-slate-400 py-8 text-sm">Belum ada aktivitas tercatat</div>';
+        return;
+    }
+    container.innerHTML = logs.map(log => {
+        const avatarUrl = log.user_avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(log.user_name)}&background=f1f5f9&color=475569&size=80`;
+        
+        // Describe the activity beautifully
+        let desc = '';
+        let iconClass = 'fa-info-circle text-slate-500 bg-slate-50';
+        
+        if (log.action === 'created') {
+            iconClass = 'fa-plus-circle text-emerald-500 bg-emerald-50';
+            if (log.model_type === 'Transaction') {
+                const typeText = log.data?.type === 'pemasukan' ? 'pemasukan' : 'pengeluaran';
+                desc = `menambahkan ${typeText} <strong>"${log.data?.desc || log.data?.category}"</strong> senilai <strong>Rp ${formatRupiah(log.data?.amount)}</strong>`;
+            } else if (log.model_type === 'Category') {
+                desc = `membuat kategori baru <strong>"${log.data?.name}"</strong>`;
+            }
+        } else if (log.action === 'deleted') {
+            iconClass = 'fa-trash-alt text-rose-500 bg-rose-50';
+            if (log.model_type === 'Transaction') {
+                const typeText = log.data?.type === 'pemasukan' ? 'pemasukan' : 'pengeluaran';
+                desc = `menghapus ${typeText} <strong>"${log.data?.desc || log.data?.category}"</strong> senilai <strong>Rp ${formatRupiah(log.data?.amount)}</strong>`;
+            } else if (log.model_type === 'Category') {
+                desc = `menghapus kategori <strong>"${log.data?.name}"</strong>`;
+            }
+        } else if (log.action === 'joined') {
+            iconClass = 'fa-user-plus text-blue-500 bg-blue-50';
+            desc = `bergabung ke dalam proyek kolaborasi`;
+        } else if (log.action === 'removed_member') {
+            iconClass = 'fa-user-minus text-rose-500 bg-rose-50';
+            desc = `mengeluarkan <strong>"${log.data?.removed_user}"</strong> dari proyek`;
+        } else if (log.action === 'login') {
+            iconClass = 'fa-sign-in-alt text-violet-500 bg-violet-50';
+            desc = `masuk ke dalam aplikasi (Login)`;
+        } else if (log.action === 'download_pdf') {
+            iconClass = 'fa-file-pdf text-amber-500 bg-amber-50';
+            desc = `mengunduh laporan PDF (${log.data?.period || 'Semua Waktu'})`;
+        } else if (log.action === 'updated') {
+            iconClass = 'fa-user-cog text-cyan-500 bg-cyan-50';
+            if (log.model_type === 'User') {
+                desc = `memperbarui profil`;
+            } else if (log.model_type === 'Category') {
+                desc = `memperbarui kategori <strong>"${log.data?.name}"</strong>`;
+            } else if (log.model_type === 'Project') {
+                desc = `memperbarui proyek`;
+            }
+        }
+
+        // Action button (Undo)
+        const canUndo = (log.action === 'created' || log.action === 'deleted') && !log.undone;
+        const undoBtn = canUndo 
+            ? `<button onclick="undoActivityAction(${log.id})" class="text-xs font-bold text-[#6c63ff] bg-[#6c63ff]/10 hover:bg-[#6c63ff]/20 px-3 py-1.5 rounded-xl transition shrink-0 ml-1"><i class="fas fa-undo mr-1"></i> Undo</button>` 
+            : (log.undone ? `<span class="text-[10px] text-slate-400 font-bold bg-slate-100 px-2 py-1 rounded-full shrink-0 ml-1"><i class="fas fa-check mr-1"></i> Undone</span>` : '');
+
+        return `<div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white border border-slate-100 shadow-sm transition">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-slate-100 relative">
+                <img src="${avatarUrl}" class="w-8 h-8 rounded-full object-cover" alt="">
+                <div class="absolute -bottom-1 -right-1 w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-sm ${iconClass.split(' ').slice(1).join(' ')}" style="font-size: 8px; width: 14px; height: 14px;">
+                    <i class="${iconClass.split(' ')[0]}" style="font-size: 7px;"></i>
+                </div>
+            </div>
+            <div class="flex-1 min-w-0 text-slate-700 text-xs">
+                <span class="font-bold text-slate-900">${log.user_name}</span> ${desc}
+                <p class="text-[10px] text-slate-400 mt-1">${log.time}</p>
+            </div>
+            ${undoBtn}
+        </div>`;
+    }).join('');
+}
+
+async function undoActivityAction(logId) {
+    showToast('Membatalkan aksi...');
+    try {
+        const res = await fetch(`${window.baseUrl}/api/activity/${logId}/undo`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+            showToast('Aksi berhasil dibatalkan!');
+            closeActivityLogModal();
+            setTimeout(() => location.reload(), 800);
+        } else {
+            const data = await res.json();
+            showToast(data.error || 'Gagal membatalkan aksi');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+async function inviteByEmailAction() {
+    const emailInput = document.getElementById('invite-email-input');
+    const email = emailInput?.value?.trim();
+    if (!email) { showToast('Masukkan email terlebih dahulu'); return; }
+
+    const projectId = window.activeProject?.id;
+    if (!projectId) return;
+
+    showToast('Mengirim undangan...');
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/invite-email`, {
+            method: 'POST',
+            headers: { 
+                'X-CSRF-TOKEN': getCsrfToken(),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showToast(data.message || 'Undangan terkirim!');
+            emailInput.value = '';
+            
+            if (data.link) {
+                const wrapper = document.getElementById('copy-link-wrapper');
+                const display = document.getElementById('invite-link-display');
+                if (wrapper && display) {
+                    wrapper.classList.remove('hidden');
+                    display.value = data.link;
+                }
+            } else {
+                loadMembers();
+            }
+        } else {
+            showToast(data.error || 'Gagal mengirim undangan');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+function copyInviteLinkAction() {
+    const display = document.getElementById('invite-link-display');
+    if (!display || !display.value) return;
+    
+    display.select();
+    display.setSelectionRange(0, 99999);
+    
+    navigator.clipboard.writeText(display.value).then(() => {
+        showToast('Link disalin ke clipboard!');
+    }).catch(() => {
+        showToast('Gagal menyalin otomatis');
+    });
+}
+
+async function logGenericActivityOnBackend(action, modelType, data = null) {
+    const projectId = window.activeProject?.id;
+    if (!projectId) return;
+    try {
+        await fetch(`${window.baseUrl}/api/projects/${projectId}/activity/log`, {
+            method: 'POST',
+            headers: { 
+                'X-CSRF-TOKEN': getCsrfToken(),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ action: action, model_type: modelType, data: data })
+        });
+    } catch(e) { console.error('Failed to log generic activity:', e); }
+}
+
+// --- NOTIFICATIONS SYSTEM ---
+
+function openNotificationsModal() {
+    const modal = document.getElementById('notifications-modal');
+    if (modal) {
+        modal.style.setProperty('display', 'flex', 'important');
+        document.body.style.overflow = 'hidden';
+        loadNotifications();
+    }
+}
+
+function closeNotificationsModal() {
+    const modal = document.getElementById('notifications-modal');
+    if (modal) {
+        modal.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+    }
+}
+
+async function loadNotifications() {
+    const container = document.getElementById('notifications-container');
+    const badgeStatic = document.getElementById('notif-badge-static');
+    const badgePing = document.getElementById('notif-badge');
+    
+    if (container) container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>';
+    
+    try {
+        const res = await fetch(`${window.baseUrl}/api/notifications`, {
+            headers: { 'Accept': 'application/json' }
+        });
+        const data = await res.json();
+        
+        let html = '';
+        let hasPending = false;
+        
+        // Render Invites
+        if (data.invites && data.invites.length > 0) {
+            hasPending = true;
+            html += `<h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Undangan Proyek</h4>`;
+            html += data.invites.map(inv => `
+                <div class="p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl mb-3">
+                    <p class="text-xs text-slate-700 mb-2"><strong>${inv.owner_name}</strong> mengundang Anda ke proyek <strong>"${inv.project_name}"</strong></p>
+                    <div class="flex gap-2">
+                        <button onclick="acceptInviteAction(${inv.id})" class="flex-1 bg-[#6c63ff] text-white text-[11px] font-bold py-1.5 rounded-lg hover:bg-[#5b52e5] transition">Terima</button>
+                        <button onclick="declineInviteAction(${inv.id})" class="flex-1 bg-white border border-rose-200 text-rose-600 text-[11px] font-bold py-1.5 rounded-lg hover:bg-rose-50 transition">Tolak</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Render Activities
+        if (data.activities && data.activities.length > 0) {
+            html += `<h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-4 mb-2">Aktivitas Terbaru</h4>`;
+            html += data.activities.map(log => {
+                const avatarUrl = log.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(log.user_name)}&background=f1f5f9&color=475569&size=80`;
+                let desc = '';
+                
+                if (log.action === 'created') {
+                    if (log.model_type === 'Transaction') desc = `menambahkan ${log.data?.type || 'transaksi'} baru`;
+                    else if (log.model_type === 'Category') desc = `membuat kategori <strong>${log.data?.name}</strong>`;
+                } else if (log.action === 'deleted') {
+                    if (log.model_type === 'Transaction') desc = `menghapus transaksi`;
+                    else if (log.model_type === 'Category') desc = `menghapus kategori <strong>${log.data?.name}</strong>`;
+                } else if (log.action === 'updated') {
+                    desc = `melakukan pembaruan`;
+                } else {
+                    desc = `beraktivitas dalam proyek`;
+                }
+                
+                return `
+                    <div class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100">
+                        <img src="${avatarUrl}" class="w-8 h-8 rounded-full object-cover shrink-0 mt-0.5 border border-slate-100" alt="">
+                        <div class="flex-1 min-w-0 text-slate-700 text-xs">
+                            <span class="font-bold text-slate-900">${log.user_name}</span> ${desc}
+                            <p class="text-[10px] text-slate-400 mt-1">${log.time}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        if (!html) {
+            html = '<div class="text-center text-slate-400 py-8 text-sm">Belum ada notifikasi baru</div>';
+        }
+        
+        if (container) container.innerHTML = html;
+        
+        // Update badge
+        if (hasPending) {
+            if (badgePing) badgePing.classList.remove('hidden');
+            if (badgeStatic) badgeStatic.classList.remove('hidden');
+        } else {
+            if (badgePing) badgePing.classList.add('hidden');
+            if (badgeStatic) badgeStatic.classList.add('hidden');
+        }
+        
+    } catch(e) {
+        if (container) container.innerHTML = '<div class="text-center text-rose-500 py-8 text-sm">Gagal memuat notifikasi</div>';
+    }
+}
+
+async function acceptInviteAction(id) {
+    showToast('Menerima undangan...');
+    try {
+        const res = await fetch(`${window.baseUrl}/api/notifications/invites/${id}/accept`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+            showToast('Undangan diterima!');
+            setTimeout(() => location.reload(), 800);
+        } else {
+            showToast('Gagal menerima undangan');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+async function declineInviteAction(id) {
+    showToast('Menolak undangan...');
+    try {
+        const res = await fetch(`${window.baseUrl}/api/notifications/invites/${id}/decline`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+            showToast('Undangan ditolak');
+            loadNotifications();
+        } else {
+            showToast('Gagal menolak undangan');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+// Initial check for notifications
+document.addEventListener('DOMContentLoaded', () => {
+    // Check notifications silently on load
+    fetch(`${window.baseUrl}/api/notifications`, { headers: { 'Accept': 'application/json' } })
+        .then(r => r.json())
+        .then(data => {
+            if (data.invites && data.invites.length > 0) {
+                const badgeStatic = document.getElementById('notif-badge-static');
+                const badgePing = document.getElementById('notif-badge');
+                if (badgePing) badgePing.classList.remove('hidden');
+                if (badgeStatic) badgeStatic.classList.remove('hidden');
+            }
+        }).catch(e => console.error(e));
+});

@@ -4,26 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Transaction;
+use App\Models\ActivityLog;
+use App\Models\ProjectMember;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
+    /** Get active project ID — now validates via project_members */
+    private function activeProjectId()
+    {
+        $pid = session('active_project_id');
+        if ($pid) {
+            // Validate user has access
+            $hasAccess = ProjectMember::where('project_id', $pid)
+                ->where('user_id', auth()->id())
+                ->where('status', 'active')
+                ->exists();
+            if ($hasAccess) return $pid;
+        }
+
+        // Fallback: pick first accessible project
+        $project = auth()->user()->accessibleProjects()->first();
+        if ($project) {
+            session(['active_project_id' => $project->id]);
+            return $project->id;
+        }
+
+        return null;
+    }
+
+    /** Check if current project is collaborative (>1 member) */
+    private function isCollaborative($projectId)
+    {
+        return ProjectMember::where('project_id', $projectId)
+            ->where('status', 'active')
+            ->count() > 1;
+    }
+
     public function storeTransaction(Request $request)
     {
         $request->validate([
-            'type' => 'required',
-            'amount' => 'required|numeric',
+            'type'     => 'required',
+            'amount'   => 'required|numeric',
             'category' => 'required',
-            'date' => 'required|date'
+            'date'     => 'required|date'
         ]);
 
+        $projectId = $this->activeProjectId();
+        if (!$projectId) {
+            return response()->json(['error' => 'No active project'], 422);
+        }
+
         $txn = Transaction::create([
-            'user_id' => auth()->id(),
-            'type' => $request->type,
-            'amount' => $request->amount,
-            'category' => $request->category,
-            'desc' => $request->desc,
-            'date' => $request->date,
+            'user_id'    => auth()->id(),
+            'project_id' => $projectId,
+            'type'       => $request->type,
+            'amount'     => $request->amount,
+            'category'   => $request->category,
+            'desc'       => $request->desc,
+            'date'       => $request->date,
+        ]);
+
+        // Log activity
+        ActivityLog::create([
+            'project_id' => $projectId,
+            'user_id'    => auth()->id(),
+            'action'     => 'created',
+            'model_type' => 'Transaction',
+            'model_id'   => $txn->id,
+            'data'       => $txn->toArray(),
         ]);
 
         return response()->json($txn);
@@ -31,7 +80,19 @@ class ApiController extends Controller
 
     public function deleteTransaction($id)
     {
-        $txn = Transaction::where('user_id', auth()->id())->findOrFail($id);
+        $projectId = $this->activeProjectId();
+        $txn = Transaction::where('project_id', $projectId)->findOrFail($id);
+
+        // Log before delete (save snapshot for undo)
+        ActivityLog::create([
+            'project_id' => $projectId,
+            'user_id'    => auth()->id(),
+            'action'     => 'deleted',
+            'model_type' => 'Transaction',
+            'model_id'   => $txn->id,
+            'data'       => $txn->toArray(),
+        ]);
+
         $txn->delete();
         return response()->json(['success' => true]);
     }
@@ -43,11 +104,27 @@ class ApiController extends Controller
             'type' => 'required',
         ]);
 
+        $projectId = $this->activeProjectId();
+        if (!$projectId) {
+            return response()->json(['error' => 'No active project'], 422);
+        }
+
         $cat = Category::create([
-            'user_id' => auth()->id(),
-            'name' => $request->name,
-            'type' => $request->type,
-            'icon' => $request->icon ?? '📌',
+            'user_id'    => auth()->id(),
+            'project_id' => $projectId,
+            'name'       => $request->name,
+            'type'       => $request->type,
+            'icon'       => $request->icon ?? 'fas fa-tag',
+            'color'      => $request->color ?? null,
+        ]);
+
+        ActivityLog::create([
+            'project_id' => $projectId,
+            'user_id'    => auth()->id(),
+            'action'     => 'created',
+            'model_type' => 'Category',
+            'model_id'   => $cat->id,
+            'data'       => $cat->toArray(),
         ]);
 
         return response()->json($cat);
@@ -55,7 +132,25 @@ class ApiController extends Controller
 
     public function deleteCategory($id)
     {
-        $cat = Category::where('user_id', auth()->id())->findOrFail($id);
+        $projectId = $this->activeProjectId();
+
+        // Owner check for delete
+        $project = \App\Models\Project::findOrFail($projectId);
+        if (!$project->isOwner(auth()->id())) {
+            return response()->json(['error' => 'Hanya pemilik proyek yang bisa menghapus kategori.'], 403);
+        }
+
+        $cat = Category::where('project_id', $projectId)->findOrFail($id);
+
+        ActivityLog::create([
+            'project_id' => $projectId,
+            'user_id'    => auth()->id(),
+            'action'     => 'deleted',
+            'model_type' => 'Category',
+            'model_id'   => $cat->id,
+            'data'       => $cat->toArray(),
+        ]);
+
         $cat->delete();
         return response()->json(['success' => true]);
     }
@@ -85,6 +180,18 @@ class ApiController extends Controller
         }
 
         $user->save();
+
+        // Log profile update activity
+        $projectId = $this->activeProjectId();
+        if ($projectId) {
+            ActivityLog::create([
+                'project_id' => $projectId,
+                'user_id'    => $user->id,
+                'action'     => 'updated',
+                'model_type' => 'User',
+                'data'       => ['user_name' => $user->name],
+            ]);
+        }
 
         return response()->json([
             'success' => true,
