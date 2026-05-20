@@ -141,6 +141,7 @@ class ApiController extends Controller
             'type'       => $request->type,
             'icon'       => $request->icon ?? 'fas fa-tag',
             'color'      => $request->color ?? null,
+            'keywords'   => $this->parseKeywords($request->keywords),
         ]);
 
         ActivityLog::create([
@@ -226,5 +227,49 @@ class ApiController extends Controller
                 'avatar' => $user->avatar ? asset('storage/' . $user->avatar) : null
             ]
         ]);
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $projectId = $this->activeProjectId();
+        $cat = Category::where('project_id', $projectId)->findOrFail($id);
+
+        $cat->update([
+            'name'     => $request->name     ?? $cat->name,
+            'icon'     => $request->icon     ?? $cat->icon,
+            'color'    => $request->color    ?? $cat->color,
+            'keywords' => $this->parseKeywords($request->keywords),
+        ]);
+
+        ActivityLog::create([
+            'project_id' => $projectId,
+            'user_id'    => auth()->id(),
+            'action'     => 'updated',
+            'model_type' => 'Category',
+            'model_id'   => $cat->id,
+            'data'       => $cat->toArray(),
+        ]);
+
+        return response()->json($cat);
+    }
+
+    /**
+     * Parse keywords from various input formats:
+     * - null / empty → null
+     * - array → trimmed array
+     * - comma-separated string → array
+     */
+    private function parseKeywords($raw): ?array
+    {
+        if (is_null($raw) || $raw === '' || $raw === []) return null;
+        if (is_array($raw)) {
+            return array_values(array_filter(array_map('trim', $raw)));
+        }
+        if (is_string($raw)) {
+            $parts = preg_split('/[,،\s]+/', $raw);
+            $parts = array_values(array_filter(array_map('trim', $parts)));
+            return empty($parts) ? null : $parts;
+        }
+        return null;
     }
 }

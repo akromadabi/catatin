@@ -1131,6 +1131,9 @@ function updateCategoriesPage() {
         if (emojiToFa[icon]) icon = emojiToFa[icon];
         const iconHtml = icon.startsWith('fas ') ? `<i class="${icon}"></i>` : icon;
         const isDefault = c.id.toString().startsWith('in_') || c.id.toString().startsWith('out_');
+        const kwBadges = (c.keywords && c.keywords.length > 0)
+            ? c.keywords.map(k => `<span class="inline-block text-[9px] bg-indigo-50 text-indigo-500 font-semibold px-1.5 py-0.5 rounded-full mr-0.5">${k}</span>`).join('')
+            : '';
         
         html += `
         <div class="flex items-center justify-between p-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition">
@@ -1141,6 +1144,7 @@ function updateCategoriesPage() {
                 <div>
                     <span class="font-bold text-slate-900 text-sm">${c.name}</span>
                     ${isDefault ? '<span class="text-[10px] text-slate-400 ml-2">bawaan</span>' : ''}
+                    ${kwBadges ? `<div class="mt-0.5 flex flex-wrap gap-0.5">${kwBadges}</div>` : ''}
                 </div>
             </div>
             <button onclick="openEditCatModal('${c.id}', '${type}', '${c.name.replace(/'/g, '&#39;')}')" class="text-slate-400 p-2 hover:bg-slate-100 rounded-full transition">
@@ -1210,6 +1214,14 @@ function openEditCatModal(id, type, name) {
     document.getElementById('edit-cat-id').value = id;
     document.getElementById('edit-cat-type-val').value = type;
     document.getElementById('edit-cat-name').value = name;
+    // Pre-fill keywords if available
+    const cat = (appData.categories[type] || []).find(c => c.id == id);
+    const kwInput = document.getElementById('edit-cat-keywords');
+    if (kwInput && cat?.keywords) {
+        kwInput.value = cat.keywords.join(', ');
+    } else if (kwInput) {
+        kwInput.value = '';
+    }
     const modal = document.getElementById('edit-cat-modal');
     modal.style.removeProperty('display');
     modal.classList.add('edit-cat-modal-open');
@@ -1221,20 +1233,34 @@ function closeEditCatModal() {
     modal.classList.remove('edit-cat-modal-open');
 }
 
-function confirmEditCategory() {
-    const id = document.getElementById('edit-cat-id').value;
-    const type = document.getElementById('edit-cat-type-val').value;
+async function confirmEditCategory() {
+    const id      = document.getElementById('edit-cat-id').value;
+    const type    = document.getElementById('edit-cat-type-val').value;
     const newName = document.getElementById('edit-cat-name').value.trim();
+    const kwRaw   = document.getElementById('edit-cat-keywords')?.value?.trim() || '';
+    const keywords = kwRaw
+        ? kwRaw.split(',').map(k => k.trim().toLowerCase()).filter(Boolean)
+        : [];
     if (!newName) return;
     
     const cat = appData.categories[type].find(c => c.id == id);
     if (cat) {
         cat.name = newName;
+        cat.keywords = keywords;
         saveData(appData);
         updateCategoriesPage();
         populateCategorySelect();
         populateFilterCat();
         showToast('Kategori berhasil diperbarui');
+
+        // Persist to backend if it's a real DB category
+        if (window.authUser && !String(id).startsWith('cat_') && !String(id).startsWith('in_') && !String(id).startsWith('out_')) {
+            fetch(`${window.baseUrl}/api/categories/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
+                body: JSON.stringify({ name: newName, keywords })
+            }).catch(() => {});
+        }
     }
     closeEditCatModal();
 }
@@ -1534,25 +1560,34 @@ function updateAddCatPreview() {
 }
 
 async function submitAddCatModal() {
-    const name  = document.getElementById('add-cat-name-input').value.trim();
-    const type  = document.getElementById('add-cat-selected-type').value;
-    const icon  = document.getElementById('add-cat-selected-icon').value;
-    const color = document.getElementById('add-cat-selected-color').value;
+    const name     = document.getElementById('add-cat-name-input').value.trim();
+    const type     = document.getElementById('add-cat-selected-type').value;
+    const icon     = document.getElementById('add-cat-selected-icon').value;
+    const color    = document.getElementById('add-cat-selected-color').value;
+    const keywordsRaw = document.getElementById('add-cat-keywords-input')?.value?.trim() || '';
+    // Parse comma-separated keywords into array
+    const keywords = keywordsRaw
+        ? keywordsRaw.split(',').map(k => k.trim().toLowerCase()).filter(Boolean)
+        : [];
+
     if (!name) { showToast('Masukkan nama kategori'); return; }
     try {
         const res = await fetch(`${window.baseUrl}/api/categories`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
-            body: JSON.stringify({ name, type, icon, color })
+            body: JSON.stringify({ name, type, icon, color, keywords })
         });
         if (res.ok) {
             const cat = await res.json();
             if (!appData.categories[type]) appData.categories[type] = [];
-            appData.categories[type].push({ id: cat.id, name, type, icon, color });
+            appData.categories[type].push({ id: cat.id, name, type, icon, color, keywords: cat.keywords || [] });
             saveData(appData);
             updateCategoriesPage();
             showToast('Kategori berhasil ditambahkan!');
             closeAddCatModal();
+            // Clear keywords input for next use
+            const kwInput = document.getElementById('add-cat-keywords-input');
+            if (kwInput) kwInput.value = '';
         } else showToast('Gagal menyimpan kategori');
     } catch(e) { showToast('Terjadi kesalahan'); }
 }

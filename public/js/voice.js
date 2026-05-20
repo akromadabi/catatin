@@ -151,44 +151,59 @@ function parseTransactionText(text) {
 
   // 3. Match Category
   const cats = appData.categories[type] || [];
-  
-  // Pre-defined mapping for standard keywords
-  const catMap = {
-    'listrik': 'Listrik',
-    'air': 'Air',
-    'pdam': 'Air',
-    'internet': 'Internet',
-    'wifi': 'Internet',
-    'gaji': 'Gaji',
-    'karyawan': 'Karyawan',
-    'bensin': 'Transportasi',
-    'gojek': 'Transportasi',
-    'grab': 'Transportasi',
-    'parkir': 'Transportasi',
-    'makan': 'Makan',
-    'minum': 'Makan',
-    'jajan': 'Jajan',
-    'beras': 'Makan',
-    'sayur': 'Makan',
-    'belanja': 'Belanja',
-    'pulsa': 'Internet'
-  };
 
-  for (let key in catMap) {
-    if (text.includes(key)) {
-      // Find a category that contains the mapped keyword
-      const matchedCat = cats.find(c => c.name.toLowerCase().includes(catMap[key].toLowerCase()));
-      if (matchedCat) {
-         category = matchedCat.name;
-         break;
+  // 3a. Check custom keywords defined per-category first (highest priority)
+  for (let cat of cats) {
+    if (cat.keywords && cat.keywords.length > 0) {
+      for (let kw of cat.keywords) {
+        if (kw && text.includes(kw.toLowerCase().trim())) {
+          category = cat.name;
+          break;
+        }
+      }
+    }
+    if (category) break;
+  }
+
+  // 3b. Pre-defined mapping for standard keywords (fallback)
+  if (!category) {
+    const catMap = {
+      'listrik': 'Listrik',
+      'air': 'Air',
+      'pdam': 'Air',
+      'internet': 'Internet',
+      'wifi': 'Internet',
+      'gaji': 'Gaji',
+      'karyawan': 'Karyawan',
+      'bensin': 'Transportasi',
+      'gojek': 'Transportasi',
+      'grab': 'Transportasi',
+      'parkir': 'Transportasi',
+      'makan': 'Makan',
+      'minum': 'Makan',
+      'jajan': 'Jajan',
+      'beras': 'Makan',
+      'sayur': 'Makan',
+      'belanja': 'Belanja',
+      'pulsa': 'Internet'
+    };
+
+    for (let key in catMap) {
+      if (text.includes(key)) {
+        const matchedCat = cats.find(c => c.name.toLowerCase().includes(catMap[key].toLowerCase()));
+        if (matchedCat) {
+          category = matchedCat.name;
+          break;
+        }
       }
     }
   }
 
+  // 3c. Match by category name parts (weakest fallback)
   if (!category) {
     for (let cat of cats) {
       const catNameLower = cat.name.toLowerCase();
-      const parts = catNameLower.split(/[\s/&]+/); 
+      const parts = catNameLower.split(/[\s/&]+/);
       if (text.includes(catNameLower)) {
         category = cat.name;
         break;

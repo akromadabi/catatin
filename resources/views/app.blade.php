@@ -700,6 +700,15 @@
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nama Kategori</label>
                 <input type="text" id="edit-cat-name" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none" placeholder="Nama Kategori">
             </div>
+            <div class="mb-5">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+                    Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
+                </label>
+                <input type="text" id="edit-cat-keywords"
+                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none"
+                    placeholder="kado, surprise, gift (pisahkan koma)">
+                <p class="text-[10px] text-slate-400 mt-1">Dikenali otomatis saat input suara</p>
+            </div>
             <div class="flex gap-3">
                 <button onclick="confirmDeleteCategory()" class="flex-1 bg-rose-50 text-rose-500 border border-rose-200 rounded-xl py-3 font-bold text-sm transition hover:bg-rose-100">
                     <i class="fas fa-trash mr-2"></i>Hapus
@@ -777,6 +786,17 @@
                 <input type="hidden" id="add-cat-selected-icon" value="fas fa-star">
                 <input type="hidden" id="add-cat-selected-color" value="#6c63ff">
                 <input type="hidden" id="add-cat-selected-type" value="pemasukan">
+
+                <!-- Keywords for Voice Recognition -->
+                <div class="mt-4">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                        Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
+                    </label>
+                    <input type="text" id="add-cat-keywords-input"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6c63ff] transition"
+                        placeholder="kado, surprise, gift (pisahkan dengan koma)">
+                    <p class="text-[10px] text-slate-400 mt-1">Kata ini dikenali saat input suara. Misal kategori "Hadiah" → keyword: kado, surprise</p>
+                </div>
             </div>
 
             <!-- Footer Actions -->

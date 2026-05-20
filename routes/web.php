@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/transactions', [ApiController::class, 'storeTransaction']);
     Route::delete('/api/transactions/{id}', [ApiController::class, 'deleteTransaction']);
     Route::post('/api/categories', [ApiController::class, 'storeCategory']);
+    Route::put('/api/categories/{id}', [ApiController::class, 'updateCategory']);
     Route::delete('/api/categories/{id}', [ApiController::class, 'deleteCategory']);
     Route::post('/api/profile', [ApiController::class, 'updateProfile']);
 

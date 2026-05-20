@@ -15,6 +15,11 @@ class Category extends Model
         'name',
         'type',
         'icon',
+        'keywords',
+    ];
+
+    protected $casts = [
+        'keywords' => 'array',
     ];
 
     public function user()
