@@ -1677,7 +1677,13 @@ async function submitProjectModal() {
             showToast(isEdit ? 'Proyek berhasil diperbarui!' : 'Proyek berhasil dibuat!');
             closeProjectModal();
             setTimeout(() => location.reload(), 800);
-   /* ================= COLLABORATION / MEMBERS ================= */
+        } else {
+            showToast('Gagal memproses proyek');
+        }
+    } catch(e) { showToast('Terjadi kesalahan jaringan'); }
+}
+
+/* ================= COLLABORATION / MEMBERS ================= */
 let _membersIsOwner = false;
 
 function openMembersModal() {
