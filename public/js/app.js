@@ -2189,7 +2189,7 @@ async function loadNotifications() {
         
         // Render Invites
         if (data.invites && data.invites.length > 0) {
-            pendingCount = data.invites.length;
+            pendingCount += data.invites.length;
             html += `<h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Undangan Proyek</h4>`;
             html += data.invites.map(inv => `
                 <div class="p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl mb-3">
@@ -2203,9 +2203,15 @@ async function loadNotifications() {
         }
         
         // Render Activities
+        const lastReadId = parseInt(localStorage.getItem('catatin_last_read_activity_id') || '0');
+        let maxActivityId = lastReadId;
+
         if (data.activities && data.activities.length > 0) {
             html += `<h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-4 mb-2">Aktivitas Terbaru</h4>`;
             html += data.activities.map(log => {
+                if (log.id > maxActivityId) maxActivityId = log.id;
+                if (log.id > lastReadId) pendingCount++;
+
                 const avatarUrl = log.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(log.user_name)}&background=f1f5f9&color=475569&size=80`;
                 let desc = '';
                 
@@ -2221,8 +2227,11 @@ async function loadNotifications() {
                     desc = `beraktivitas dalam proyek`;
                 }
                 
+                // Highlight unread items slightly
+                const unreadClass = log.id > lastReadId ? 'bg-indigo-50/30 border-indigo-100' : 'border-transparent hover:border-slate-100';
+
                 return `
-                    <div class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100">
+                    <div class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition border ${unreadClass}">
                         <img src="${avatarUrl}" class="w-8 h-8 rounded-full object-cover shrink-0 mt-0.5 border border-slate-100" alt="">
                         <div class="flex-1 min-w-0 text-slate-700 text-xs">
                             <span class="font-bold text-slate-900">${log.user_name}</span> ${desc}
@@ -2231,6 +2240,9 @@ async function loadNotifications() {
                     </div>
                 `;
             }).join('');
+
+            // Update localStorage to mark as read
+            localStorage.setItem('catatin_last_read_activity_id', maxActivityId.toString());
         }
         
         if (!html) {
@@ -2292,12 +2304,24 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`${window.baseUrl}/api/notifications`, { headers: { 'Accept': 'application/json' } })
         .then(r => r.json())
         .then(data => {
+            let pendingCount = 0;
             if (data.invites && data.invites.length > 0) {
-                const pendingCount = data.invites.length;
-                const badgeStatic = document.getElementById('notif-badge-static');
-                if (badgeStatic) {
+                pendingCount += data.invites.length;
+            }
+            
+            const lastReadId = parseInt(localStorage.getItem('catatin_last_read_activity_id') || '0');
+            if (data.activities && data.activities.length > 0) {
+                const unreadActivities = data.activities.filter(a => a.id > lastReadId).length;
+                pendingCount += unreadActivities;
+            }
+
+            const badgeStatic = document.getElementById('notif-badge-static');
+            if (badgeStatic) {
+                if (pendingCount > 0) {
                     badgeStatic.innerText = pendingCount > 99 ? '99+' : pendingCount;
                     badgeStatic.classList.remove('hidden');
+                } else {
+                    badgeStatic.classList.add('hidden');
                 }
             }
         }).catch(e => console.error(e));
