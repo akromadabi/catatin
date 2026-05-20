@@ -4,6 +4,10 @@
 
     <form method="POST" action="{{ route('login') }}" autocomplete="off">
         @csrf
+        
+        @if(request('invite'))
+            <input type="hidden" name="invite" value="{{ request('invite') }}">
+        @endif
 
         <!-- Email Address -->
         <div class="mb-4">
