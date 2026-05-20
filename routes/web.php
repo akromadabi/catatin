@@ -59,15 +59,16 @@ Route::get('/dashboard', function () {
 
     // Load data scoped to active project
     if ($activeProject) {
-        $user->load([
-            'categories' => fn($q) => $q->where('project_id', $activeProject->id),
-            'transactions' => fn($q) => $q->where('project_id', $activeProject->id)->orderByDesc('created_at'),
-        ]);
+        $categories = \App\Models\Category::where('project_id', $activeProject->id)->get();
+        $transactions = \App\Models\Transaction::where('project_id', $activeProject->id)->orderByDesc('created_at')->get();
 
         // Load user names for transactions (for collaborative display)
         if ($isCollaborative) {
-            $user->transactions->load('user:id,name,avatar');
+            $transactions->load('user:id,name,avatar');
         }
+
+        $user->setRelation('categories', $categories);
+        $user->setRelation('transactions', $transactions);
     } else {
         $user->setRelation('categories', collect());
         $user->setRelation('transactions', collect());
@@ -90,6 +91,7 @@ Route::middleware('auth')->group(function () {
 
     // API Routes for SPA
     Route::post('/api/transactions', [ApiController::class, 'storeTransaction']);
+    Route::put('/api/transactions/{id}', [ApiController::class, 'updateTransaction']);
     Route::delete('/api/transactions/{id}', [ApiController::class, 'deleteTransaction']);
     Route::post('/api/categories', [ApiController::class, 'storeCategory']);
     Route::put('/api/categories/{id}', [ApiController::class, 'updateCategory']);

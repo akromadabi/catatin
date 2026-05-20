@@ -103,6 +103,38 @@ class ApiController extends Controller
         return response()->json($txn);
     }
 
+    public function updateTransaction(Request $request, $id)
+    {
+        $request->validate([
+            'type'     => 'required',
+            'amount'   => 'required|numeric',
+            'category' => 'required',
+            'date'     => 'required|date'
+        ]);
+
+        $projectId = $this->activeProjectId();
+        $txn = Transaction::where('project_id', $projectId)->findOrFail($id);
+
+        $txn->update([
+            'type'     => $request->type,
+            'amount'   => $request->amount,
+            'category' => $request->category,
+            'desc'     => $request->desc,
+            'date'     => $request->date,
+        ]);
+
+        ActivityLog::create([
+            'project_id' => $projectId,
+            'user_id'    => auth()->id(),
+            'action'     => 'updated',
+            'model_type' => 'Transaction',
+            'model_id'   => $txn->id,
+            'data'       => $txn->toArray(),
+        ]);
+
+        return response()->json($txn);
+    }
+
     public function deleteTransaction($id)
     {
         $projectId = $this->activeProjectId();
