@@ -125,33 +125,70 @@ class CollaborationController extends Controller
     }
 
     /**
-     * Accept invite via token.
+     * Show invite confirmation page (GET /invite/{token}).
+     * Does NOT join yet — just shows who invited and which project.
      */
-    public function acceptInvite($token)
+    public function previewInvite($token)
     {
         $invite = ProjectMember::where('invite_token', $token)
             ->where('status', 'pending')
+            ->with('project.owner')
             ->first();
 
         if (!$invite) {
-            if (request()->wantsJson()) {
-                return response()->json(['error' => 'Undangan tidak valid atau sudah digunakan.'], 404);
-            }
             return redirect('/dashboard')->with('error', 'Undangan tidak valid atau sudah digunakan.');
         }
 
         // Check if token is expired (7 days)
         if ($invite->invited_at && $invite->invited_at->diffInDays(now()) > 7) {
             $invite->delete();
-            if (request()->wantsJson()) {
-                return response()->json(['error' => 'Undangan sudah kedaluwarsa.'], 410);
-            }
             return redirect('/dashboard')->with('error', 'Undangan sudah kedaluwarsa.');
+        }
+
+        // Not logged in? Save token in session and redirect to login
+        if (!auth()->check()) {
+            session(['pending_invite_token' => $token]);
+            return redirect("/login?invite={$token}");
         }
 
         $userId = auth()->id();
 
-        // Not logged in? Redirect to login with invite token
+        // Already an active member?
+        $existing = ProjectMember::where('project_id', $invite->project_id)
+            ->where('user_id', $userId)
+            ->where('status', 'active')
+            ->first();
+
+        if ($existing) {
+            session(['active_project_id' => $invite->project_id]);
+            return redirect('/dashboard')->with('success', 'Kamu sudah menjadi anggota proyek ini.');
+        }
+
+        $project   = $invite->project;
+        $ownerName = $project?->owner?->name ?? 'Seseorang';
+
+        return view('invite-confirm', compact('invite', 'project', 'ownerName', 'token'));
+    }
+
+    /**
+     * Actually join the project (POST /invite/{token}/confirm).
+     */
+    public function confirmInvite($token)
+    {
+        $invite = ProjectMember::where('invite_token', $token)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$invite) {
+            return redirect('/dashboard')->with('error', 'Undangan tidak valid atau sudah digunakan.');
+        }
+
+        if ($invite->invited_at && $invite->invited_at->diffInDays(now()) > 7) {
+            $invite->delete();
+            return redirect('/dashboard')->with('error', 'Undangan sudah kedaluwarsa.');
+        }
+
+        $userId = auth()->id();
         if (!$userId) {
             return redirect("/login?invite={$token}");
         }
@@ -164,22 +201,20 @@ class CollaborationController extends Controller
 
         if ($existing) {
             session(['active_project_id' => $invite->project_id]);
-            $invite->delete(); // clean up unused invite
+            $invite->delete();
             return redirect('/dashboard')->with('success', 'Kamu sudah menjadi anggota proyek ini.');
         }
 
-        // Update the invite: assign the actual user and activate
+        // Confirm: assign user and activate
         $invite->update([
             'user_id'      => $userId,
             'status'       => 'active',
-            'invite_token' => null, // consume the token
+            'invite_token' => null, // consume token
             'joined_at'    => now(),
         ]);
 
-        // Set as active project
         session(['active_project_id' => $invite->project_id]);
 
-        // Log activity
         ActivityLog::create([
             'project_id' => $invite->project_id,
             'user_id'    => $userId,
@@ -190,6 +225,22 @@ class CollaborationController extends Controller
         ]);
 
         return redirect('/dashboard')->with('success', 'Berhasil bergabung ke proyek!');
+    }
+
+    /**
+     * Decline / reject invite via link (POST /invite/{token}/decline).
+     */
+    public function declineInvite($token)
+    {
+        $invite = ProjectMember::where('invite_token', $token)
+            ->where('status', 'pending')
+            ->first();
+
+        if ($invite) {
+            $invite->delete(); // remove pending invite
+        }
+
+        return redirect('/dashboard')->with('info', 'Undangan telah ditolak.');
     }
 
     /**

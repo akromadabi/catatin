@@ -14,6 +14,12 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
+    /** Alias for user() — the project owner */
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function categories()
     {
         return $this->hasMany(Category::class);

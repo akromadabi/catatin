@@ -124,13 +124,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/push-subscribe', [\App\Http\Controllers\PushSubscriptionController::class, 'update']);
 });
 
-// Accept invite (unauthenticated — will redirect to login)
+// Invite preview – show confirmation page (no auto-join)
 Route::get('/invite/{token}', function ($token) {
-    if (auth()->check()) {
-        return app(CollaborationController::class)->acceptInvite($token);
-    }
-    return redirect("/login?invite={$token}");
-})->name('invite.public');
+    return app(CollaborationController::class)->previewInvite($token);
+})->name('invite.preview');
+
+// Confirm joining via invite link
+Route::post('/invite/{token}/confirm', function ($token) {
+    return app(CollaborationController::class)->confirmInvite($token);
+})->middleware('auth')->name('invite.confirm');
+
+// Decline invite via link
+Route::post('/invite/{token}/decline', function ($token) {
+    return app(CollaborationController::class)->declineInvite($token);
+})->middleware('auth')->name('invite.decline');
 
 require __DIR__.'/auth.php';
 
