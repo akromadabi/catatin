@@ -147,14 +147,3 @@ require __DIR__.'/auth.php';
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
-// Quick Login (Local Testing Only)
-if (app()->environment('local')) {
-    Route::get('/quick-login/{email}', function ($email) {
-        $user = \App\Models\User::where('email', $email)->first();
-        if ($user) {
-            auth()->login($user);
-            return redirect($user->role === 'admin' ? '/admin/dashboard' : '/dashboard');
-        }
-        return redirect('/login');
-    })->name('quick.login');
-}

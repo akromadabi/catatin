@@ -60,18 +60,5 @@
             </a>
         </div>
         
-        @if(app()->environment('local'))
-        <div class="mt-8 border-t border-slate-100 pt-6">
-            <p class="text-[10px] font-bold text-center text-slate-400 mb-3 uppercase tracking-wider">Local Testing Bypass</p>
-            <div class="flex space-x-3">
-                <a href="{{ route('quick.login', 'admin@catatin.com') }}" class="flex-1 flex justify-center items-center py-2 px-4 border border-brand-200 rounded-lg text-xs font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 transition">
-                    Sbg Admin
-                </a>
-                <a href="{{ route('quick.login', 'user@catatin.com') }}" class="flex-1 flex justify-center items-center py-2 px-4 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 transition">
-                    Sbg User
-                </a>
-            </div>
-        </div>
-        @endif
     </form>
 </x-guest-layout>
