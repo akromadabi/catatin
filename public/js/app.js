@@ -1304,6 +1304,10 @@ function renderProjectList() {
     }
     container.innerHTML = projects.map(p => {
         const isActive = p.id === activeId;
+        const color = p.color || '#6c63ff';
+        const isFa = p.icon && (p.icon.startsWith('fa') || p.icon.includes('fa-'));
+        const iconHtml = isFa ? `<i class="${p.icon}"></i>` : p.icon || '💰';
+
         const deleteBtn = (_projectManageMode && !isActive)
             ? `<button onclick="event.stopPropagation();deleteProject(${p.id},'${p.name.replace(/'/g,"\\'")}')"
                       class="w-8 h-8 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-100 transition ml-1">
@@ -1316,10 +1320,6 @@ function renderProjectList() {
                    <i class="fas fa-pen text-[10px]"></i>
                </button>`
             : '';
-        
-        const color = p.color || '#6c63ff';
-        const isFa = p.icon && (p.icon.startsWith('fa') || p.icon.includes('fa-'));
-        const iconHtml = isFa ? `<i class="${p.icon}"></i>` : p.icon || '💰';
         const activeBadge = isActive ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:${color}22;color:${color}">Aktif</span>` : '';
         const clickAction = isActive ? '' : `onclick="switchToProject(${p.id})"`;
 

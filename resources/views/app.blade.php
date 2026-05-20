@@ -174,46 +174,48 @@
         <!-- PAGE: HOME -->
         <div class="page active" id="page-home">
             <!-- Header -->
-            <div class="px-6 pt-8 pb-4 grid grid-cols-3 items-center bg-white">
-                <!-- Left: Profile -->
-                <div class="flex items-center gap-3 justify-start">
-                    <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 cursor-pointer" onclick="navigateTo('profile')">
-                        <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">
-                    </div>
-                    <div class="min-w-0">
-                        <p class="text-[10px] text-slate-500 font-medium">Halo,</p>
-                        <h2 class="text-xs sm:text-sm font-bold text-slate-900 truncate" id="header-name">{{ explode(' ', auth()->user()->name)[0] }}</h2>
-                    </div>
-                </div>
-                
-                <!-- Center: Project Switcher (Icon Only) -->
-                <div class="flex items-center justify-center">
+            <div class="px-6 pt-8 pb-4 flex justify-between items-center bg-white">
+                <!-- Left: Project Switcher -->
+                <div class="flex-1 min-w-0 pr-4">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Proyek Aktif</p>
                     @if(isset($activeProject) && $activeProject)
                     @php
                         $projColor = $activeProject->color ?? '#6c63ff';
                         $isFa = str_starts_with($activeProject->icon ?? '', 'fas') || str_contains($activeProject->icon ?? '', 'fa-');
                     @endphp
-                    <button onclick="openProjectSwitcher(false)" class="flex items-center justify-center w-10 h-10 rounded-full transition shadow-sm" style="background:{{ $projColor }}11; border: 1px solid {{ $projColor }}33; color:{{ $projColor }};">
-                        @if($isFa)
-                            <i class="{{ $activeProject->icon }} text-base"></i>
-                        @else
-                            <span class="text-base leading-none">{{ $activeProject->icon }}</span>
-                        @endif
+                    <button onclick="openProjectSwitcher(false)" class="flex items-center gap-2 w-full text-left group">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition" style="background:{{ $projColor }}15; color:{{ $projColor }};">
+                            @if($isFa)
+                                <i class="{{ $activeProject->icon }} text-sm"></i>
+                            @else
+                                <span class="text-sm leading-none">{{ $activeProject->icon }}</span>
+                            @endif
+                        </div>
+                        <div class="min-w-0 flex items-center gap-1.5">
+                            <h2 class="text-base sm:text-lg font-extrabold text-slate-900 truncate max-w-[120px] sm:max-w-[180px]">{{ $activeProject->name }}</h2>
+                            <i class="fas fa-chevron-down text-[10px] text-slate-400 group-hover:text-slate-600 transition shrink-0"></i>
+                        </div>
                     </button>
                     @else
-                    <button onclick="openProjectSwitcher(false)" class="flex items-center justify-center w-10 h-10 bg-rose-50 border border-rose-100 text-rose-600 rounded-full transition shadow-sm">
-                        <i class="fas fa-plus text-base"></i>
+                    <button onclick="openProjectSwitcher(false)" class="flex items-center gap-2 group">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-rose-50 text-rose-500 shrink-0">
+                            <i class="fas fa-plus text-sm"></i>
+                        </div>
+                        <span class="text-base font-extrabold text-slate-900">Buat Proyek</span>
                     </button>
                     @endif
                 </div>
 
-                <!-- Right: Notification Bell -->
-                <div class="flex items-center justify-end">
+                <!-- Right: Bell & Avatar -->
+                <div class="flex items-center gap-3 shrink-0">
                     <button onclick="openNotificationsModal()" class="w-10 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-50 rounded-full relative transition border border-slate-100 bg-white shrink-0 shadow-sm">
                         <i class="fas fa-bell text-sm"></i>
                         <span id="notif-badge" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full hidden animate-ping"></span>
                         <span id="notif-badge-static" class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full hidden"></span>
                     </button>
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-200 shrink-0 cursor-pointer border-2 border-white shadow-sm" onclick="navigateTo('profile')">
+                        <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=f1f5f9&color=475569' }}" alt="Avatar" class="w-full h-full object-cover">
+                    </div>
                 </div>
             </div>
 
