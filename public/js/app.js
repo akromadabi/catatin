@@ -2138,3 +2138,126 @@ function installPWA() {
         deferredPrompt = null;
     });
 }
+
+/* ================= PUSH NOTIFICATION SUBSCRIPTION ================= */
+
+/**
+ * Convert a URL-safe base64 string to Uint8Array.
+ * Required for the applicationServerKey in pushManager.subscribe()
+ */
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+}
+
+/**
+ * Check push notification status on load and update the settings toggle
+ */
+function checkPushStatus() {
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) return;
+    
+    const statusText = document.getElementById('push-status-text');
+    const toggleIcon = document.getElementById('push-toggle-icon');
+    
+    if (Notification.permission === 'granted') {
+        if (statusText) statusText.textContent = 'Notifikasi aktif';
+        if (toggleIcon) {
+            toggleIcon.className = 'fas fa-toggle-on text-indigo-600 text-lg';
+        }
+    } else if (Notification.permission === 'denied') {
+        if (statusText) statusText.textContent = 'Diblokir (ubah di pengaturan browser)';
+        if (toggleIcon) {
+            toggleIcon.className = 'fas fa-toggle-off text-red-400 text-lg';
+        }
+    } else {
+        if (statusText) statusText.textContent = 'Ketuk untuk mengaktifkan';
+        if (toggleIcon) {
+            toggleIcon.className = 'fas fa-toggle-off text-slate-300 text-lg';
+        }
+    }
+}
+
+/**
+ * Request permission and subscribe the user to push notifications
+ */
+async function enablePushNotifications() {
+    if (!('Notification' in window)) {
+        showToast('Browser Anda tidak mendukung notifikasi.');
+        return;
+    }
+    if (!('serviceWorker' in navigator)) {
+        showToast('Service Worker tidak tersedia.');
+        return;
+    }
+
+    if (Notification.permission === 'denied') {
+        showToast('Notifikasi diblokir. Silakan aktifkan di pengaturan browser Anda.');
+        return;
+    }
+
+    if (Notification.permission === 'granted') {
+        // Already granted, just re-subscribe to make sure
+        await subscribeToPush();
+        showToast('Notifikasi sudah aktif!');
+        return;
+    }
+
+    // Request permission
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+        await subscribeToPush();
+        showToast('Notifikasi HP berhasil diaktifkan! 🔔');
+        checkPushStatus();
+    } else {
+        showToast('Izin notifikasi ditolak.');
+    }
+}
+
+/**
+ * Subscribe to push notifications and send subscription to server
+ */
+async function subscribeToPush() {
+    const vapidPublicKey = document.querySelector('meta[name="vapid-public-key"]')?.content;
+    if (!vapidPublicKey) {
+        console.warn('VAPID public key not found in meta tag');
+        return;
+    }
+
+    const registration = await navigator.serviceWorker.ready;
+
+    // Check if already subscribed
+    let subscription = await registration.pushManager.getSubscription();
+    if (!subscription) {
+        subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+        });
+    }
+
+    // Send subscription to Laravel server
+    await fetch(window.baseUrl + '/api/push-subscribe', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCsrfToken(),
+        },
+        body: JSON.stringify({
+            endpoint: subscription.endpoint,
+            keys: {
+                p256dh: btoa(String.fromCharCode(...new Uint8Array(subscription.getKey('p256dh')))),
+                auth: btoa(String.fromCharCode(...new Uint8Array(subscription.getKey('auth')))),
+            }
+        })
+    });
+}
+
+// Check push status when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(checkPushStatus, 500);
+});

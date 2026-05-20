@@ -309,6 +309,14 @@ class CollaborationController extends Controller
                 'invited_at' => now(),
             ]);
 
+            // Send push notification
+            $invitedUser->notify(new \App\Notifications\GeneralPushNotification(
+                "Undangan Proyek",
+                auth()->user()->name . " mengundangmu ke proyek '{$project->name}'",
+                "/dashboard",
+                "/icons/icon-192x192.png"
+            ));
+
             return response()->json(['success' => true, 'message' => "Undangan berhasil dikirim ke {$invitedUser->name}! Notifikasi akan muncul di aplikasinya."]);
         } else {
             // Email is not registered yet. Create a pending anonymous invite link

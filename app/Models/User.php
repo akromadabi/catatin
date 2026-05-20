@@ -42,7 +42,7 @@ class User extends Authenticatable
         return $this->belongsTo(Package::class);
     }
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, \NotificationChannels\WebPush\HasPushSubscriptions;
 
     /**
      * Get the attributes that should be cast.

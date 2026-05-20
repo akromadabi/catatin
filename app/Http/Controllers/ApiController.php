@@ -75,6 +75,31 @@ class ApiController extends Controller
             'data'       => $txn->toArray(),
         ]);
 
+        // Notify other project members via Web Push
+        if ($this->isCollaborative($projectId)) {
+            $otherMembers = ProjectMember::where('project_id', $projectId)
+                ->where('user_id', '!=', auth()->id())
+                ->where('status', 'active')
+                ->with('user')
+                ->get();
+            
+            $projectName = \App\Models\Project::find($projectId)->name ?? 'Proyek';
+            $userName = auth()->user()->name;
+            $typeStr = $request->type == 'pemasukan' ? 'Pemasukan' : 'Pengeluaran';
+            $amountStr = 'Rp ' . number_format($request->amount, 0, ',', '.');
+            
+            foreach ($otherMembers as $member) {
+                if ($member->user) {
+                    $member->user->notify(new \App\Notifications\GeneralPushNotification(
+                        "Transaksi Baru",
+                        "{$userName} menambahkan {$typeStr} sebesar {$amountStr} di '{$projectName}'",
+                        "/dashboard",
+                        "/icons/icon-192x192.png"
+                    ));
+                }
+            }
+        }
+
         return response()->json($txn);
     }
 

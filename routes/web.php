@@ -116,6 +116,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/notifications', [CollaborationController::class, 'loadNotifications']);
     Route::post('/api/notifications/invites/{id}/accept', [CollaborationController::class, 'acceptInAppInvite']);
     Route::post('/api/notifications/invites/{id}/decline', [CollaborationController::class, 'declineInAppInvite']);
+
+    // Push Notification
+    Route::post('/api/push-subscribe', [\App\Http\Controllers\PushSubscriptionController::class, 'update']);
 });
 
 // Accept invite (unauthenticated — will redirect to login)

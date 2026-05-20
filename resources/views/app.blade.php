@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
   <title>Catat-in App</title>
   <meta name="theme-color" content="#ffffff">
   <link rel="manifest" href="/manifest.json">
@@ -538,6 +539,20 @@
                             </div>
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
+
+                    <!-- Push Notification Enable Button -->
+                    <div id="push-notification-setting" class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="enablePushNotifications()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Notifikasi HP</span>
+                                <p class="text-xs text-slate-400" id="push-status-text">Ketuk untuk mengaktifkan</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-toggle-off text-slate-300 text-lg" id="push-toggle-icon"></i>
                     </div>
 
                     <!-- PWA Install Button -->
