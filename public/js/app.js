@@ -1689,6 +1689,9 @@ function closeActivityLogModal() {
     document.getElementById('activity-log-modal').style.display = 'none';
 }
 
+window.currentActivityLogs = [];
+window.currentActivityFilter = 'all';
+
 async function loadActivityLog() {
     const projectId = window.activeProject?.id;
     if (!projectId) { showToast('Pilih proyek terlebih dahulu'); return; }
@@ -1699,12 +1702,37 @@ async function loadActivityLog() {
             headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Accept': 'application/json' }
         });
         const logs = await res.json();
-        renderActivityLog(logs);
+        window.currentActivityLogs = logs;
+        renderActivityLog();
     } catch(e) { container.innerHTML = '<div class="text-center text-rose-400 py-8">Gagal memuat riwayat aktivitas</div>'; }
 }
 
-function renderActivityLog(logs) {
+function filterActivityLog(type, btnElement) {
+    window.currentActivityFilter = type;
+    
+    // Update button styles
+    const btns = document.querySelectorAll('.activity-filter-btn');
+    btns.forEach(btn => {
+        btn.classList.remove('bg-slate-800', 'text-white', 'border-transparent');
+        btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+    });
+    
+    if (btnElement) {
+        btnElement.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+        btnElement.classList.add('bg-slate-800', 'text-white', 'border-transparent');
+    }
+    
+    renderActivityLog();
+}
+
+function renderActivityLog() {
     const container = document.getElementById('activity-log-container');
+    let logs = window.currentActivityLogs || [];
+    
+    if (window.currentActivityFilter !== 'all') {
+        logs = logs.filter(l => l.action === window.currentActivityFilter);
+    }
+    
     if (!logs || logs.length === 0) {
         container.innerHTML = '<div class="text-center text-slate-400 py-8 text-sm">Belum ada aktivitas tercatat</div>';
         return;
@@ -1739,7 +1767,7 @@ function renderActivityLog(logs) {
             iconClass = 'fa-user-minus text-rose-500 bg-rose-50';
             desc = `mengeluarkan <strong>"${log.data?.removed_user}"</strong> dari proyek`;
         } else if (log.action === 'login') {
-            iconClass = 'fa-sign-in-alt text-violet-500 bg-violet-50';
+            iconClass = 'fa-user-check text-violet-500 bg-violet-50';
             desc = `masuk ke dalam aplikasi (Login)`;
         } else if (log.action === 'download_pdf') {
             iconClass = 'fa-file-pdf text-amber-500 bg-amber-50';
@@ -1758,19 +1786,20 @@ function renderActivityLog(logs) {
         // Action button (Undo)
         const canUndo = (log.action === 'created' || log.action === 'deleted') && !log.undone;
         const undoBtn = canUndo 
-            ? `<button onclick="undoActivityAction(${log.id})" class="text-xs font-bold text-[#6c63ff] bg-[#6c63ff]/10 hover:bg-[#6c63ff]/20 px-3 py-1.5 rounded-xl transition shrink-0 ml-1"><i class="fas fa-undo mr-1"></i> Undo</button>` 
-            : (log.undone ? `<span class="text-[10px] text-slate-400 font-bold bg-slate-100 px-2 py-1 rounded-full shrink-0 ml-1"><i class="fas fa-check mr-1"></i> Undone</span>` : '');
+            ? `<button onclick="undoActivityAction(${log.id})" class="text-[10px] font-bold text-[#6c63ff] bg-[#6c63ff]/10 hover:bg-[#6c63ff]/20 px-2.5 py-1 rounded-lg transition shrink-0 ml-1"><i class="fas fa-undo mr-1"></i> Undo</button>` 
+            : (log.undone ? `<span class="text-[9px] text-slate-400 font-bold bg-slate-100 px-2 py-0.5 rounded-full shrink-0 ml-1"><i class="fas fa-check mr-1"></i> Undone</span>` : '');
 
-        return `<div class="flex items-start gap-3 p-3.5 rounded-2xl bg-white border border-slate-100 shadow-sm transition">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-slate-100 relative">
-                <img src="${avatarUrl}" class="w-8 h-8 rounded-full object-cover" alt="">
-                <div class="absolute -bottom-1 -right-1 w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-sm ${iconClass.split(' ').slice(1).join(' ')}" style="font-size: 8px; width: 14px; height: 14px;">
-                    <i class="${iconClass.split(' ')[0]}" style="font-size: 7px;"></i>
+        // MORE COMPACT CARD: p-2.5, rounded-xl, gap-2.5, smaller image
+        return `<div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white border border-slate-100 shadow-sm transition">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 border border-slate-100 relative">
+                <img src="${avatarUrl}" class="w-7 h-7 rounded-full object-cover" alt="">
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-sm ${iconClass.split(' ').slice(1).join(' ')}" style="font-size: 7px;">
+                    <i class="${iconClass.split(' ')[0]}"></i>
                 </div>
             </div>
-            <div class="flex-1 min-w-0 text-slate-700 text-xs">
+            <div class="flex-1 min-w-0 text-slate-700 text-xs leading-tight">
                 <span class="font-bold text-slate-900">${log.user_name}</span> ${desc}
-                <p class="text-[10px] text-slate-400 mt-1">${log.time}</p>
+                <p class="text-[9px] text-slate-400 mt-0.5">${log.time}</p>
             </div>
             ${undoBtn}
         </div>`;

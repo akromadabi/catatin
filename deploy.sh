@@ -21,8 +21,9 @@ npm install
 echo "🛠️ 4. Membangun aset frontend (Vite)..."
 npm run build
 
-echo "🗄️ 5. Menjalankan migrasi database..."
+echo "🗄️ 5. Menjalankan migrasi database & Symlink..."
 php artisan migrate --force
+php artisan storage:link || true
 
 echo "🧹 6. Membersihkan cache aplikasi..."
 php artisan optimize:clear

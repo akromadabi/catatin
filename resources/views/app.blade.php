@@ -924,9 +924,9 @@
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Ikon</label>
-                <div class="grid grid-cols-5 gap-2">
-                    @foreach(['fa-wallet','fa-home','fa-store','fa-briefcase','fa-plane','fa-graduation-cap','fa-heart','fa-leaf','fa-car','fa-utensils','fa-piggy-bank','fa-chart-line','fa-gift','fa-star','fa-gamepad','fa-music','fa-medkit','fa-bolt','fa-landmark','fa-coins','fa-credit-card','fa-bicycle','fa-shopping-basket','fa-tag','fa-flag'] as $projIcon)
-                    <button onclick="selectAddProjIcon('{{ $projIcon }}')" class="add-proj-icon-btn w-full aspect-square rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition text-sm" data-icon="fas {{ $projIcon }}">
+                <div class="grid grid-cols-6 sm:grid-cols-8 gap-2">
+                    @foreach(['fa-wallet','fa-home','fa-store','fa-briefcase','fa-plane','fa-graduation-cap','fa-heart','fa-leaf','fa-car','fa-utensils','fa-piggy-bank','fa-chart-line','fa-gift','fa-star','fa-gamepad','fa-music','fa-medkit','fa-bolt','fa-landmark','fa-coins','fa-credit-card','fa-bicycle','fa-shopping-basket','fa-tag','fa-flag', 'fa-book', 'fa-laptop', 'fa-tshirt', 'fa-paw', 'fa-tools', 'fa-box', 'fa-coffee'] as $projIcon)
+                    <button onclick="selectAddProjIcon('{{ $projIcon }}')" class="add-proj-icon-btn w-full aspect-square rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:border-slate-300 transition text-lg" data-icon="fas {{ $projIcon }}">
                         <i class="fas {{ $projIcon }}"></i>
                     </button>
                     @endforeach
@@ -988,9 +988,18 @@
     <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
         <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
             <h3 class="font-bold text-slate-900 text-base">Log Aktivitas</h3>
-            <button onclick="closeActivityLogModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+            <button onclick="closeActivityLogModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition">
                 <i class="fas fa-times text-xs"></i>
             </button>
+        </div>
+        <!-- Filter Pills -->
+        <div class="px-5 py-2.5 border-b border-slate-100 flex gap-2 overflow-x-auto no-scrollbar shrink-0" style="-ms-overflow-style: none; scrollbar-width: none;">
+            <style> .no-scrollbar::-webkit-scrollbar { display: none; } </style>
+            <button onclick="filterActivityLog('all', this)" class="activity-filter-btn px-3 py-1 border border-transparent bg-slate-800 text-white text-[10px] font-bold rounded-full whitespace-nowrap transition">Semua</button>
+            <button onclick="filterActivityLog('created', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Tambah</button>
+            <button onclick="filterActivityLog('updated', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Edit</button>
+            <button onclick="filterActivityLog('deleted', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Hapus</button>
+            <button onclick="filterActivityLog('login', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Login</button>
         </div>
         <div class="overflow-y-auto flex-1 p-4 space-y-3" id="activity-log-container">
             <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
