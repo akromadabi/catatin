@@ -45,6 +45,51 @@ class CollaborationController extends Controller
     }
 
     /**
+     * List pending (and recent) invitations for a project (owner only).
+     */
+    public function listInvites($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        abort_unless($project->isOwner(auth()->id()), 403);
+
+        $invites = ProjectMember::where('project_id', $projectId)
+            ->where('status', 'pending')
+            ->with('user:id,name,email,avatar')
+            ->orderByDesc('invited_at')
+            ->get()
+            ->map(fn($m) => [
+                'id'         => $m->id,
+                'user_id'    => $m->user_id,
+                'name'       => $m->user?->name,
+                'email'      => $m->user?->email,
+                'avatar'     => $m->user?->avatar ? asset('storage/' . $m->user->avatar) : null,
+                'status'     => $m->status,
+                'invited_at' => $m->invited_at?->diffForHumans(),
+                'is_link'    => is_null($m->user_id), // anonymous link invite
+            ]);
+
+        return response()->json(['invites' => $invites]);
+    }
+
+    /**
+     * Cancel / delete a pending invitation (owner only).
+     */
+    public function cancelInvite($projectId, $memberId)
+    {
+        $project = Project::findOrFail($projectId);
+        abort_unless($project->isOwner(auth()->id()), 403);
+
+        $invite = ProjectMember::where('project_id', $projectId)
+            ->where('id', $memberId)
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        $invite->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
      * Generate invite link (owner only).
      */
     public function generateInvite($projectId)

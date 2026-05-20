@@ -70,6 +70,74 @@ function toggleSortMenu() {
     menu?.classList.toggle('hidden');
 }
 
+/* ================= MANUAL ENTRY MODAL ================= */
+let _manualEntryType = 'pengeluaran';
+
+function openManualEntryModal(preType = 'pengeluaran') {
+    _manualEntryType = preType;
+    const m = document.getElementById('manual-entry-modal');
+    m.style.removeProperty('display');
+    m.style.display = 'flex';
+    // Set default date
+    document.getElementById('manual-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('manual-amount').value = '';
+    document.getElementById('manual-desc').value = '';
+    setManualType(preType);
+}
+
+function closeManualEntryModal() {
+    document.getElementById('manual-entry-modal').style.display = 'none';
+}
+
+function setManualType(type) {
+    _manualEntryType = type;
+    const btnPengeluaran = document.getElementById('manual-type-pengeluaran');
+    const btnPemasukan   = document.getElementById('manual-type-pemasukan');
+    if (type === 'pengeluaran') {
+        btnPengeluaran.className = 'flex-1 py-2 rounded-xl font-bold text-sm transition bg-white text-rose-600 shadow-sm';
+        btnPemasukan.className   = 'flex-1 py-2 rounded-xl font-bold text-sm transition text-slate-500';
+    } else {
+        btnPemasukan.className   = 'flex-1 py-2 rounded-xl font-bold text-sm transition bg-white text-emerald-600 shadow-sm';
+        btnPengeluaran.className = 'flex-1 py-2 rounded-xl font-bold text-sm transition text-slate-500';
+    }
+    // Populate categories
+    const catSelect = document.getElementById('manual-category');
+    const cats = (appData?.categories?.[type]) || [];
+    catSelect.innerHTML = '<option value="">Pilih Kategori</option>';
+    cats.forEach(c => {
+        catSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+    });
+}
+
+async function submitManualEntry() {
+    const amountRaw = document.getElementById('manual-amount').value.replace(/\./g, '').replace(/,/g, '');
+    const amount    = parseFloat(amountRaw);
+    const category  = document.getElementById('manual-category').value;
+    const date      = document.getElementById('manual-date').value;
+    const desc      = document.getElementById('manual-desc').value.trim();
+
+    if (!amount || amount <= 0) { showToast('Nominal tidak valid'); return; }
+    if (!category)              { showToast('Pilih kategori terlebih dahulu'); return; }
+    if (!date)                  { showToast('Pilih tanggal'); return; }
+
+    const btn = document.getElementById('manual-submit-btn');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Menyimpan...';
+    btn.disabled = true;
+
+    try {
+        addTransaction({ type: _manualEntryType, amount, category, desc, date });
+        showToast('Transaksi berhasil disimpan! ✅');
+        closeManualEntryModal();
+        updateDashboard();
+    } catch(e) {
+        showToast('Terjadi kesalahan');
+    } finally {
+        btn.innerHTML = '<i class="fas fa-check mr-1"></i>Simpan';
+        btn.disabled = false;
+    }
+}
+
+
 function setSortOption(val) {
     document.getElementById('wallet-sort').value = val;
     document.getElementById('sort-menu')?.classList.add('hidden');
@@ -930,6 +998,10 @@ function openVoiceModal() {
     startRecording();
 }
 
+function closeVoiceOverlay() {
+    document.getElementById('voice-overlay').classList.remove('active');
+}
+
 window.onVoiceStart = () => {
     document.getElementById('voice-overlay').classList.add('active');
     document.getElementById('voice-modal-transcript').textContent = 'Mendengarkan...';
@@ -1570,27 +1642,51 @@ async function submitProjectModal() {
             showToast(isEdit ? 'Proyek berhasil diperbarui!' : 'Proyek berhasil dibuat!');
             closeProjectModal();
             setTimeout(() => location.reload(), 800);
-        } else {
-            showToast('Gagal memproses proyek');
-        }
-    } catch(e) { showToast('Terjadi kesalahan jaringan'); }
-}
+   /* ================= COLLABORATION / MEMBERS ================= */
+let _membersIsOwner = false;
 
-/* ================= COLLABORATION / MEMBERS ================= */
 function openMembersModal() {
     const m = document.getElementById('members-modal');
     m.style.removeProperty('display');
     m.style.display = 'flex';
+    switchMembersTab('members');
     loadMembers();
 }
 function closeMembersModal() {
     document.getElementById('members-modal').style.display = 'none';
 }
 
+function switchMembersTab(tab) {
+    const panelMembers = document.getElementById('tab-panel-members');
+    const panelInvites = document.getElementById('tab-panel-invites');
+    const tabMembers   = document.getElementById('tab-members');
+    const tabInvites   = document.getElementById('tab-invites');
+    const inviteBox    = document.getElementById('invite-box-section');
+
+    if (tab === 'members') {
+        panelMembers.classList.remove('hidden');
+        panelInvites.classList.add('hidden');
+        tabMembers.classList.add('border-brand-600', 'text-brand-600');
+        tabMembers.classList.remove('border-transparent', 'text-slate-500');
+        tabInvites.classList.remove('border-brand-600', 'text-brand-600');
+        tabInvites.classList.add('border-transparent', 'text-slate-500');
+        if (_membersIsOwner) inviteBox?.classList.remove('hidden');
+    } else {
+        panelMembers.classList.add('hidden');
+        panelInvites.classList.remove('hidden');
+        tabMembers.classList.remove('border-brand-600', 'text-brand-600');
+        tabMembers.classList.add('border-transparent', 'text-slate-500');
+        tabInvites.classList.add('border-brand-600', 'text-brand-600');
+        tabInvites.classList.remove('border-transparent', 'text-slate-500');
+        inviteBox?.classList.add('hidden');
+        loadInvites();
+    }
+}
+
 async function loadMembers() {
     const projectId = window.activeProject?.id;
     if (!projectId) { showToast('Pilih proyek terlebih dahulu'); return; }
-    const container = document.getElementById('members-list-container');
+    const container = document.getElementById('tab-panel-members');
     const footer = document.getElementById('members-footer');
     container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>';
     footer.innerHTML = '';
@@ -1599,12 +1695,19 @@ async function loadMembers() {
             headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Accept': 'application/json' }
         });
         const data = await res.json();
+        _membersIsOwner = data.is_owner;
         renderMembers(data.members, data.is_owner);
+
+        // Show invites tab only for owner
+        const tabInvites = document.getElementById('tab-invites');
+        if (data.is_owner) {
+            tabInvites?.classList.remove('hidden');
+        }
     } catch(e) { container.innerHTML = '<div class="text-center text-rose-400 py-8">Gagal memuat anggota</div>'; }
 }
 
 function renderMembers(members, isOwner) {
-    const container = document.getElementById('members-list-container');
+    const container = document.getElementById('tab-panel-members');
     const footer = document.getElementById('members-footer');
     if (!members || members.length === 0) {
         container.innerHTML = '<div class="text-center text-slate-400 py-8 text-sm">Belum ada anggota</div>';
@@ -1616,7 +1719,7 @@ function renderMembers(members, isOwner) {
             ? '<span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Pemilik</span>'
             : '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Anggota</span>';
         const removeBtn = (isOwner && m.role !== 'owner')
-            ? `<button onclick="event.stopPropagation();removeMemberAction(${m.user_id},'${m.name.replace(/'/g,"\\'")}')" class="w-7 h-7 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-100 transition shrink-0"><i class="fas fa-times text-[10px]"></i></button>`
+            ? `<button onclick="event.stopPropagation();removeMemberAction(${m.user_id},'${m.name.replace(/'/g,"\\'")}')\" class="w-7 h-7 rounded-full bg-rose-50 text-rose-400 flex items-center justify-center hover:bg-rose-100 transition shrink-0"><i class="fas fa-times text-[10px]"></i></button>`
             : '';
         return `<div class="flex items-center gap-3 p-3 rounded-2xl mb-2 hover:bg-slate-50 transition">
             <img src="${avatarUrl}" class="w-10 h-10 rounded-full object-cover shrink-0" alt="">
@@ -1631,12 +1734,8 @@ function renderMembers(members, isOwner) {
     // Show/hide invite section based on role
     const inviteBox = document.getElementById('invite-box-section');
     if (inviteBox) {
-        if (isOwner) {
-            inviteBox.classList.remove('hidden');
-        } else {
-            inviteBox.classList.add('hidden');
-        }
-        // Clear inputs on load
+        if (isOwner) inviteBox.classList.remove('hidden');
+        else inviteBox.classList.add('hidden');
         document.getElementById('invite-email-input').value = '';
         document.getElementById('copy-link-wrapper').classList.add('hidden');
         document.getElementById('invite-link-display').value = '';
@@ -1648,6 +1747,125 @@ function renderMembers(members, isOwner) {
         footerHtml += `<button onclick="leaveProjectAction()" class="w-full flex items-center justify-center gap-2 bg-rose-50 text-rose-600 border border-rose-200 rounded-2xl py-3 font-bold text-sm hover:bg-rose-100 transition"><i class="fas fa-sign-out-alt"></i> Keluar dari Proyek</button>`;
     }
     footer.innerHTML = footerHtml;
+}
+
+async function loadInvites() {
+    const projectId = window.activeProject?.id;
+    if (!projectId) return;
+    const container = document.getElementById('invites-list-container');
+    container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>';
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/invites`, {
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Accept': 'application/json' }
+        });
+        const data = await res.json();
+        renderInvites(data.invites || []);
+    } catch(e) {
+        container.innerHTML = '<div class="text-center text-rose-400 py-8">Gagal memuat undangan</div>';
+    }
+}
+
+function renderInvites(invites) {
+    const container = document.getElementById('invites-list-container');
+    const badge = document.getElementById('invite-count-badge');
+
+    // Update badge
+    if (badge) {
+        if (invites.length > 0) {
+            badge.textContent = invites.length;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    if (!invites || invites.length === 0) {
+        container.innerHTML = `<div class="text-center py-10">
+            <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-envelope-open text-slate-400 text-xl"></i>
+            </div>
+            <p class="text-slate-500 text-sm font-semibold">Tidak ada undangan pending</p>
+            <p class="text-slate-400 text-xs mt-1">Undang anggota dari tab Anggota</p>
+        </div>`;
+        return;
+    }
+
+    container.innerHTML = invites.map(inv => {
+        const avatarUrl = inv.avatar || (inv.name
+            ? `https://ui-avatars.com/api/?name=${encodeURIComponent(inv.name)}&background=f1f5f9&color=475569&size=80`
+            : `https://ui-avatars.com/api/?name=?&background=f1f5f9&color=475569&size=80`);
+        const nameDisplay = inv.name || '(Link tanpa nama)';
+        const emailDisplay = inv.email || (inv.is_link ? 'Undangan via link' : 'Email tidak diketahui');
+        return `<div class="flex items-center gap-3 p-3 rounded-2xl mb-2 bg-amber-50 border border-amber-100">
+            <img src="${avatarUrl}" class="w-10 h-10 rounded-full object-cover shrink-0" alt="">
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                    <p class="font-bold text-slate-900 text-sm truncate">${nameDisplay}</p>
+                    ${inv.is_link ? '<span class="text-[9px] bg-blue-100 text-blue-600 font-bold px-1.5 py-0.5 rounded-full">Link</span>' : ''}
+                </div>
+                <p class="text-xs text-slate-400 truncate">${emailDisplay}</p>
+                <p class="text-[10px] text-amber-600 font-medium mt-0.5"><i class="fas fa-clock mr-0.5"></i> ${inv.invited_at || 'baru saja'}</p>
+            </div>
+            <div class="flex flex-col items-end gap-1 shrink-0">
+                <span class="text-[9px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Menunggu</span>
+                <button onclick="cancelInviteAction(${inv.id})" class="text-[10px] text-rose-500 font-bold hover:text-rose-700 transition flex items-center gap-1">
+                    <i class="fas fa-trash text-[9px]"></i> Batalkan
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+async function cancelInviteAction(memberId) {
+    if (!confirm('Batalkan undangan ini?')) return;
+    const projectId = window.activeProject?.id;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/invites/${memberId}`, {
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken() }
+        });
+        if (res.ok) {
+            showToast('Undangan dibatalkan');
+            loadInvites();
+        } else {
+            showToast('Gagal membatalkan undangan');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
+}
+
+async function inviteByEmailAction() {
+    const email = document.getElementById('invite-email-input')?.value?.trim();
+    if (!email) { showToast('Masukkan email terlebih dahulu'); return; }
+    const projectId = window.activeProject?.id;
+    if (!projectId) return;
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${projectId}/invite-email`, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showToast(data.message || 'Undangan terkirim!');
+            document.getElementById('invite-email-input').value = '';
+            // Refresh invite list
+            const tabInvites = document.getElementById('tab-invites');
+            tabInvites?.classList.remove('hidden');
+            // Reload invites in background to update badge
+            const pid = projectId;
+            fetch(`${window.baseUrl}/api/projects/${pid}/invites`, {
+                headers: { 'X-CSRF-TOKEN': getCsrfToken(), 'Accept': 'application/json' }
+            }).then(r => r.json()).then(d => {
+                const badge = document.getElementById('invite-count-badge');
+                if (badge && d.invites?.length > 0) {
+                    badge.textContent = d.invites.length;
+                    badge.classList.remove('hidden');
+                }
+            }).catch(() => {});
+        } else {
+            showToast(data.error || 'Gagal mengundang');
+        }
+    } catch(e) { showToast('Terjadi kesalahan'); }
 }
 
 async function generateInviteLink(isWa = false) {
@@ -1666,14 +1884,10 @@ async function generateInviteLink(isWa = false) {
                 wrapper.classList.remove('hidden');
                 display.value = data.link;
             }
-            
             if (isWa && data.wa_url) {
                 const opened = window.open(data.wa_url, '_blank');
-                if (!opened) {
-                    showToast('Link dibuat! Salin di bawah karena pop-up diblokir.');
-                } else {
-                    showToast('Link undangan siap dibagikan!');
-                }
+                if (!opened) showToast('Link dibuat! Salin di bawah karena pop-up diblokir.');
+                else showToast('Link undangan siap dibagikan!');
             } else {
                 showToast('Link undangan berhasil dibuat!');
             }
@@ -1704,10 +1918,8 @@ async function leaveProjectAction() {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': getCsrfToken() }
         });
-        if (res.ok) { showToast('Keluar dari proyek...'); setTimeout(() => location.reload(), 800); }
-        else { const d = await res.json(); showToast(d.error || 'Gagal keluar'); }
-    } catch(e) { showToast('Terjadi kesalahan'); }
-}
+        if (res.ok) { showToast('Keluar dari proyek...'); setTimeout(() => location.reload(), 800)
+
 
 /* ================= ACTIVITY LOG & UNDO ================= */
 function openActivityLogModal() {

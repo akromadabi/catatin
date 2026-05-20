@@ -111,6 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/projects/{id}/leave', [CollaborationController::class, 'leaveProject']);
     Route::get('/api/projects/{id}/activity', [CollaborationController::class, 'activityLog']);
     Route::post('/api/activity/{id}/undo', [CollaborationController::class, 'undoAction']);
+    Route::get('/api/projects/{id}/invites', [CollaborationController::class, 'listInvites']);
+    Route::delete('/api/projects/{projectId}/invites/{memberId}', [CollaborationController::class, 'cancelInvite']);
 
     // Notifications and In-App Invites
     Route::get('/api/notifications', [CollaborationController::class, 'loadNotifications']);

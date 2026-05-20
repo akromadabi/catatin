@@ -800,8 +800,11 @@
         
         <!-- CENTER MIC BUTTON -->
         <div class="relative w-16 flex justify-center">
-            <button class="absolute -top-10 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90" onclick="openVoiceModal()" id="fab-mic">
+            <button class="absolute -top-14 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90" onclick="openVoiceModal()" id="fab-mic">
                 <i class="fas fa-microphone"></i>
+            </button>
+            <button class="absolute -top-1 whitespace-nowrap bg-white border border-slate-200 text-slate-600 rounded-full text-[9px] font-bold px-2 py-0.5 shadow-sm hover:bg-slate-50 transition" onclick="openManualEntryModal()">
+                <i class="fas fa-keyboard text-[8px] mr-0.5"></i>Ketik
             </button>
         </div>
 
@@ -828,8 +831,11 @@
         <h3 class="text-xl font-bold text-slate-900 mb-2">Mendengarkan...</h3>
         <p class="text-slate-500 text-sm mb-6" id="voice-modal-transcript">Coba sebutkan "Bayar listrik 150 ribu"</p>
         
-        <button class="w-full bg-slate-900 text-white rounded-xl py-4 font-bold text-sm" id="mic-stop-btn">
+        <button class="w-full bg-slate-900 text-white rounded-xl py-4 font-bold text-sm mb-3" id="mic-stop-btn">
             Berhenti Merekam
+        </button>
+        <button class="w-full bg-white border border-slate-200 text-slate-600 rounded-xl py-3 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition" onclick="closeVoiceOverlay(); openManualEntryModal()">
+            <i class="fas fa-keyboard text-sm"></i> Ketik Manual
         </button>
     </div>
 </div>
@@ -837,6 +843,74 @@
 <!-- TOAST -->
 <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-medium shadow-lg z-[9999] transition-all duration-300 transform -translate-y-20 opacity-0">
     Message
+</div>
+
+<!-- MANUAL ENTRY MODAL -->
+<div id="manual-entry-modal" class="fixed inset-0 z-[85] flex items-end justify-center" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeManualEntryModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-t-3xl shadow-2xl flex flex-col max-h-[92vh]">
+        <!-- Handle -->
+        <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-1 shrink-0"></div>
+
+        <!-- Type Toggle -->
+        <div class="px-5 pt-3 pb-0 shrink-0">
+            <div class="flex bg-slate-100 rounded-2xl p-1 gap-1">
+                <button id="manual-type-pengeluaran"
+                    onclick="setManualType('pengeluaran')"
+                    class="flex-1 py-2 rounded-xl font-bold text-sm transition bg-white text-rose-600 shadow-sm">
+                    <i class="fas fa-arrow-up mr-1"></i>Pengeluaran
+                </button>
+                <button id="manual-type-pemasukan"
+                    onclick="setManualType('pemasukan')"
+                    class="flex-1 py-2 rounded-xl font-bold text-sm transition text-slate-500">
+                    <i class="fas fa-arrow-down mr-1"></i>Pemasukan
+                </button>
+            </div>
+        </div>
+
+        <div class="overflow-y-auto flex-1 px-5 pt-4 pb-2 space-y-4">
+            <!-- Amount -->
+            <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nominal (Rp)</label>
+                <input type="text" id="manual-amount" inputmode="numeric"
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 text-2xl font-bold rounded-2xl p-4 outline-none focus:border-brand-500 transition"
+                    placeholder="0" oninput="formatCurrencyInput(this)">
+            </div>
+
+            <!-- Category -->
+            <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori</label>
+                <select id="manual-category"
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl p-3.5 outline-none focus:border-brand-500 transition appearance-none">
+                    <option value="">Pilih Kategori</option>
+                </select>
+            </div>
+
+            <!-- Date -->
+            <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
+                <input type="date" id="manual-date"
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl p-3.5 outline-none focus:border-brand-500 transition">
+            </div>
+
+            <!-- Desc -->
+            <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Catatan <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                <input type="text" id="manual-desc"
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl p-3.5 outline-none focus:border-brand-500 transition"
+                    placeholder="Misal: Makan siang...">
+            </div>
+        </div>
+
+        <div class="px-5 py-4 border-t border-slate-100 shrink-0 flex gap-3">
+            <button onclick="closeManualEntryModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-2xl py-3.5 font-bold text-sm hover:bg-slate-200 transition">
+                Batal
+            </button>
+            <button onclick="submitManualEntry()" class="flex-1 text-white rounded-2xl py-3.5 font-bold text-sm shadow-lg transition" id="manual-submit-btn" style="background:#6c63ff">
+                <i class="fas fa-check mr-1"></i>Simpan
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- EDIT TXN MODAL -->
@@ -998,9 +1072,31 @@
                 <i class="fas fa-times text-xs"></i>
             </button>
         </div>
-        <div class="overflow-y-auto flex-1 p-4" id="members-list-container">
+
+        <!-- Tabs -->
+        <div class="px-5 pt-3 pb-0 flex gap-1 border-b border-slate-100 shrink-0" id="members-tabs">
+            <button onclick="switchMembersTab('members')" id="tab-members"
+                class="px-4 py-2 text-xs font-bold rounded-t-xl border-b-2 border-brand-600 text-brand-600 transition">
+                <i class="fas fa-users mr-1"></i>Anggota
+            </button>
+            <button onclick="switchMembersTab('invites')" id="tab-invites"
+                class="px-4 py-2 text-xs font-bold rounded-t-xl border-b-2 border-transparent text-slate-500 hover:text-slate-700 transition hidden" id="tab-invites">
+                <i class="fas fa-envelope mr-1"></i>Undangan <span id="invite-count-badge" class="ml-1 bg-amber-100 text-amber-700 text-[9px] font-bold px-1.5 py-0.5 rounded-full hidden"></span>
+            </button>
+        </div>
+
+        <!-- Tab: Anggota -->
+        <div id="tab-panel-members" class="overflow-y-auto flex-1 p-4" id="members-list-container">
             <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
         </div>
+
+        <!-- Tab: Undangan -->
+        <div id="tab-panel-invites" class="overflow-y-auto flex-1 p-4 hidden">
+            <div id="invites-list-container">
+                <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
+            </div>
+        </div>
+
         <!-- Invite via Email & Link Section (Shown dynamically for Owner) -->
         <div class="px-4 pb-4 space-y-3 shrink-0 hidden border-t border-slate-100 pt-3" id="invite-box-section">
             <div>
