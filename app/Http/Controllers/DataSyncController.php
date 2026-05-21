@@ -55,7 +55,7 @@ class DataSyncController extends Controller
         abort_unless($project->isMember(auth()->id()), 403, 'Akses ditolak.');
 
         $validator = Validator::make($request->all(), [
-            'file' => 'required|file|mimetypes:application/json,text/plain|max:5120', // Max 5MB
+            'file' => 'required|file|max:5120', // Max 5MB
         ]);
 
         if ($validator->fails()) {
