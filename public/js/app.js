@@ -3015,7 +3015,6 @@ function importData(input) {
     if(!file) return;
     
     tempRestoreFile = file;
-    input.value = ''; // reset input
     
     closeBackupRestoreModal();
     
@@ -3031,7 +3030,7 @@ function closeRestoreOptionModal() {
     tempRestoreFile = null;
 }
 
-function closeRestoreSuccessModal() {
+function closeRestoreSuccessModal() { document.getElementById('import-file').value = '';
     document.getElementById('restore-success-modal').style.display = 'none';
     window.location.reload();
 }
@@ -3066,8 +3065,10 @@ function processRestore(overwriteFlag) {
             showToast('Gagal import: ' + (data.message || 'Format salah.'));
         }
     })
-    .catch(err => {
+    .finally(() => { document.getElementById('import-file').value = ''; }).catch(err => {
         console.error(err);
         showToast('Terjadi kesalahan sistem saat import.');
     });
 }
+
+
