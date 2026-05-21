@@ -384,36 +384,6 @@
                     </button>
                 </div>
 
-                <!-- Chart -->
-                <div class="bg-white border border-slate-100 shadow-card rounded-3xl p-5 mb-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-slate-900" id="chart-title">Arus Kas</h3>
-                        <div id="bar-legend" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                            <span class="w-2 h-2 rounded-full bg-brand-600"></span> Pengeluaran
-                            <span class="w-2 h-2 rounded-full bg-slate-200 ml-1"></span> Pemasukan
-                        </div>
-                        <div id="donut-legend" class="hidden flex items-center gap-2">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" id="toggle-donut-legend" onchange="toggleDonutLegend()" class="w-3.5 h-3.5 text-brand-600 bg-slate-100 border-slate-300 rounded focus:ring-brand-500 focus:ring-2 cursor-pointer">
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Keterangan</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="h-56 relative flex items-center justify-center mb-5">
-                        <canvas id="main-chart"></canvas>
-                        <!-- Center text for donut chart -->
-                        <div id="donut-center-text" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none hidden">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TOTAL</span>
-                            <span class="text-sm font-bold text-slate-800" id="donut-total">Rp 0</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Chart Toggle -->
-                    <div class="bg-slate-50 border border-slate-100 rounded-full p-1 flex">
-                        <button class="chart-tab active flex-1 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white shadow-sm" data-chart="bar" onclick="setChartView('bar')">Bar</button>
-                        <button class="chart-tab flex-1 py-1.5 rounded-full text-xs font-bold text-slate-400 hover:text-slate-600 transition" data-chart="donut" onclick="setChartView('donut')">Donut</button>
-                    </div>
-                </div>
 
                 <!-- Income & Expense Cards -->
                 <div class="grid grid-cols-2 gap-4 mb-6">
@@ -427,7 +397,7 @@
                     </div>
                 </div>
 
-                <!-- Breakdown -->
+                <!-- Breakdown / Analytics Main Card -->
                 <div class="mb-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-slate-900 text-sm" id="breakdown-title">Rincian</h3>
@@ -436,8 +406,41 @@
                             <button class="px-3 py-1 text-xs font-bold rounded-md text-slate-500" id="btn-breakdown-in" onclick="setBreakdownTab('pemasukan')">Pemasukan</button>
                         </div>
                     </div>
-                    <div class="bg-white border border-slate-100 shadow-card rounded-3xl p-5 space-y-5" id="analytics-breakdown">
-                        <p class="text-sm text-slate-500 text-center">Tidak ada data</p>
+                    
+                    <div class="bg-white border border-slate-100 shadow-card rounded-3xl p-5">
+                        <div class="flex justify-end mb-2">
+                            <!-- Donut specific legend toggle, hidden by default if Bar list is active -->
+                            <div id="donut-legend" class="hidden flex items-center gap-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="toggle-donut-legend" onchange="toggleDonutLegend()" class="w-3.5 h-3.5 text-brand-600 bg-slate-100 border-slate-300 rounded focus:ring-brand-500 focus:ring-2 cursor-pointer">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Keterangan</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area: Bar List vs Donut Chart -->
+                        <div id="analytics-content-area" class="relative">
+                            <!-- The List of Progress Bars -->
+                            <div id="analytics-breakdown" class="space-y-5">
+                                <p class="text-sm text-slate-500 text-center">Tidak ada data</p>
+                            </div>
+                            
+                            <!-- The Donut Chart -->
+                            <div id="analytics-donut-container" class="h-56 relative flex items-center justify-center hidden">
+                                <canvas id="main-chart"></canvas>
+                                <!-- Center text for donut chart -->
+                                <div id="donut-center-text" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none hidden">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TOTAL</span>
+                                    <span class="text-sm font-bold text-slate-800" id="donut-total">Rp 0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Toggle (Bar vs Donut) -->
+                        <div class="bg-slate-50 border border-slate-100 rounded-full p-1 flex mt-6">
+                            <button class="chart-tab active flex-1 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white shadow-sm" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
+                            <button class="chart-tab flex-1 py-1.5 rounded-full text-xs font-bold text-slate-400 hover:text-slate-600 transition" data-chart="donut" onclick="setChartView('donut')">Diagram Donat</button>
+                        </div>
                     </div>
                 </div>
             </div>

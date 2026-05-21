@@ -403,9 +403,7 @@ function updateAnalytics(period) {
         }
     }
 
-    if (currentChartView === 'bar') {
-        renderBarChart(period);
-    } else {
+    if (currentChartView === 'donut') {
         renderDonutChart(period);
     }
     renderBreakdown(period);
@@ -425,22 +423,18 @@ function setChartView(type) {
         }
     });
 
-    // Update title and legends
-    const titleEl = document.getElementById('chart-title');
-    if (titleEl) titleEl.textContent = type === 'bar' ? 'Arus Kas' : 'Proporsi Pengeluaran';
-    
+    const breakdownList = document.getElementById('analytics-breakdown');
+    const donutContainer = document.getElementById('analytics-donut-container');
+    const donutLegend = document.getElementById('donut-legend');
+
     if (type === 'bar') {
-        document.getElementById('bar-legend').classList.remove('hidden');
-        document.getElementById('bar-legend').classList.add('flex');
-        document.getElementById('donut-legend').classList.add('hidden');
-        document.getElementById('donut-legend').classList.remove('flex');
-        document.getElementById('donut-center-text').classList.add('hidden');
+        if (breakdownList) breakdownList.classList.remove('hidden');
+        if (donutContainer) donutContainer.classList.add('hidden');
+        if (donutLegend) donutLegend.classList.add('hidden');
     } else {
-        document.getElementById('bar-legend').classList.add('hidden');
-        document.getElementById('bar-legend').classList.remove('flex');
-        document.getElementById('donut-legend').classList.remove('hidden');
-        document.getElementById('donut-legend').classList.add('flex');
-        document.getElementById('donut-center-text').classList.remove('hidden');
+        if (breakdownList) breakdownList.classList.add('hidden');
+        if (donutContainer) donutContainer.classList.remove('hidden');
+        if (donutLegend) donutLegend.classList.remove('hidden');
     }
 
     // Determine the active period
@@ -449,10 +443,8 @@ function setChartView(type) {
         if (b.classList.contains('active')) activePeriod = b.dataset.period;
     });
 
-    // Re-render chart
-    if (currentChartView === 'bar') {
-        renderBarChart(activePeriod);
-    } else {
+    // Re-render chart if needed
+    if (type === 'donut') {
         renderDonutChart(activePeriod);
     }
 }
@@ -525,9 +517,7 @@ function setBreakdownTab(type) {
         if(b.classList.contains('active')) activePeriod = b.dataset.period;
     });
     
-    if (currentChartView === 'bar') {
-        renderBarChart(activePeriod);
-    } else {
+    if (currentChartView === 'donut') {
         renderDonutChart(activePeriod);
     }
     renderBreakdown(activePeriod);
@@ -768,117 +758,7 @@ function toggleDonutLegend() {
 }
 
 
-function renderBarChart(period) {
-    const ctx = document.getElementById('main-chart');
-    if(!ctx) return;
 
-    if(mainChart) mainChart.destroy();
-    
-    const txns = filterTransactions(period, currentDateOffset);
-    
-    let labels = [];
-    let outData = [];
-    let inData = [];
-    
-    if (period === 'week') {
-        labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
-        outData = Array(7).fill(0);
-        inData = Array(7).fill(0);
-        txns.forEach(t => {
-            const d = new Date(t.date).getDay();
-            const idx = d === 0 ? 6 : d - 1; // Mon=0, Sun=6
-            const amt = parseFloat(t.amount) || 0;
-            if(t.type === 'pengeluaran') outData[idx] += amt;
-            else inData[idx] += amt;
-        });
-    } else if (period === 'month') {
-        const now = new Date();
-        const targetDate = new Date(now.getFullYear(), now.getMonth() + currentDateOffset, 1);
-        const daysInMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate();
-        labels = Array.from({length: daysInMonth}, (_, i) => i + 1);
-        outData = Array(daysInMonth).fill(0);
-        inData = Array(daysInMonth).fill(0);
-        txns.forEach(t => {
-            const idx = new Date(t.date).getDate() - 1;
-            const amt = parseFloat(t.amount) || 0;
-            if(t.type === 'pengeluaran') outData[idx] += amt;
-            else inData[idx] += amt;
-        });
-    } else if (period === 'year') {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        labels = [...months];
-        outData = Array(12).fill(0);
-        inData = Array(12).fill(0);
-        txns.forEach(t => {
-            const idx = new Date(t.date).getMonth();
-            const amt = parseFloat(t.amount) || 0;
-            if(t.type === 'pengeluaran') outData[idx] += amt;
-            else inData[idx] += amt;
-        });
-    } else {
-        const years = txns.map(t => new Date(t.date).getFullYear());
-        const minYear = years.length ? Math.min(...years) : new Date().getFullYear();
-        const maxYear = years.length ? Math.max(...years) : new Date().getFullYear();
-        for(let y = minYear; y <= maxYear; y++) {
-            labels.push(y);
-            outData.push(0);
-            inData.push(0);
-        }
-        txns.forEach(t => {
-            const y = new Date(t.date).getFullYear();
-            const idx = labels.indexOf(y);
-            const amt = parseFloat(t.amount) || 0;
-            if(idx > -1) {
-                if(t.type === 'pengeluaran') outData[idx] += amt;
-                else inData[idx] += amt;
-            }
-        });
-    }
-
-    // Dynamic legend based on currentBreakdownTab
-    const barLegend = document.getElementById('bar-legend');
-    if (barLegend) {
-        if (currentBreakdownTab === 'pengeluaran') {
-            barLegend.innerHTML = '<span class="w-2 h-2 rounded-full bg-brand-600"></span> Pengeluaran';
-        } else {
-            barLegend.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Pemasukan';
-        }
-    }
-
-    mainChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Pengeluaran',
-                    data: outData,
-                    backgroundColor: '#2563eb',
-                    hidden: currentBreakdownTab !== 'pengeluaran',
-                    borderRadius: 4,
-                    barPercentage: 0.6
-                },
-                {
-                    label: 'Pemasukan',
-                    data: inData,
-                    backgroundColor: '#10b981',
-                    hidden: currentBreakdownTab !== 'pemasukan',
-                    borderRadius: 4,
-                    barPercentage: 0.6
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false }, stacked: true, border: {display: false} },
-                y: { display: false, stacked: true }
-            }
-        }
-    });
-}
 
 function renderDonutChart(period) {
     const ctx = document.getElementById('main-chart');
