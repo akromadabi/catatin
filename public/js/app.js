@@ -1434,6 +1434,12 @@ function updateCategoriesPage() {
         const kwBadges = (c.keywords && c.keywords.length > 0)
             ? c.keywords.map(k => `<span class="inline-block text-[9px] bg-indigo-50 text-indigo-500 font-semibold px-1.5 py-0.5 rounded-full mr-0.5">${k}</span>`).join('')
             : '';
+            
+        let txnCount = 0;
+        if(appData.transactions) {
+            txnCount = appData.transactions.filter(t => t.category === c.name && t.type === c.type).length;
+        }
+        const txnCountBadge = `<span class="text-[9px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full ml-2">${txnCount} trx</span>`;
         
         html += `
         <div class="flex items-center justify-between p-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition">
@@ -1442,8 +1448,11 @@ function updateCategoriesPage() {
                     ${iconHtml}
                 </div>
                 <div>
-                    <span class="font-bold text-slate-900 text-sm">${c.name}</span>
-                    ${isDefault ? '<span class="text-[10px] text-slate-400 ml-2">bawaan</span>' : ''}
+                    <div class="flex items-center">
+                        <span class="font-bold text-slate-900 text-sm">${c.name}</span>
+                        ${isDefault ? '<span class="text-[10px] text-slate-400 ml-2">bawaan</span>' : ''}
+                        ${txnCount > 0 ? txnCountBadge : ''}
+                    </div>
                     ${kwBadges ? `<div class="mt-0.5 flex flex-wrap gap-0.5">${kwBadges}</div>` : ''}
                 </div>
             </div>

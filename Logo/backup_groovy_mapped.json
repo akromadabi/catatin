@@ -1,0 +1,5259 @@
+[
+    {
+        "tanggal":  "2025-04-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Saldo pencairan awal tahun syawal",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-04-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-04-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-04-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-04-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1 (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-04-03",
+        "nominal":  3000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "HBH KESIP (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-04",
+        "nominal":  3250000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Jual Hp ",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-04-04",
+        "nominal":  16000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-04-10",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bude Ndut brebes (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-10",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gucci Kel. Bocil (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-12",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gucci Kel. Bojo (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-13",
+        "nominal":  1990000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Semester ganjil 2025",
+        "kategori":  "Gaji Dosen"
+    },
+    {
+        "tanggal":  "2025-04-14",
+        "nominal":  150000,
+        "jenis":  "pemasukan",
+        "keterangan":  "2 link",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-04-17",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 2 ",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-04-17",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 2 ",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-04-17",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 2  (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-04-17",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 2 ",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-04-15",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kesip sarang (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-11",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan Bude ndut (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1 (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-04-16",
+        "nominal":  25000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Motor Scoopy Putih ",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-04-20",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "HIKAMAN Slametan Motor (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-20",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sample live (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-04-20",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Service Scoopy Mazin ",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-04-20",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Seragam MA (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-04-29",
+        "nominal":  120000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Susu kotak (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-04-01",
+        "nominal":  25000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Budget Scoopy ",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  515000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "5 pcs (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  118000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  750000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Skotlet scopy putih",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  105000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gantungan \u0026 Hanger (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  225000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Vitamin  (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-02",
+        "nominal":  128000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-02",
+        "nominal":  130000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Peralatan makan milad mazin (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-05-02",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gantungan kunci motor (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-05-03",
+        "nominal":  75000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Misbah\u0026asna",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-05-03",
+        "nominal":  290000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Perpanjang STNK",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-03",
+        "nominal":  4000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2,3 Gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-05-01",
+        "nominal":  2393000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "16-30 april (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-10",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Slametan Milad Mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-09",
+        "nominal":  1500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Khoul Syadziliyah (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-05-05",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2 pcs Label nama barang (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-05",
+        "nominal":  19000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Dompet mini (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-05-05",
+        "nominal":  134000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lakban, tembakan, dll (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-05",
+        "nominal":  32500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hadiah mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-05",
+        "nominal":  102000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mei (BPJS)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-05",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Milad mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-06",
+        "nominal":  180000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "MA (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-05-06",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Web syam (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-06",
+        "nominal":  1100000,
+        "jenis":  "pemasukan",
+        "keterangan":  "April",
+        "kategori":  "Gaji Pondok"
+    },
+    {
+        "tanggal":  "2025-05-06",
+        "nominal":  200000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Fawwas",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-05-12",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2.7 gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-05-11",
+        "nominal":  2800000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Jual beli Tab",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  4600000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Qurban Idul Adha (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-05-12",
+        "nominal":  130000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Susu kotak (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-12",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Obat nyamuk, Rinso, Molto dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-12",
+        "nominal":  2880000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Label Groovy  (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-15",
+        "nominal":  314000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Makan host live (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-16",
+        "nominal":  1852000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1-16 Mei 2025 (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-15",
+        "nominal":  380000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jas 3 pcs (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-05-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-05-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-05-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-05-20",
+        "nominal":  6000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "3.3 gram",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-05-20",
+        "nominal":  350000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfamart \u0026 Emil setak (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-05-21",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Donasi UIN (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-05-21",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alat tulis dan home schooling  (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-22",
+        "nominal":  2010000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik \u0026 resi (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-05-23",
+        "nominal":  75000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Aulia \u0026 Taufik",
+        "kategori":  "Gaji Dosen"
+    },
+    {
+        "tanggal":  "2025-05-23",
+        "nominal":  150000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Firman \u0026 Qalby",
+        "kategori":  "Gaji Dosen"
+    },
+    {
+        "tanggal":  "2025-05-24",
+        "nominal":  100000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Anas \u0026 Shinta",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-05-25",
+        "nominal":  240000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kran dkk",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-27",
+        "nominal":  2000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tendo switch  (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-05-27",
+        "nominal":  92000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Handbody  (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-27",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "CD Mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-27",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku dll (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-05-27",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rapika",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-05-27",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Box barang",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-05-29",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wifi (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  2976000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1 (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  50000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Mega \u0026 dinar",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-06-03",
+        "nominal":  100000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Dini \u0026 heri",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  1195000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Gaji Pondok"
+    },
+    {
+        "tanggal":  "2025-06-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Bulanan",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-06-03",
+        "nominal":  550000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Khoul ibu \u0026 Mbah Mun  (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-04",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Arisan MA (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-07",
+        "nominal":  10000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "5,4",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-06-07",
+        "nominal":  50000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Nisa",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-06-09",
+        "nominal":  99000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sapu, lap pel, gunting, talenan dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-06-09",
+        "nominal":  59000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sabun ",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  600000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Natasha (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hadiah Lomba lomba (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-16",
+        "nominal":  2275000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1-16 Juni (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-06-18",
+        "nominal":  1400000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Bank Mandiri",
+        "kategori":  "Gaji MA"
+    },
+    {
+        "tanggal":  "2025-06-21",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tilik pak arif (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-21",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tingkeb nana (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-21",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Topup gopay (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-06-21",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-06-08",
+        "nominal":  1800000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Nikahan sirot (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-23",
+        "nominal":  270000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tilik bayi ida\u0026mas yasir (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-23",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Muyen nita (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-23",
+        "nominal":  98000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-06-23",
+        "nominal":  3000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1,6 gram",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-06-25",
+        "nominal":  2000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1.08 gram",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-06-28",
+        "nominal":  400000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Keluarga bochil (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-06-28",
+        "nominal":  170000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wifi doro (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Saldo bulanan",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-07-01",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jalan-jalan keluarga bojo (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-07-01",
+        "nominal":  2080000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfagift",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Susu dll (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kranjang + sapu doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  39000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  158000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung rabbani (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  85000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wadah wadah",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung rabbani (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  99000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Peci 2 pcs (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  124000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung paris (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  140000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gamis (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-02",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sowan PPDB (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-07-04",
+        "nominal":  85000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Minyak, galon, susu dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-06",
+        "nominal":  110000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Host trial  (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-06",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wifi (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  23000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sajadah \u0026 sarung (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  145000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gamis (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  68000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bedak tabur (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  95500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tongsis",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  94000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tenda mobil (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  68000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sendal (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  107000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal host (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  43000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rak rak",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sunscreen spray (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  58000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tisud basah \u0026 mainan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  138000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gamis (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  113000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku buku (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-07",
+        "nominal":  315000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mei-Agustus (BPJS)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-12",
+        "nominal":  600000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hj Agustus LUNAS (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-07-13",
+        "nominal":  1080000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Juni Dll",
+        "kategori":  "Gaji MA"
+    },
+    {
+        "tanggal":  "2025-07-13",
+        "nominal":  1120000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Mei-Junj",
+        "kategori":  "Gaji Pondok"
+    },
+    {
+        "tanggal":  "2025-07-18",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Id Card (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-18",
+        "nominal":  700000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Carger Iphone (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  92000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sate cempe",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-07-16",
+        "nominal":  3549000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1-16 Juli (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-16",
+        "nominal":  678000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "13-16 Juli  (Gaji Host Lunara)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-07-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-07-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  112000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bigroit hidung (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  55000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal host (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  110000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Celana kantor (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  46500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Termometer",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  92000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Celana kantor (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  27000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Stiker atap kamar live (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-17",
+        "nominal":  20000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-18",
+        "nominal":  184000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Celana kantor (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-07-15",
+        "nominal":  2600000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "- (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-07-18",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Susu kotak (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-18",
+        "nominal":  8000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Done Emas",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-07-19",
+        "nominal":  600000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Bantuan Bojo",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-07-19",
+        "nominal":  600000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Bantuan bocil",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-07-19",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tilang polisi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-07-19",
+        "nominal":  260000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Anta Abaya hitam (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-07-19",
+        "nominal":  240000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Anta Sarung (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-07-21",
+        "nominal":  145000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rinso, galon, dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-07-21",
+        "nominal":  80000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-21",
+        "nominal":  32000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-23",
+        "nominal":  49000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Cuci muka (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-25",
+        "nominal":  180000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wifi doro (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-25",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Case pulpen (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-07-25",
+        "nominal":  140000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Foto produk (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-07-25",
+        "nominal":  150000,
+        "jenis":  "pemasukan",
+        "keterangan":  "MUA Nissa",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-07-25",
+        "nominal":  86000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Moisturizer (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-07-26",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Done Emas",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2025-07-26",
+        "nominal":  2000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Done",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-07-28",
+        "nominal":  510000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik Hitam  (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan teman bojo (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-05",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tilik Bu hasna (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Ramayana   (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  4290000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1 (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  2800000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Part 1 (Gaji Host Lunara)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-07",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krupuk bangka buat doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-07",
+        "nominal":  55000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-07",
+        "nominal":  124000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Regulator Gas",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-07",
+        "nominal":  130000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Shower dkk",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-07",
+        "nominal":  349000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gamis ibu (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-07",
+        "nominal":  89000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sabun gatsby",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-09",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jalan jalan Gucci (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-09",
+        "nominal":  22000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pengharum nyetrika",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-09",
+        "nominal":  24000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sarung (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jakarta (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  75000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Vitamin rambut (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal  (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  21000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alat kebersihan",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku \u0026 Iqro mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-11",
+        "nominal":  64000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Skincare mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  179000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  10000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Done",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Done Emas",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  34000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tisue",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-04",
+        "nominal":  280000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Dplirit (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  90000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Bagus putri",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  810000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Juli",
+        "kategori":  "Gaji MA"
+    },
+    {
+        "tanggal":  "2025-08-13",
+        "nominal":  292500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Natasha (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-14",
+        "nominal":  125500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Super pel, cuci piring, susu mazin dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-15",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2,73",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-08-16",
+        "nominal":  1334000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Lunara)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-16",
+        "nominal":  4750000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-05",
+        "nominal":  51000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Service Scoopy Bocil",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-18",
+        "nominal":  180000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wifi doro (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-18",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kouta bojo",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-18",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kitab PDF (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-08-20",
+        "nominal":  195000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon live doro, detergen, susu mazin, dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-20",
+        "nominal":  117000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Maunan lego doro (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-01",
+        "nominal":  3200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Merek groovy (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-20",
+        "nominal":  11000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jepit sepatu",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-08-22",
+        "nominal":  400000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jajan gratis \u0026 Mauludan (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-17",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Nasi padang lomba futsal (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  71200,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Label warna HW (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-08-22",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan Ulfa (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-25",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tilik bayi mba ikha (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  87141,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Moisturizer natasha (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  92000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Box mainan doro (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  35000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alis (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  62000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Inner gamis (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  19000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pitek (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-08-28",
+        "nominal":  600000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Saldo BRI Tutup tabungan",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-08-29",
+        "nominal":  1200000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Juli",
+        "kategori":  "Gaji Pondok"
+    },
+    {
+        "tanggal":  "2025-08-28",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan aan temen bojo (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-08-30",
+        "nominal":  121000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mukena (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-09-06",
+        "nominal":  650000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "SIM Bojo",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-05",
+        "nominal":  750000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mulud (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  3947000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-01",
+        "nominal":  637000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Lunara)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-11",
+        "nominal":  1290000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik hitam \u0026 abu (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  60000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sikat gigi, laserin obat kumur 2",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  32000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sunscreen (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  14000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Celak 2 (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  71000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Stiker tulisan (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  32000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Topi (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  76000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  1600000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jam (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  33000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Handbody  (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  70000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Masker wajah (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-12",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Muludan jukarang (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  62000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Handbody  (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  117000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daleman (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  68000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kursi motor (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  25000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sabun mandi",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  202000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Masak masakan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  154000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  22000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Topi nama (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-09-09",
+        "nominal":  63000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Adek salma (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-09-15",
+        "nominal":  249000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Obat shinshei",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-15",
+        "nominal":  56000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Strep jam tangan (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-09-15",
+        "nominal":  33000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lensa mata (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  510000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik packing doro (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  3919000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1-15 September 2025 (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack part 1 (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-19",
+        "nominal":  126000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfa gift, galon, sabun mazin dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-19",
+        "nominal":  107000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Setrika",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-19",
+        "nominal":  160000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kemeja bapak (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-09-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-23",
+        "nominal":  1500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kasur innoac 160x200 tbl 20",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-24",
+        "nominal":  285000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bakso wisuda lupi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  135000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kran, jemuran dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  3699000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "T2 September (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-09-30",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-10-02",
+        "nominal":  850000,
+        "jenis":  "pemasukan",
+        "keterangan":  "September",
+        "kategori":  "Gaji MA"
+    },
+    {
+        "tanggal":  "2025-09-04",
+        "nominal":  720000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Gaji MA"
+    },
+    {
+        "tanggal":  "2025-10-02",
+        "nominal":  200000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Ngaos",
+        "kategori":  "Lain Lain"
+    },
+    {
+        "tanggal":  "2025-10-02",
+        "nominal":  50000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-10-04",
+        "nominal":  257500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan Gepeng (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  210000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Oktober (BPJS)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-11",
+        "nominal":  1200000,
+        "jenis":  "pemasukan",
+        "keterangan":  "September",
+        "kategori":  "Gaji Pondok"
+    },
+    {
+        "tanggal":  "2025-10-08",
+        "nominal":  183000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-08",
+        "nominal":  608000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Abaya basmalah (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-11",
+        "nominal":  104000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Susu mazin \u0026 galon (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-11",
+        "nominal":  135300,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfagift doro galon, dll (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  27000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan lego (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  93000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Set alat lukis (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  160000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2 lipstik \u0026 highletter (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  166000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kemeja batik (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  88000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaos 2 (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  57000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Payung dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  93000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Topi 3 (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-10",
+        "nominal":  57000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaos (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-10-12",
+        "nominal":  135000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal polo (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-12",
+        "nominal":  80000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal polo (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-10-12",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaos 2 (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-10-12",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaos bapak \u0026 lupi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-11",
+        "nominal":  181000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Milad nana (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-12",
+        "nominal":  39000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Set lukis (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-12",
+        "nominal":  240000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Helm (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-14",
+        "nominal":  25000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wadah",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-14",
+        "nominal":  23000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sarung tangan (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-14",
+        "nominal":  45000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastim sampah",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-14",
+        "nominal":  180000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Natasha (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-14",
+        "nominal":  185000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kemeja 2 (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-10-14",
+        "nominal":  43000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jas ujan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-10-17",
+        "nominal":  65000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daleman (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-17",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Ramayana  doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-19",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Breket",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-21",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Temen STAI Bojo (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-21",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Debay Manda (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-22",
+        "nominal":  3400000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sept-Okt",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2025-10-23",
+        "nominal":  15000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Syariah",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2025-10-23",
+        "nominal":  7000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2,98 gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-10-25",
+        "nominal":  65000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kranjang baju kotor",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-25",
+        "nominal":  175000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Box plastik (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-10-25",
+        "nominal":  1240000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik \u0026 resi (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-10-21",
+        "nominal":  485000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaloka cafe (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-26",
+        "nominal":  117000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfagift",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-10-27",
+        "nominal":  3000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1,27 gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-10-27",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-27",
+        "nominal":  57000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster ibu (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-27",
+        "nominal":  260000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon \u0026 make up alfagift (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-10-28",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2,15 gram",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-10-30",
+        "nominal":  43000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pengharum ruangan live (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-10-31",
+        "nominal":  181000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Toples krupuk \u0026 sikat",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-02",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.43 gr",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2025-11-02",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.43 gr",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack T1 Nov (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  2884000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "T2 Okt (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-11-01",
+        "nominal":  315000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Nov-Jan 2026 (BPJS)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-03",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon, minyak, susu mazin",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-03",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2.18 gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-11-06",
+        "nominal":  170000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon dkk (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-07",
+        "nominal":  583000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "4 pcs (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  191000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  42000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tengtop (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju Mazin (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  157000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju bocil (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  15000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gelas susu mazin",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  35000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Prabot",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  45000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas TPQ (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  108000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sisir",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  87000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Masker",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  280000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kemeja Kuliah (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  16000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hand sanitizer doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  26000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik packing buble (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  19000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sikar KM",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sapu kamar",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  1100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rak doro (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  297000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Evaluasi bulanan host Groovy (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-16",
+        "nominal":  3460000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "T1 Nov (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  49000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rumput Laut",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  191000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  23000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Nabati Ahh",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kado pindah rumah mba vivi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-11",
+        "nominal":  168000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju L silpi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  22000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lampu tidur",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  22000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kado pindah rumah tina (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  28000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Karpet bulu putih (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  46000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kipas kecil",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  74000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hiasan (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  52000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Stiker dinding (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-20",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lighting (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-11-24",
+        "nominal":  125000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tulisan KIDDIO (KIDDIO)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-02",
+        "nominal":  207000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sample Kiddio anak (KIDDIO)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-02",
+        "nominal":  775000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sample gembong (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-12-05",
+        "nominal":  41000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Semprot hidung (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-05",
+        "nominal":  13000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lem korea",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-11-30",
+        "nominal":  636000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(KIDDIO)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  3100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-12-06",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2025-12-06",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0,42 gr",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2025-12-06",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2,12 gram",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2025-12-07",
+        "nominal":  275000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sample affiliate (KIDDIO)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-08",
+        "nominal":  85000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-12-09",
+        "nominal":  125000,
+        "jenis":  "pemasukan",
+        "keterangan":  "MUA Nissa",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-12-17",
+        "nominal":  190000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Klik indomaret",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  57200,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Downy pewangi  (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  47000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kripik usus (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  54000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kranjang hitam  (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  64000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  192000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  19000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku hijaiyah (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  41000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku  (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  23000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pewangi nyetrika",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  51000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Shampo (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Handbody  (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  67000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kado pindah rumah tina (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  41000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bedak dll (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  62000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Anting (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  183000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bahan brukat (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  202000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mukena anak RM (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  118000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  447000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kemeja (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  79000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Laos mazin 2 (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  68000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Elips vitamin rambut (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  32000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bahan brukat (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  12000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gelas susu (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  22000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wadah ager",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  25000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Anting (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-12-12",
+        "nominal":  13000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gelas susu mazin",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2025-12-23",
+        "nominal":  131000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfagift doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-23",
+        "nominal":  1800000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Merek groovy (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-28",
+        "nominal":  138000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  3030000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2025-12-31",
+        "nominal":  100000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2025-12-30",
+        "nominal":  2050000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jam tangan (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2025-12-29",
+        "nominal":  450000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Transmart+Gacoan bocil bocil (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2025-12-30",
+        "nominal":  69900,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Teflon",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  85000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tinted sunscreen (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  235000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Natasha (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2025-12-28",
+        "nominal":  180000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfagift doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Parfum",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  13000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bumbu masak",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  235000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Makeover (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  103000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bibit parfum",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  93000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  165000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas handbag lebaran (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  70900,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Teflon gift mba vivi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-03",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2.04 gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2026-01-03",
+        "nominal":  1700000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.6 gr",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2026-01-03",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.40 gr",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2026-01-03",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-04",
+        "nominal":  53000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju Mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-15",
+        "nominal":  135000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfagift doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-15",
+        "nominal":  155000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kebuli Ning arina proto",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-01-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-01-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2026-01-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2026-01-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-15",
+        "nominal":  198000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jas ujan 2 \u0026 krudung",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-23",
+        "nominal":  90000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  130000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Indomaret \u0026 Herma jaya (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-10",
+        "nominal":  25000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-12",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Label merek (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-11",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-12",
+        "nominal":  11000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Celengan",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-14",
+        "nominal":  355000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sepatu lari (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-01-14",
+        "nominal":  105000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-14",
+        "nominal":  135000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jas hujan",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-17",
+        "nominal":  25000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hanum Aqila  (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-17",
+        "nominal":  180000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pigeon  (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-19",
+        "nominal":  103000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Beeme \u0026 telon balsem (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-20",
+        "nominal":  11000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Clay mainan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-22",
+        "nominal":  98000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gift Ida pindah rumah (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-23",
+        "nominal":  194000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  11000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Dompet mini (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-23",
+        "nominal":  21000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tespek",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  45000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Minyak rambut \u0026 minyak wangi (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  249000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gantungan \u0026 Hanger (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Minyak rambut \u0026 minyak wangi (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  170000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gamis (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  80000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gantungan \u0026 Hanger (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-27",
+        "nominal":  34000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daleman (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  17000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Dompet mini (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-27",
+        "nominal":  66000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daleman (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-27",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daleman (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2025-10-16",
+        "nominal":  3670000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "T2 Okt (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2025-12-16",
+        "nominal":  3992000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-16",
+        "nominal":  3270000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-26",
+        "nominal":  70000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tahsya training (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bensin host trial (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-25",
+        "nominal":  120000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gaji host trial (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-16",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-01",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-29",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "USG  (Kebutuhan Debay)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-05",
+        "nominal":  420000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Feb - Mei (BPJS)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-06",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1.7 gram",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2026-02-06",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.35 gr",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2026-02-06",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.35 gr",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  35000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  51000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Spidol \u0026 crayon (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  78000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Keset, sapu dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  35000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gunting petit 2 pack (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  147000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sunscreen labore (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  84000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pelembab the ordinary  (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  56000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tangtop (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  77000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Cuci muka (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  165000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Vitamin genio (Kebutuhan Debay)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  90000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daleman dll (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  93000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  137000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Minyak kutus kutus",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  37000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Penambah darah (Kebutuhan Debay)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  92000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kemeja (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  43000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Clay mainan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  10500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Maskara (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  20000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  25000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tongsampah 4",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-04",
+        "nominal":  141000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lakban dll (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-04",
+        "nominal":  226000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lampu \u0026 stopkontak (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-04",
+        "nominal":  48000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sweeter mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-04",
+        "nominal":  11000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lakban dan gunting (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-04",
+        "nominal":  32000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-02-04",
+        "nominal":  16000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  20000000,
+        "jenis":  "pemasukan",
+        "keterangan":  "",
+        "kategori":  "Tiktok Seller"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-09",
+        "nominal":  88300,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Brebes (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-10",
+        "nominal":  56000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hallo dok (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  151000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Balm kering (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  24400,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Downy pewangi ",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jajan host lunara (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  13000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bintang ",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  42000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Peci 2 pcs (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  23000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Peniti (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  15000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Botol sabun",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  41000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Helm mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  99000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  3800000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hp iPhone  (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Ziaroh (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "DP merek (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pewangi nyetrika",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Stiker nama mazin \u0026 mamah",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  187000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kipas portable ",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-16",
+        "nominal":  220000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sangu mba mba ziaroh (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-13",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tambahan makan",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-02-17",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Uang suntikan 5 jt",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2026-02-17",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Uang Suntikan 5 jt",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  560000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Parsel Lebaran Indomaret (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  75000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Beras",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jajan ke matahari keluarga (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-23",
+        "nominal":  145000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "USG BATANG (Kebutuhan Debay)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-24",
+        "nominal":  792000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Parsel Host Groovy (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-24",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Parsel Mba Mba pondok (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-25",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Time zone mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-25",
+        "nominal":  1040000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bukber Namira (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-22",
+        "nominal":  1200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Merek lunas (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-23",
+        "nominal":  1090000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Resi kotak (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-01",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jajan Host Groovy (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  166000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju kemeja Babah (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Koko mazin (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  171000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Koko Bojo (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  123000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Cangkruk remot (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  82000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  184000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju Ibu (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  59000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tempat beras",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  70000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Vitamin Scoots (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  66000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-27",
+        "nominal":  177000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hampers mangkok (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  26000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung Ibu (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  237000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Badcover",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  140000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sunscreen labore (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  70000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lipbalm (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  198000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hampers mangkok (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  77000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  16200,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wadah",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  320000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju bapak \u0026 lupi (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  98000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Baju polisi (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  37000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  39000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hampers mangkok Rilly (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  126000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mukena silfi (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  55000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sandal mazin (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  54000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  35000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sabun mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  16500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sabun mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  37000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hampers mangkok Aoul (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  17000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Parfum Mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lego doro (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  79000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Legi kecil (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  76000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tilik bayi Ning Arina (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sendal Mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  53000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sendal Mazin (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  307000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mejikom",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Strip Jam (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lampu tidur",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  63000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lampu tidur",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  62000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  115000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung Hampers (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  34000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Clay mainan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  62000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hampers AM Tiktok (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  40000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan Pancingan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  123000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  88000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tembakan (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  104000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  64000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pampers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  220000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pampers (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  84000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Daster (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  34000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krudung silfi (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  95000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Jajan krupuk (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-12",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kowi Yusuf (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-11",
+        "nominal":  124000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pengharum, detergen dll (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  56000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Susu roti dll (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  99000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Parsel goodtime (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  101000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon dll doro (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  122000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon, detergen, baterai dll (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-14",
+        "nominal":  85000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pembalut dll (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-15",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Nana, tina, nuqi, rachel (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-15",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bu nik (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-15",
+        "nominal":  2500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Keluarga doro (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-15",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Amplop bocil bocil (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  730000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Hampers Host Groovy 8 orang (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "THR Amplop Host Groovy  (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Affan kowi yusuf (Lebaran 2026)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-03-17",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2026-03-17",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2026-03-17",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2026-04-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2026-04-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2026-04-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-04-05",
+        "nominal":  200000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  91000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan truk molen (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  12000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Slukup kepala (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  190000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Treatmen rambut (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-04-06",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Smoothing rambut sultan (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  58000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaca mata hitam (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  52000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Buku pembelajaran mazin (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  24000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Stimulasi gunting (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  93000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sabun gatsby",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  151000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas pink putih (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  118000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaos 4 pcs (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  50000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas kupu (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-04-04",
+        "nominal":  61000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Wadah galon (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-02",
+        "nominal":  113000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Alfa guft galon dll (Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-03-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-03-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-04-05",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sample live kemeja (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-05",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Akun tiktok (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-01-31",
+        "nominal":  4478000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-15",
+        "nominal":  5750000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-02-28",
+        "nominal":  4935000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-03-15",
+        "nominal":  5572000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-10",
+        "nominal":  169000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Indomaret Galon dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-10",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2026-04-11",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Etol Surabaya (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-04-11",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan Giok (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-04-11",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Service tendo (Self award Bojo)",
+        "kategori":  "Self Reward Bojo"
+    },
+    {
+        "tanggal":  "2026-04-08",
+        "nominal":  320000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Ganti Ban Motor",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-09",
+        "nominal":  1700000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rak Celana (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-13",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.3636 gr",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2026-04-14",
+        "nominal":  1730000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "2 Rak Besi (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  310000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "STNK Scoopy putih",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "DP Kontrakan Kawayangan (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-04-16",
+        "nominal":  4442500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-17",
+        "nominal":  650000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Ganti plat Scopy biru",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-17",
+        "nominal":  250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Transmart + makan bersama kakak Haura \u0026 adek nusa (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-04-26",
+        "nominal":  116500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-30",
+        "nominal":  917500,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Syukuran Kontrakan (Affiliate Bocil)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  12500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "LUNAS Kontrakan Groovy",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-23",
+        "nominal":  3300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kulkas \u0026 Kompor Groovy",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-01",
+        "nominal":  4713000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "T2 April 2026 (Gaji Host Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  300000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Doplak Pindahan",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bocil"
+    },
+    {
+        "tanggal":  "2026-05-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Gaji Bojo"
+    },
+    {
+        "tanggal":  "2026-05-01",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "(Belanja Mingguan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-01",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "",
+        "kategori":  "Makan \u0026 Jajan"
+    },
+    {
+        "tanggal":  "2026-05-03",
+        "nominal":  50000,
+        "jenis":  "pemasukan",
+        "keterangan":  "Ultah Cafe Batak",
+        "kategori":  "Undangan Groovy "
+    },
+    {
+        "tanggal":  "2026-05-03",
+        "nominal":  1250000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Plastik hitam 2 bal (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  500000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Listrik (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  175000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Koreden \u0026 Kelambu  (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  24000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Mainan edukasi (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  19000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Obeng (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  29000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rak kamar mandi (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  23000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tespek (Kebutuhan Debay)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pembersih Kamar Mandi",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  30000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pelembab Hanasui (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  113000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pempers  (Kebutuhan Mazin)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  88000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gamis (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  120000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Peralatan Dapur (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  31000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaca bulet (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  85000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Peralatan Dapur (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  318000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Karpet Besar anti slip  (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  258000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Karpet kecil coklat (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  80000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Gembok \u0026 Lampu (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  75000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kaca  (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  28000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tempat sampah dapur (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  55000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Rak make up (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  127000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Regulator Gas \u0026 Selang (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  38000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tempat minum (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  82000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Double tipe putih (Self award Bocil)",
+        "kategori":  "Self Reward Bocil"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  36000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Pewangi Ruangan (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  172000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Bor  (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-23",
+        "nominal":  183000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Skincare Rambut (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  54000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Keset anti slip (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  100000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Sapu, Pel Dll (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-24",
+        "nominal":  128000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Tas besar",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  92000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Stopkontak  (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-04-26",
+        "nominal":  175000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Krim malam (Skincare Bocil)",
+        "kategori":  "Kebutuhan Anak"
+    },
+    {
+        "tanggal":  "2026-04-27",
+        "nominal":  11000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kertas minyak makan (Kontrakan)",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-04-26",
+        "nominal":  62000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Kondangan (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-05-01",
+        "nominal":  150000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Lupi Silpi (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-05-02",
+        "nominal":  175000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Indomaret pempers odol dll",
+        "kategori":  "Kebutuhan Rumah Tangga"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  5000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "1.8512 gr",
+        "kategori":  "Nabung Emas"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.3703 gr",
+        "kategori":  "Nabung Hj"
+    },
+    {
+        "tanggal":  "2026-05-04",
+        "nominal":  1000000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "0.3703 gr",
+        "kategori":  "Emas Masa Depan Anak"
+    },
+    {
+        "tanggal":  "2026-05-05",
+        "nominal":  1110000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "CCTV (Aset Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-05",
+        "nominal":  79000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Shope food mba mba pondok (Sodaqoh)",
+        "kategori":  "Sosial \u0026 Sedekah"
+    },
+    {
+        "tanggal":  "2026-05-06",
+        "nominal":  260000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Evaluasi bulanan host Groovy (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-07",
+        "nominal":  125000,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Snack mingguan host dan admin (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    },
+    {
+        "tanggal":  "2026-05-07",
+        "nominal":  82200,
+        "jenis":  "pengeluaran",
+        "keterangan":  "Galon minum kontrakan (Operasional Groovy)",
+        "kategori":  "Operasional Bisnis"
+    }
+]
