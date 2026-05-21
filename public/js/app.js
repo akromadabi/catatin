@@ -1546,24 +1546,64 @@ function openEditCatModal(id, type) {
         document.getElementById('edit-cat-id').value = id;
         document.getElementById('edit-cat-type-val').value = type;
         document.getElementById('edit-cat-name').value = cat.name;
+        document.getElementById('edit-cat-preview-name').textContent = cat.name;
+
+        // Pre-fill color & icon
+        const color = cat.color || '#6c63ff';
+        const icon  = cat.icon || 'fas fa-star';
+        selectEditCatColor(color);
+        selectEditCatIcon(icon.replace('fas ', ''));
         
-        // Pre-fill keywords if available
+        // Pre-fill keywords
         const kwInput = document.getElementById('edit-cat-keywords');
-        if (kwInput && cat.keywords) {
-            kwInput.value = cat.keywords.join(', ');
-        } else if (kwInput) {
-            kwInput.value = '';
-        }
+        if (kwInput) kwInput.value = cat.keywords ? cat.keywords.join(', ') : '';
         
         const modal = document.getElementById('edit-cat-modal');
-        if(!modal) {
-            showToast("Gagal: HTML Modal tidak ada!");
-            return;
-        }
+        if(!modal) { showToast("Gagal: HTML Modal tidak ada!"); return; }
         modal.style.removeProperty('display');
         modal.classList.add('edit-cat-modal-open');
     } catch (error) {
         showToast("Error: " + error.message);
+    }
+}
+
+function selectEditCatColor(hex) {
+    document.getElementById('edit-cat-selected-color').value = hex;
+    document.querySelectorAll('.edit-cat-color-btn').forEach(btn => {
+        const selected = btn.dataset.color === hex;
+        btn.style.borderColor = selected ? '#fff' : 'transparent';
+        btn.style.outline = selected ? `3px solid ${hex}` : 'none';
+        btn.style.transform = selected ? 'scale(1.15)' : 'scale(1)';
+    });
+    updateEditCatPreview();
+}
+
+function selectEditCatIcon(iconName) {
+    const full = iconName.startsWith('fas ') ? iconName : 'fas ' + iconName;
+    document.getElementById('edit-cat-selected-icon').value = full;
+    const color = document.getElementById('edit-cat-selected-color').value || '#6c63ff';
+    document.querySelectorAll('.edit-cat-icon-btn').forEach(btn => {
+        const selected = btn.dataset.icon === full;
+        btn.style.background = selected ? color + '22' : '';
+        btn.style.color = selected ? color : '';
+        btn.style.outline = selected ? `2px solid ${color}` : 'none';
+    });
+    updateEditCatPreview();
+}
+
+function updateEditCatPreview() {
+    const name  = document.getElementById('edit-cat-name').value || 'Nama Kategori';
+    const color = document.getElementById('edit-cat-selected-color').value || '#6c63ff';
+    const icon  = document.getElementById('edit-cat-selected-icon').value || 'fas fa-star';
+    
+    document.getElementById('edit-cat-preview-name').textContent = name;
+    const preview     = document.getElementById('edit-cat-preview');
+    const previewIcon = document.getElementById('edit-cat-preview-icon');
+    if (preview) preview.style.background = color + '22';
+    if (previewIcon) {
+        previewIcon.style.background = color + '33';
+        previewIcon.style.color = color;
+        previewIcon.innerHTML = `<i class="${icon}"></i>`;
     }
 }
 
@@ -1577,6 +1617,8 @@ async function confirmEditCategory() {
     const id      = document.getElementById('edit-cat-id').value;
     const type    = document.getElementById('edit-cat-type-val').value;
     const newName = document.getElementById('edit-cat-name').value.trim();
+    const newColor = document.getElementById('edit-cat-selected-color').value || '#6c63ff';
+    const newIcon  = document.getElementById('edit-cat-selected-icon').value || 'fas fa-star';
     const kwRaw   = document.getElementById('edit-cat-keywords')?.value?.trim() || '';
     const keywords = kwRaw
         ? kwRaw.split(',').map(k => k.trim().toLowerCase()).filter(Boolean)
@@ -1585,20 +1627,36 @@ async function confirmEditCategory() {
     
     const cat = appData.categories[type].find(c => c.id == id);
     if (cat) {
-        cat.name = newName;
+        const oldName = cat.name;
+
+        // Update category data
+        cat.name     = newName;
+        cat.color    = newColor;
+        cat.icon     = newIcon;
         cat.keywords = keywords;
+
+        // Update all linked transactions so counter stays correct
+        if (appData.transactions && oldName !== newName) {
+            appData.transactions.forEach(t => {
+                if (t.category === oldName && t.type === type) {
+                    t.category = newName;
+                }
+            });
+        }
+
         saveData(appData);
         updateCategoriesPage();
         populateCategorySelect();
         populateFilterCat();
+        updateWallet();
         showToast('Kategori berhasil diperbarui');
 
-        // Persist to backend if it's a real DB category
+        // Persist to backend
         if (window.authUser && !String(id).startsWith('cat_') && !String(id).startsWith('in_') && !String(id).startsWith('out_')) {
             fetch(`${window.baseUrl}/api/categories/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
-                body: JSON.stringify({ name: newName, keywords })
+                body: JSON.stringify({ name: newName, color: newColor, icon: newIcon, keywords })
             }).catch(() => {});
         }
     }

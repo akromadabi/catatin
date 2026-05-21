@@ -779,28 +779,85 @@
     <!-- EDIT CATEGORY MODAL -->
     <div id="edit-cat-modal" class="fixed inset-0 z-[70] flex items-center justify-center p-4" style="display:none !important">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditCatModal()"></div>
-        <div class="relative bg-white w-full max-w-sm rounded-2xl p-5">
-            <h3 class="font-bold text-slate-900 mb-4 text-lg">Edit Kategori</h3>
+        <div class="relative bg-white w-full max-w-sm rounded-2xl flex flex-col max-h-[92vh]">
+            <!-- Header -->
+            <div class="px-5 py-3 border-b border-slate-100 shrink-0">
+                <h3 class="font-bold text-slate-900 text-base">Edit Kategori</h3>
+            </div>
             <input type="hidden" id="edit-cat-id">
             <input type="hidden" id="edit-cat-type-val">
-            <div class="mb-4">
-                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nama Kategori</label>
-                <input type="text" id="edit-cat-name" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none" placeholder="Nama Kategori">
+
+            <div class="overflow-y-auto flex-1 px-5 py-4 space-y-4">
+                <!-- Preview -->
+                <div id="edit-cat-preview" class="flex items-center gap-3 rounded-2xl px-4 py-3" style="background:#ede9fe">
+                    <div id="edit-cat-preview-icon" class="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style="background:#ddd6fe;color:#6c63ff">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span id="edit-cat-preview-name" class="font-bold text-slate-700 text-base">Nama Kategori</span>
+                </div>
+
+                <!-- Name Input -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nama Kategori</label>
+                    <input type="text" id="edit-cat-name" maxlength="30"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-700 focus:border-[#6c63ff] outline-none"
+                        placeholder="Nama kategori..." oninput="updateEditCatPreview()">
+                </div>
+
+                <!-- Color Picker -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Warna</label>
+                    <div class="flex gap-2 flex-wrap">
+                        @foreach(['#6c63ff','#3b82f6','#06b6d4','#10b981','#84cc16','#f59e0b','#ef4444','#ec4899','#8b5cf6','#f97316'] as $color)
+                        <button onclick="selectEditCatColor('{{ $color }}')" class="edit-cat-color-btn w-9 h-9 rounded-full transition border-4 border-transparent hover:scale-110" style="background:{{ $color }}" data-color="{{ $color }}"></button>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Icon Pack -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Ikon</label>
+                    <div class="grid grid-cols-5 gap-2">
+                        @php
+                        $icons = [
+                            'fa-store','fa-credit-card','fa-piggy-bank','fa-landmark','fa-chart-line',
+                            'fa-shopping-basket','fa-bicycle','fa-utensils','fa-cash-register','fa-calculator',
+                            'fa-box','fa-dollar-sign','fa-ellipsis-h','fa-layer-group','fa-tag',
+                            'fa-star','fa-heart','fa-flag','fa-bookmark','fa-briefcase',
+                            'fa-car','fa-home','fa-plane','fa-graduation-cap','fa-medkit',
+                            'fa-bolt','fa-wifi','fa-gamepad','fa-music','fa-gift',
+                            'fa-wallet','fa-coins','fa-receipt','fa-percent','fa-mobile-alt'
+                        ];
+                        @endphp
+                        @foreach($icons as $icon)
+                        <button onclick="selectEditCatIcon('fa-{{ str_replace('fa-','',$icon) }}')" class="edit-cat-icon-btn w-full aspect-square rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition text-sm" data-icon="fas {{ $icon }}">
+                            <i class="fas {{ $icon }}"></i>
+                        </button>
+                        @endforeach
+                    </div>
+                </div>
+
+                <input type="hidden" id="edit-cat-selected-icon" value="fas fa-star">
+                <input type="hidden" id="edit-cat-selected-color" value="#6c63ff">
+
+                <!-- Keywords -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                        Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
+                    </label>
+                    <input type="text" id="edit-cat-keywords"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none"
+                        placeholder="kado, surprise, gift (pisahkan koma)">
+                    <p class="text-[10px] text-slate-400 mt-1">Dikenali otomatis saat input suara</p>
+                </div>
             </div>
-            <div class="mb-5">
-                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
-                    Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
-                </label>
-                <input type="text" id="edit-cat-keywords"
-                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none"
-                    placeholder="kado, surprise, gift (pisahkan koma)">
-                <p class="text-[10px] text-slate-400 mt-1">Dikenali otomatis saat input suara</p>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="confirmDeleteCategory()" class="flex-1 bg-rose-50 text-rose-500 border border-rose-200 rounded-xl py-3 font-bold text-sm transition hover:bg-rose-100">
+
+            <!-- Footer -->
+            <div class="px-5 py-4 border-t border-slate-100 flex gap-3 shrink-0">
+                <button onclick="confirmDeleteCategory()" class="flex-1 bg-rose-50 text-rose-500 border border-rose-200 rounded-2xl py-3 font-bold text-sm transition hover:bg-rose-100">
                     <i class="fas fa-trash mr-2"></i>Hapus
                 </button>
-                <button onclick="confirmEditCategory()" class="flex-1 bg-brand-600 text-white rounded-xl py-3 font-bold text-sm transition hover:bg-brand-700">
+                <button onclick="confirmEditCategory()" class="flex-1 bg-brand-600 text-white rounded-2xl py-3 font-bold text-sm transition hover:bg-brand-700">
                     <i class="fas fa-save mr-2"></i>Simpan
                 </button>
             </div>
