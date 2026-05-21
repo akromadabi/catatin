@@ -1449,8 +1449,8 @@ function updateCategoriesPage() {
         const txnCountBadge = `<span class="text-[9px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full ml-2">${txnCount} trx</span>`;
         
         html += `
-        <div class="flex items-center justify-between p-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition">
-            <div class="flex items-center gap-3">
+        <div class="category-row flex items-center justify-between p-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition cursor-pointer" data-id="${c.id}" data-type="${type}">
+            <div class="flex items-center gap-3 pointer-events-none">
                 <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 text-lg">
                     ${iconHtml}
                 </div>
@@ -1463,19 +1463,18 @@ function updateCategoriesPage() {
                     ${kwBadges ? `<div class="mt-0.5 flex flex-wrap gap-0.5">${kwBadges}</div>` : ''}
                 </div>
             </div>
-            <button class="btn-edit-cat text-slate-400 p-2 hover:bg-slate-100 rounded-full transition relative z-10" data-id="${c.id}" data-type="${type}">
-                <i class="fas fa-ellipsis-v text-sm pointer-events-none"></i>
+            <button class="text-slate-400 p-2 hover:bg-slate-100 rounded-full transition pointer-events-none">
+                <i class="fas fa-ellipsis-v text-sm"></i>
             </button>
         </div>`;
     });
     
     list.innerHTML = html;
     
-    // Attach event listeners safely
-    list.querySelectorAll('.btn-edit-cat').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+    // Attach event listeners safely to the entire row
+    list.querySelectorAll('.category-row').forEach(row => {
+        row.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
             openEditCatModal(this.dataset.id, this.dataset.type);
         });
     });
@@ -1540,7 +1539,7 @@ function openEditCatModal(id, type) {
         const catList = appData.categories[type] || [];
         const cat = catList.find(c => c.id == id);
         if(!cat) {
-            alert("Gagal: Kategori dengan ID " + id + " tidak ditemukan di tipe " + type);
+            showToast("Gagal: Kategori tidak ditemukan!");
             return;
         }
         
@@ -1558,13 +1557,13 @@ function openEditCatModal(id, type) {
         
         const modal = document.getElementById('edit-cat-modal');
         if(!modal) {
-            alert("Gagal: Elemen edit-cat-modal tidak ditemukan di HTML");
+            showToast("Gagal: HTML Modal tidak ada!");
             return;
         }
         modal.style.removeProperty('display');
         modal.classList.add('edit-cat-modal-open');
     } catch (error) {
-        alert("Terjadi error di openEditCatModal: " + error.message);
+        showToast("Error: " + error.message);
     }
 }
 
