@@ -1322,8 +1322,8 @@
 </div>
 
 <!-- CATEGORY DETAILS OVERLAY -->
-<div class="voice-overlay z-[100]" id="category-detail-overlay">
-    <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-300 transform translate-y-full h-[80vh]" id="category-detail-modal">
+<div class="voice-overlay z-[100] !justify-end" id="category-detail-overlay" onclick="closeCategoryDetails()">
+    <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-300 transform translate-y-full h-[80vh]" id="category-detail-modal" onclick="event.stopPropagation()">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white rounded-t-3xl z-10 shrink-0">
             <div>
                 <h3 class="text-lg font-bold text-slate-900 leading-tight" id="cat-detail-title">Rincian Kategori</h3>
