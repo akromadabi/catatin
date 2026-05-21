@@ -1625,40 +1625,70 @@ async function confirmEditCategory() {
         : [];
     if (!newName) return;
     
-    const cat = appData.categories[type].find(c => c.id == id);
-    if (cat) {
-        const oldName = cat.name;
+    const catList = appData.categories[type];
+    const cat = catList.find(c => c.id == id);
+    if (!cat) return;
 
-        // Update category data
-        cat.name     = newName;
-        cat.color    = newColor;
-        cat.icon     = newIcon;
-        cat.keywords = keywords;
+    const oldName = cat.name;
 
-        // Update all linked transactions so counter stays correct
-        if (appData.transactions && oldName !== newName) {
+    // Check if another category with the same name already exists
+    const duplicate = catList.find(c => c.id != id && c.name.toLowerCase() === newName.toLowerCase());
+    if (duplicate) {
+        // Offer merge option
+        const confirmMerge = confirm(
+            `Kategori "${newName}" sudah ada.\n\nKlik OK untuk MENGGABUNGKAN semua transaksi "${oldName}" ke "${duplicate.name}", lalu hapus "${oldName}".\n\nKlik Batal untuk tidak jadi.`
+        );
+        if (!confirmMerge) return;
+
+        // Merge: move all transactions from old cat to existing duplicate
+        if (appData.transactions) {
             appData.transactions.forEach(t => {
                 if (t.category === oldName && t.type === type) {
-                    t.category = newName;
+                    t.category = duplicate.name;
                 }
             });
         }
-
+        // Delete the old category
+        appData.categories[type] = catList.filter(c => c.id != id);
         saveData(appData);
         updateCategoriesPage();
         populateCategorySelect();
         populateFilterCat();
         updateWallet();
-        showToast('Kategori berhasil diperbarui');
+        showToast(`Kategori "${oldName}" digabung ke "${duplicate.name}"`);
+        closeEditCatModal();
+        return;
+    }
 
-        // Persist to backend
-        if (window.authUser && !String(id).startsWith('cat_') && !String(id).startsWith('in_') && !String(id).startsWith('out_')) {
-            fetch(`${window.baseUrl}/api/categories/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
-                body: JSON.stringify({ name: newName, color: newColor, icon: newIcon, keywords })
-            }).catch(() => {});
-        }
+    // Normal rename
+    cat.name     = newName;
+    cat.color    = newColor;
+    cat.icon     = newIcon;
+    cat.keywords = keywords;
+
+    // Update all linked transactions
+    if (appData.transactions && oldName !== newName) {
+        appData.transactions.forEach(t => {
+            if (t.category === oldName && t.type === type) {
+                t.category = newName;
+            }
+        });
+    }
+
+    saveData(appData);
+    updateCategoriesPage();
+    populateCategorySelect();
+    populateFilterCat();
+    updateWallet();
+    showToast('Kategori berhasil diperbarui');
+
+    // Persist to backend
+    if (window.authUser && !String(id).startsWith('cat_') && !String(id).startsWith('in_') && !String(id).startsWith('out_')) {
+        fetch(`${window.baseUrl}/api/categories/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': getCsrfToken() },
+            body: JSON.stringify({ name: newName, color: newColor, icon: newIcon, keywords })
+        }).catch(() => {});
     }
     closeEditCatModal();
 }
