@@ -1518,6 +1518,8 @@ function handleAddCategory(e) {
 function handleDeleteCategory(id, type) {
     if(!confirm('Hapus kategori ini?')) return;
     
+    // Remove locally first for instant feedback
+    const backup = [...appData.categories[type]];
     appData.categories[type] = appData.categories[type].filter(c => c.id != id);
     saveData(appData);
     
@@ -1530,7 +1532,31 @@ function handleDeleteCategory(id, type) {
         fetch(url, {
             method: 'DELETE',
             headers: { 'X-CSRF-TOKEN': getCsrfToken() }
-        }).catch(err => console.error(err));
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                // Rollback: restore the deleted category
+                appData.categories[type] = backup;
+                saveData(appData);
+                updateCategoriesPage();
+                populateCategorySelect();
+                populateFilterCat();
+                showToast('Gagal hapus: ' + data.error);
+            } else {
+                showToast('Kategori berhasil dihapus');
+            }
+        })
+        .catch(err => {
+            // Rollback on network error
+            appData.categories[type] = backup;
+            saveData(appData);
+            updateCategoriesPage();
+            showToast('Gagal hapus: koneksi bermasalah');
+            console.error(err);
+        });
+    } else {
+        showToast('Kategori berhasil dihapus');
     }
 }
 

@@ -192,11 +192,8 @@ class ApiController extends Controller
     {
         $projectId = $this->activeProjectId();
 
-        // Owner check for delete
         $project = \App\Models\Project::findOrFail($projectId);
-        if (!$project->isOwner(auth()->id())) {
-            return response()->json(['error' => 'Hanya pemilik proyek yang bisa menghapus kategori.'], 403);
-        }
+        abort_unless($project->isMember(auth()->id()), 403, 'Akses ditolak.');
 
         $cat = Category::where('project_id', $projectId)->findOrFail($id);
 
