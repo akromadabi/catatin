@@ -386,12 +386,6 @@
 
                 <!-- Chart -->
                 <div class="bg-white border border-slate-100 shadow-card rounded-3xl p-5 mb-6">
-                    <!-- Chart Toggle -->
-                    <div class="bg-slate-50 border border-slate-100 rounded-full p-1 flex mb-4">
-                        <button class="chart-tab active flex-1 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white shadow-sm" data-chart="bar" onclick="setChartView('bar')">Arus Kas</button>
-                        <button class="chart-tab flex-1 py-1.5 rounded-full text-xs font-bold text-slate-400 hover:text-slate-600 transition" data-chart="donut" onclick="setChartView('donut')">Kategori</button>
-                    </div>
-
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-slate-900" id="chart-title">Arus Kas</h3>
                         <div id="bar-legend" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
@@ -405,13 +399,19 @@
                             </label>
                         </div>
                     </div>
-                    <div class="h-56 relative flex items-center justify-center">
+                    <div class="h-56 relative flex items-center justify-center mb-5">
                         <canvas id="main-chart"></canvas>
                         <!-- Center text for donut chart -->
                         <div id="donut-center-text" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none hidden">
                             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TOTAL</span>
                             <span class="text-sm font-bold text-slate-800" id="donut-total">Rp 0</span>
                         </div>
+                    </div>
+                    
+                    <!-- Chart Toggle -->
+                    <div class="bg-slate-50 border border-slate-100 rounded-full p-1 flex">
+                        <button class="chart-tab active flex-1 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white shadow-sm" data-chart="bar" onclick="setChartView('bar')">Bar</button>
+                        <button class="chart-tab flex-1 py-1.5 rounded-full text-xs font-bold text-slate-400 hover:text-slate-600 transition" data-chart="donut" onclick="setChartView('donut')">Donut</button>
                     </div>
                 </div>
 
