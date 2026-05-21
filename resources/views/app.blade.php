@@ -398,8 +398,11 @@
                             <span class="w-2 h-2 rounded-full bg-brand-600"></span> Pengeluaran
                             <span class="w-2 h-2 rounded-full bg-slate-200 ml-1"></span> Pemasukan
                         </div>
-                        <div id="donut-legend" class="hidden flex items-center gap-2 text-xs font-medium text-slate-500">
-                            <span class="px-2 py-0.5 bg-brand-50 text-brand-600 rounded-full text-[9px] font-bold uppercase tracking-wider">Pengeluaran</span>
+                        <div id="donut-legend" class="hidden flex items-center gap-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="toggle-donut-legend" onchange="toggleDonutLegend()" class="w-3.5 h-3.5 text-brand-600 bg-slate-100 border-slate-300 rounded focus:ring-brand-500 focus:ring-2 cursor-pointer">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Keterangan</span>
+                            </label>
                         </div>
                     </div>
                     <div class="h-56 relative flex items-center justify-center">

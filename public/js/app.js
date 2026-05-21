@@ -525,6 +525,11 @@ function setBreakdownTab(type) {
         if(b.classList.contains('active')) activePeriod = b.dataset.period;
     });
     
+    if (currentChartView === 'bar') {
+        renderBarChart(activePeriod);
+    } else {
+        renderDonutChart(activePeriod);
+    }
     renderBreakdown(activePeriod);
 }
 
@@ -750,6 +755,19 @@ function downloadReport() {
     }
 }
 
+let showDonutLegend = false;
+function toggleDonutLegend() {
+    const cb = document.getElementById('toggle-donut-legend');
+    if (cb) showDonutLegend = cb.checked;
+    
+    let activePeriod = 'month';
+    document.querySelectorAll('.pill-tab').forEach(b => {
+        if(b.classList.contains('active')) activePeriod = b.dataset.period;
+    });
+    renderDonutChart(activePeriod);
+}
+
+
 function renderBarChart(period) {
     const ctx = document.getElementById('main-chart');
     if(!ctx) return;
@@ -801,17 +819,30 @@ function renderBarChart(period) {
         const years = txns.map(t => new Date(t.date).getFullYear());
         const minYear = years.length ? Math.min(...years) : new Date().getFullYear();
         const maxYear = years.length ? Math.max(...years) : new Date().getFullYear();
-        for (let y = minYear; y <= maxYear; y++) {
+        for(let y = minYear; y <= maxYear; y++) {
             labels.push(y);
             outData.push(0);
             inData.push(0);
         }
         txns.forEach(t => {
-            const idx = new Date(t.date).getFullYear() - minYear;
+            const y = new Date(t.date).getFullYear();
+            const idx = labels.indexOf(y);
             const amt = parseFloat(t.amount) || 0;
-            if(t.type === 'pengeluaran') outData[idx] += amt;
-            else inData[idx] += amt;
+            if(idx > -1) {
+                if(t.type === 'pengeluaran') outData[idx] += amt;
+                else inData[idx] += amt;
+            }
         });
+    }
+
+    // Dynamic legend based on currentBreakdownTab
+    const barLegend = document.getElementById('bar-legend');
+    if (barLegend) {
+        if (currentBreakdownTab === 'pengeluaran') {
+            barLegend.innerHTML = '<span class="w-2 h-2 rounded-full bg-brand-600"></span> Pengeluaran';
+        } else {
+            barLegend.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Pemasukan';
+        }
     }
 
     mainChart = new Chart(ctx, {
@@ -823,13 +854,15 @@ function renderBarChart(period) {
                     label: 'Pengeluaran',
                     data: outData,
                     backgroundColor: '#2563eb',
+                    hidden: currentBreakdownTab !== 'pengeluaran',
                     borderRadius: 4,
                     barPercentage: 0.6
                 },
                 {
                     label: 'Pemasukan',
                     data: inData,
-                    backgroundColor: '#e2e8f0',
+                    backgroundColor: '#10b981',
+                    hidden: currentBreakdownTab !== 'pemasukan',
                     borderRadius: 4,
                     barPercentage: 0.6
                 }
@@ -853,8 +886,8 @@ function renderDonutChart(period) {
 
     if(mainChart) mainChart.destroy();
     
-    // Filter pengeluaran for donut chart
-    const txns = filterTransactions(period, currentDateOffset).filter(t => t.type === 'pengeluaran');
+    // Filter for donut chart
+    const txns = filterTransactions(period, currentDateOffset).filter(t => t.type === currentBreakdownTab);
     
     let total = 0;
     const catMap = {};
@@ -877,6 +910,14 @@ function renderDonutChart(period) {
     // Update center text
     const totalEl = document.getElementById('donut-total');
     if (totalEl) totalEl.textContent = formatRupiah(total);
+
+    // If legend is shown, we might want to hide the center text so it doesn't look too cramped
+    // Or we just let chart.js render the legend
+    const legendOptions = {
+        display: showDonutLegend,
+        position: 'right',
+        labels: { boxWidth: 12, font: { size: 10 } }
+    };
 
     if (total === 0) {
         // empty state
@@ -906,11 +947,18 @@ function renderDonutChart(period) {
             }]
         },
         options: {
+            onClick: (e, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const catName = labels[index];
+                    openCategoryDetails(catName, period);
+                }
+            },
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '75%',
+            cutout: showDonutLegend ? '60%' : '75%', // Shrink hole if legend is shown
             plugins: { 
-                legend: { display: false },
+                legend: legendOptions,
                 tooltip: {
                     callbacks: {
                         label: function(context) {
