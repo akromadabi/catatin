@@ -384,6 +384,20 @@
                     </button>
                 </div>
 
+                <!-- Chart (Arus Kas) -->
+                <div class="bg-white border border-slate-100 shadow-card rounded-3xl p-5 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-900">Arus Kas</h3>
+                        <div id="bar-legend" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            <span class="w-2 h-2 rounded-full bg-brand-600"></span> Pengeluaran
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 ml-1"></span> Pemasukan
+                        </div>
+                    </div>
+                    <div class="h-56 relative flex items-center justify-center">
+                        <canvas id="bar-chart-canvas"></canvas>
+                    </div>
+                </div>
+
 
                 <!-- Income & Expense Cards -->
                 <div class="grid grid-cols-2 gap-4 mb-6">
@@ -399,11 +413,20 @@
 
                 <!-- Breakdown / Analytics Main Card -->
                 <div class="mb-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-slate-900 text-sm" id="breakdown-title">Rincian</h3>
-                        <div class="flex bg-slate-100 rounded-lg p-1">
-                            <button class="px-3 py-1 text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" id="btn-breakdown-out" onclick="setBreakdownTab('pengeluaran')">Pengeluaran</button>
-                            <button class="px-3 py-1 text-xs font-bold rounded-md text-slate-500" id="btn-breakdown-in" onclick="setBreakdownTab('pemasukan')">Pemasukan</button>
+                    <div class="flex justify-between items-center mb-4 gap-2">
+                        <h3 class="font-bold text-slate-900 text-sm hidden sm:block" id="breakdown-title">Rincian</h3>
+                        <div class="flex items-center gap-2 flex-1 sm:flex-none justify-end">
+                            <!-- Visual Toggle (Bar vs Donut) -->
+                            <div class="flex bg-slate-100 rounded-lg p-1">
+                                <button class="chart-tab active px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
+                                <button class="chart-tab px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" data-chart="donut" onclick="setChartView('donut')">Diagram Donat</button>
+                            </div>
+                            
+                            <!-- Type Toggle (Pengeluaran vs Pemasukan) -->
+                            <div class="flex bg-slate-100 rounded-lg p-1">
+                                <button class="px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" id="btn-breakdown-out" onclick="setBreakdownTab('pengeluaran')">Keluar</button>
+                                <button class="px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" id="btn-breakdown-in" onclick="setBreakdownTab('pemasukan')">Masuk</button>
+                            </div>
                         </div>
                     </div>
                     
@@ -434,12 +457,6 @@
                                     <span class="text-sm font-bold text-slate-800" id="donut-total">Rp 0</span>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Visual Toggle (Bar vs Donut) -->
-                        <div class="bg-slate-50 border border-slate-100 rounded-full p-1 flex mt-6">
-                            <button class="chart-tab active flex-1 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white shadow-sm" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
-                            <button class="chart-tab flex-1 py-1.5 rounded-full text-xs font-bold text-slate-400 hover:text-slate-600 transition" data-chart="donut" onclick="setChartView('donut')">Diagram Donat</button>
                         </div>
                     </div>
                 </div>
