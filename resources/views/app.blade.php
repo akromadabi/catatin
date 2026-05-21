@@ -480,16 +480,15 @@
             </div>
 
             <div class="px-6 mt-2">
+                <!-- Transaction List -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-slate-900 text-lg">Transaksi</h3>
+                </div>
+
                 <!-- Search Bar -->
                 <div id="wallet-search-container" class="mb-4 relative">
                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
                     <input type="text" id="wallet-search-input" placeholder="Cari deskripsi atau kategori..." class="w-full bg-slate-100 text-sm text-slate-700 font-semibold rounded-xl pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-brand-600 transition" oninput="updateWallet()">
-                </div>
-
-
-                <!-- Transaction List -->
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-slate-900 text-lg">Transaksi</h3>
                 </div>
 
                 <!-- Filters built-in -->
@@ -1493,4 +1492,5 @@
         </div>
     </div>
 </div>
+
 

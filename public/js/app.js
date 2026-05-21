@@ -1527,24 +1527,36 @@ function handleDeleteCategory(id, type) {
 }
 
 function openEditCatModal(id, type) {
-    const cat = (appData.categories[type] || []).find(c => c.id == id);
-    if(!cat) return;
-    
-    document.getElementById('edit-cat-id').value = id;
-    document.getElementById('edit-cat-type-val').value = type;
-    document.getElementById('edit-cat-name').value = cat.name;
-    
-    // Pre-fill keywords if available
-    const kwInput = document.getElementById('edit-cat-keywords');
-    if (kwInput && cat.keywords) {
-        kwInput.value = cat.keywords.join(', ');
-    } else if (kwInput) {
-        kwInput.value = '';
+    try {
+        const catList = appData.categories[type] || [];
+        const cat = catList.find(c => c.id == id);
+        if(!cat) {
+            alert("Gagal: Kategori dengan ID " + id + " tidak ditemukan di tipe " + type);
+            return;
+        }
+        
+        document.getElementById('edit-cat-id').value = id;
+        document.getElementById('edit-cat-type-val').value = type;
+        document.getElementById('edit-cat-name').value = cat.name;
+        
+        // Pre-fill keywords if available
+        const kwInput = document.getElementById('edit-cat-keywords');
+        if (kwInput && cat.keywords) {
+            kwInput.value = cat.keywords.join(', ');
+        } else if (kwInput) {
+            kwInput.value = '';
+        }
+        
+        const modal = document.getElementById('edit-cat-modal');
+        if(!modal) {
+            alert("Gagal: Elemen edit-cat-modal tidak ditemukan di HTML");
+            return;
+        }
+        modal.style.display = 'flex';
+        modal.classList.add('edit-cat-modal-open');
+    } catch (error) {
+        alert("Terjadi error di openEditCatModal: " + error.message);
     }
-    
-    const modal = document.getElementById('edit-cat-modal');
-    modal.style.display = 'flex';
-    modal.classList.add('edit-cat-modal-open');
 }
 
 function closeEditCatModal() {
@@ -3008,11 +3020,15 @@ let tempRestoreFile = null;
 function importData(input) {
     if(!window.activeProject) {
         showToast('Pilih proyek terlebih dahulu.');
-        input.value = '';
         return;
     }
     const file = input.files[0];
-    if(!file) return;
+    if(!file) {
+        alert("DEBUG: input.files kosong atau tidak ada file yang dipilih.");
+        return;
+    }
+    
+    alert("DEBUG File terpilih: " + file.name + " (" + file.size + " bytes, type: " + file.type + ")");
     
     tempRestoreFile = file;
     

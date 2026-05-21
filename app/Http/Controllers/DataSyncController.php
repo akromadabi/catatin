@@ -56,7 +56,8 @@ class DataSyncController extends Controller
 
         $file = $request->file('file');
         if (!$file) {
-            return response()->json(['success' => false, 'message' => 'File tidak ditemukan dalam request.'], 400);
+            $debugInfo = 'Keys in FILES: ' . implode(', ', array_keys($_FILES)) . ' | Content-Type: ' . $request->header('Content-Type') . ' | Content-Length: ' . $request->header('Content-Length');
+            return response()->json(['success' => false, 'message' => 'File tidak ditemukan dalam request. ' . $debugInfo], 400);
         }
         if (!$file->isValid()) {
             return response()->json(['success' => false, 'message' => 'Gagal upload: ' . $file->getErrorMessage()], 400);
