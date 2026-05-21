@@ -31,29 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function pushModalHistory(modalName) {
-        history.pushState({ modal: modalName, pageId: window.location.hash.replace('#', '') || 'home' }, '', '#modal-' + modalName);
-        document.getElementById(modalName).setAttribute('data-history-pushed', 'true');
-    }
-
-    function closeModalByName(modalName) {
-        if (modalName === 'edit-cat-modal') closeEditCatModal(true);
-        else if (modalName === 'add-cat-modal') closeAddCatModal(true);
-    }
-
-    function closeAnyOpenModal() {
-        const modals = ['edit-cat-modal', 'add-cat-modal'];
-        for (let m of modals) {
-            const el = document.getElementById(m);
-            // Check if open but without history flag (meaning history already popped)
-            if (el && el.style.display !== 'none' && !el.hasAttribute('data-history-pushed')) {
-                closeModalByName(m);
-                return true;
-            }
-        }
-        return false;
-    }
-
     const initialHash = window.location.hash.replace('#', '');
     if (initialHash && document.getElementById('page-' + initialHash)) {
         history.replaceState({ pageId: initialHash }, '', '#' + initialHash);
@@ -63,6 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
         navigateTo('home', false);
     }
 });
+
+// Modal History Helpers (Global Scope)
+function pushModalHistory(modalName) {
+    history.pushState({ modal: modalName, pageId: window.location.hash.replace('#', '') || 'home' }, '', '#modal-' + modalName);
+    document.getElementById(modalName).setAttribute('data-history-pushed', 'true');
+}
+
+function closeModalByName(modalName) {
+    if (modalName === 'edit-cat-modal') closeEditCatModal(true);
+    else if (modalName === 'add-cat-modal') closeAddCatModal(true);
+}
+
+function closeAnyOpenModal() {
+    const modals = ['edit-cat-modal', 'add-cat-modal'];
+    for (let m of modals) {
+        const el = document.getElementById(m);
+        // Check if open but without history flag (meaning history already popped)
+        if (el && el.style.display !== 'none' && !el.hasAttribute('data-history-pushed')) {
+            closeModalByName(m);
+            return true;
+        }
+    }
+    return false;
+}
 
 function initUI() {
     populateCategorySelect();
