@@ -2505,3 +2505,180 @@ async function subscribeToPush() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(checkPushStatus, 500);
 });
+
+/* ================= BACKUP & IMPORT ================= */
+function openBackupRestoreModal() {
+    const m = document.getElementById('backup-restore-modal');
+    if(m) {
+        // Load last backup info
+        if (window.activeProject) {
+            const lastBackup = localStorage.getItem('last_backup_' + window.activeProject.id);
+            const infoBox = document.getElementById('last-backup-info');
+            if (lastBackup && infoBox) {
+                try {
+                    const data = JSON.parse(lastBackup);
+                    document.getElementById('last-backup-filename').textContent = data.filename;
+                    document.getElementById('last-backup-date').textContent = data.date;
+                    infoBox.classList.remove('hidden');
+                } catch(e) {}
+            } else if (infoBox) {
+                infoBox.classList.add('hidden');
+            }
+        }
+        
+        m.style.removeProperty('display');
+        m.style.display = 'flex';
+    }
+}
+
+function closeBackupRestoreModal() {
+    const m = document.getElementById('backup-restore-modal');
+    if(m) m.style.display = 'none';
+}
+
+function backupData() {
+    if(!window.activeProject) {
+        showToast('Pilih proyek terlebih dahulu.');
+        return;
+    }
+    
+    // Generate filename for localStorage
+    const projName = window.activeProject.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
+    const filename = `${projName.toUpperCase()}_${dd}_${mm}_${yyyy}_BACKUP.json`;
+    
+    // Format date string for display (e.g. 21/05/2026 14:30:00)
+    const hh = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const sec = String(now.getSeconds()).padStart(2, '0');
+    const dateStr = `${dd}/${mm}/${yyyy} ${hh}:${min}:${sec}`;
+    
+    localStorage.setItem('last_backup_' + window.activeProject.id, JSON.stringify({
+        filename: filename,
+        date: dateStr
+    }));
+
+    // Arahkan browser ke URL export, yang akan memaksa download file JSON
+    window.location.href = window.baseUrl + '/api/projects/' + window.activeProject.id + '/export';
+    
+    closeBackupRestoreModal();
+
+    // Tampilkan notifikasi setelah sedikit jeda karena proses download terjadi di background
+    setTimeout(() => {
+        showToast('Berhasil mengunduh backup JSON!');
+    }, 1500);
+}
+
+/* ================= MIC HOLD LOGIC ================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const fabMic = document.getElementById('fab-mic');
+    const micWrapper = document.getElementById('mic-wrapper');
+    if (!fabMic) return;
+    
+    let micHoldTimer;
+    let isMicHolding = false;
+
+    const startHold = (e) => {
+        // Only prevent default for touch to avoid duplicate mouse events
+        if(e.type === 'touchstart' && e.cancelable) e.preventDefault();
+        
+        isMicHolding = false;
+        micHoldTimer = setTimeout(() => {
+            isMicHolding = true;
+            if (navigator.vibrate) navigator.vibrate(50);
+            fabMic.classList.add('holding');
+            if (micWrapper) micWrapper.style.zIndex = '110';
+            openVoiceModal(); 
+        }, 300);
+    };
+
+    const endHold = (e) => {
+        if((e.type === 'touchend' || e.type === 'touchcancel') && e.cancelable) e.preventDefault();
+        
+        clearTimeout(micHoldTimer);
+        fabMic.classList.remove('holding');
+        if (micWrapper) micWrapper.style.zIndex = '40';
+        if (isMicHolding) {
+            // Was holding, now release -> stop recording
+            stopRecording();
+        } else {
+            // Was a short tap -> go to manual typing
+            navigateTo('add');
+        }
+        isMicHolding = false;
+    };
+
+    // Events for mouse
+    fabMic.addEventListener('mousedown', startHold);
+    fabMic.addEventListener('mouseup', endHold);
+    fabMic.addEventListener('mouseleave', () => {
+        clearTimeout(micHoldTimer);
+        fabMic.classList.remove('holding');
+        if (micWrapper) micWrapper.style.zIndex = '40';
+        if (isMicHolding) {
+            stopRecording();
+            isMicHolding = false;
+        }
+    });
+
+    // Events for touch
+    fabMic.addEventListener('touchstart', startHold, {passive: false});
+    fabMic.addEventListener('touchend', endHold, {passive: false});
+    fabMic.addEventListener('touchcancel', () => {
+        clearTimeout(micHoldTimer);
+        fabMic.classList.remove('holding');
+        if (micWrapper) micWrapper.style.zIndex = '40';
+        if (isMicHolding) {
+            stopRecording();
+            isMicHolding = false;
+        }
+    });
+});
+
+function importData(input) {
+    if(!window.activeProject) {
+        showToast('Pilih proyek terlebih dahulu.');
+        input.value = '';
+        return;
+    }
+    const file = input.files[0];
+    if(!file) return;
+
+    showToast('Memproses import data, mohon tunggu...');
+    closeBackupRestoreModal();
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    fetch(window.baseUrl + '/api/projects/' + window.activeProject.id + '/import', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        input.value = ''; // reset input
+        if(data.success) {
+            let msg = `Import berhasil! ${data.data.pemasukan} Pemasukan, ${data.data.pengeluaran} Pengeluaran.`;
+            if (data.data.gagal > 0) msg += ` (${data.data.gagal} data gagal/skip).`;
+            showToast(msg);
+            
+            // Reload halaman setelah sukses agar data baru muncul
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        } else {
+            showToast('Gagal import: ' + (data.message || 'Format salah.'));
+        }
+    })
+    .catch(err => {
+        input.value = '';
+        console.error(err);
+        showToast('Terjadi kesalahan sistem saat import.');
+    });
+}

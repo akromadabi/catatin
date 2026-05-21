@@ -105,6 +105,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
     Route::post('/api/projects/{id}/switch', [ProjectController::class, 'switchProject']);
 
+    // Data Sync Routes (Backup & Import)
+    Route::get('/api/projects/{id}/export', [\App\Http\Controllers\DataSyncController::class, 'export']);
+    Route::post('/api/projects/{id}/import', [\App\Http\Controllers\DataSyncController::class, 'import']);
+
     // Collaboration Routes
     Route::get('/api/projects/{id}/members', [CollaborationController::class, 'listMembers']);
     Route::post('/api/projects/{id}/invite', [CollaborationController::class, 'generateInvite']);

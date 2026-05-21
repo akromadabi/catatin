@@ -38,19 +38,23 @@ class GoogleController extends Controller
                 
                 // Seed default household categories
                 $defaultCategories = [
-                    ['name' => 'Gaji/Upah', 'type' => 'pemasukan', 'icon' => 'fas fa-wallet'],
-                    ['name' => 'Bonus/THR', 'type' => 'pemasukan', 'icon' => 'fas fa-gift'],
-                    ['name' => 'Hasil Usaha', 'type' => 'pemasukan', 'icon' => 'fas fa-store'],
-                    ['name' => 'Lain-lain', 'type' => 'pemasukan', 'icon' => 'fas fa-star'],
+                    // Pemasukan
+                    ['name' => 'Gaji & Utama', 'type' => 'pemasukan', 'icon' => 'fas fa-wallet', 'keywords' => ['gaji', 'payroll', 'thr', 'bonus']],
+                    ['name' => 'Usaha & Sampingan', 'type' => 'pemasukan', 'icon' => 'fas fa-store', 'keywords' => ['jualan', 'omset', 'profit', 'freelance']],
+                    ['name' => 'Investasi & Pasif', 'type' => 'pemasukan', 'icon' => 'fas fa-chart-line', 'keywords' => ['bunga', 'dividen', 'reksadana', 'cashback']],
+                    ['name' => 'Pemberian & Lainnya', 'type' => 'pemasukan', 'icon' => 'fas fa-gift', 'keywords' => ['dikasih', 'pemberian', 'utang dibayar', 'warisan']],
                     
-                    ['name' => 'Makan & Belanja', 'type' => 'pengeluaran', 'icon' => 'fas fa-utensils'],
-                    ['name' => 'Listrik/Air/Internet', 'type' => 'pengeluaran', 'icon' => 'fas fa-bolt'],
-                    ['name' => 'Transportasi', 'type' => 'pengeluaran', 'icon' => 'fas fa-motorcycle'],
-                    ['name' => 'Cicilan/Sewa', 'type' => 'pengeluaran', 'icon' => 'fas fa-home'],
-                    ['name' => 'Kesehatan', 'type' => 'pengeluaran', 'icon' => 'fas fa-medkit'],
-                    ['name' => 'Hiburan/Jajan', 'type' => 'pengeluaran', 'icon' => 'fas fa-gamepad'],
-                    ['name' => 'Sedekah', 'type' => 'pengeluaran', 'icon' => 'fas fa-hands-helping'],
-                    ['name' => 'Lain-lain', 'type' => 'pengeluaran', 'icon' => 'fas fa-money-bill-wave']
+                    // Pengeluaran
+                    ['name' => 'Belanja Dapur / Pokok', 'type' => 'pengeluaran', 'icon' => 'fas fa-shopping-basket', 'keywords' => ['alfamart', 'indomaret', 'pasar', 'sembako', 'supermarket']],
+                    ['name' => 'Makan & Jajan', 'type' => 'pengeluaran', 'icon' => 'fas fa-utensils', 'keywords' => ['gofood', 'grabfood', 'shopeefood', 'kopi', 'jajan']],
+                    ['name' => 'Tagihan & Utilitas', 'type' => 'pengeluaran', 'icon' => 'fas fa-bolt', 'keywords' => ['listrik', 'token', 'pdam', 'pulsa', 'indihome']],
+                    ['name' => 'Tempat Tinggal', 'type' => 'pengeluaran', 'icon' => 'fas fa-home', 'keywords' => ['sewa', 'kpr', 'iuran', 'tukang', 'prabot']],
+                    ['name' => 'Transportasi', 'type' => 'pengeluaran', 'icon' => 'fas fa-motorcycle', 'keywords' => ['bensin', 'gojek', 'grab', 'parkir', 'tol']],
+                    ['name' => 'Pendidikan & Anak', 'type' => 'pengeluaran', 'icon' => 'fas fa-graduation-cap', 'keywords' => ['spp', 'sekolah', 'susu', 'popok', 'buku']],
+                    ['name' => 'Kesehatan & Perawatan', 'type' => 'pengeluaran', 'icon' => 'fas fa-medkit', 'keywords' => ['apotek', 'dokter', 'skincare', 'salon', 'rumah sakit']],
+                    ['name' => 'Hiburan & Liburan', 'type' => 'pengeluaran', 'icon' => 'fas fa-gamepad', 'keywords' => ['bioskop', 'hotel', 'tiket', 'liburan', 'mainan']],
+                    ['name' => 'Sosial & Kewajiban', 'type' => 'pengeluaran', 'icon' => 'fas fa-hands-helping', 'keywords' => ['sedekah', 'zakat', 'kondangan', 'sumbangan', 'kado']],
+                    ['name' => 'Lain-lain', 'type' => 'pengeluaran', 'icon' => 'fas fa-money-bill-wave', 'keywords' => ['admin bank', 'pajak', 'denda', 'transfer']]
                 ];
                 
                 foreach ($defaultCategories as $cat) {
@@ -58,7 +62,8 @@ class GoogleController extends Controller
                         'user_id' => $user->id,
                         'name' => $cat['name'],
                         'type' => $cat['type'],
-                        'icon' => $cat['icon']
+                        'icon' => $cat['icon'],
+                        'keywords' => $cat['keywords'] ?? null
                     ]);
                 }
                 

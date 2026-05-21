@@ -155,11 +155,20 @@
         z-index: 100;
         pointer-events: none;
     }
-    .voice-overlay.active { display: flex; pointer-events: auto; }
+    .voice-overlay.active { display: flex; pointer-events: auto; opacity: 1; }
     .voice-modal {
         background: white; width: 100%; max-width: 480px;
-        border-radius: 24px 24px 0 0; padding: 32px 24px;
+        border-radius: 32px; padding: 32px 24px;
+        margin-bottom: 110px; margin-inline: 16px;
         text-align: center; animation: slideUp 0.3s ease;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    #fab-mic { transition: all 0.2s ease; }
+    #fab-mic.holding { 
+        transform: scale(1.15) translateY(-5px); 
+        background-color: #ef4444; 
+        border-color: #fca5a5; 
+        box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.5); 
     }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
@@ -584,6 +593,21 @@
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
 
+                    <!-- Backup & Restore Data -->
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openBackupRestoreModal()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Backup & Restore Data</span>
+                                <p class="text-xs text-slate-400">Amankan & pulihkan data (JSON)</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
+                    <input type="file" id="import-file" class="hidden" accept=".json" onchange="importData(this)">
+
                     @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}" class="p-4 border-b border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
                         <div class="flex items-center gap-3">
@@ -823,12 +847,8 @@
             <span class="text-[10px] font-bold">Analitik</span>
         </a>
         
-        <!-- CENTER MIC BUTTON -->
-        <div class="relative w-16 flex justify-center">
-            <button class="absolute -top-10 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90" onclick="openVoiceModal()" id="fab-mic">
-                <i class="fas fa-microphone"></i>
-            </button>
-        </div>
+        <!-- CENTER MIC BUTTON PLACEHOLDER -->
+        <div class="w-16"></div>
 
         <a href="#" class="bottom-nav-item flex flex-col items-center gap-1 w-16" data-page="wallet" id="nav-wallet">
             <i class="fas fa-wallet text-xl"></i>
@@ -840,6 +860,13 @@
         </a>
         <a href="#" class="hidden" data-page="add" id="nav-add"></a>
     </nav>
+
+    <!-- FLOATING MIC BUTTON -->
+    <div id="mic-wrapper" class="absolute bottom-0 w-full flex justify-center pointer-events-none z-40 h-[72px] pb-safe">
+        <button class="absolute -top-10 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90 pointer-events-auto" id="fab-mic">
+            <i class="fas fa-microphone"></i>
+        </button>
+    </div>
 
 </div>
 
@@ -853,14 +880,11 @@
         <h3 class="text-xl font-bold text-slate-900 mb-2">Mendengarkan...</h3>
         <p class="text-slate-500 text-sm mb-6" id="voice-modal-transcript">Coba sebutkan "Bayar listrik 150 ribu"</p>
         
-
-        <div class="w-full flex gap-3 mt-4">
-            <button class="flex-1 bg-white border border-slate-200 text-slate-600 rounded-xl py-3 font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition" onclick="closeVoiceOverlay(); navigateTo('add')">
-                <i class="fas fa-keyboard"></i> Ketik Manual
-            </button>
-            <button class="flex-1 bg-slate-900 text-white rounded-xl py-3 font-bold text-sm" id="mic-stop-btn">
-                Berhenti Merekam
-            </button>
+        <div class="mt-4 text-center flex flex-col items-center gap-2 opacity-75">
+            <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 mb-1">
+                <i class="fas fa-hand-pointer animate-bounce"></i>
+            </div>
+            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Lepaskan jari untuk memproses</p>
         </div>
     </div>
 </div>
@@ -956,7 +980,7 @@
         </div>
         <div class="p-4 overflow-y-auto flex-1" id="project-list-container"></div>
         <div class="px-4 pb-4" id="project-modal-footer" style="display:none">
-            <button onclick="closeProjectSwitcher(); openAddProjectModal()" class="w-full flex items-center justify-center gap-2 bg-slate-50 border border-dashed border-slate-300 text-slate-600 rounded-2xl py-3 font-semibold text-sm hover:bg-slate-100 transition">
+            <button onclick="closeProjectSwitcher(); openProjectModal()" class="w-full flex items-center justify-center gap-2 bg-slate-50 border border-dashed border-slate-300 text-slate-600 rounded-2xl py-3 font-semibold text-sm hover:bg-slate-100 transition">
                 <i class="fas fa-plus text-xs"></i> Buat Proyek Baru
             </button>
         </div>
@@ -964,11 +988,11 @@
 </div>
 <!-- ADD PROJECT MODAL -->
 <div id="add-project-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeAddProjectModal()"></div>
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeProjectModal()"></div>
     <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col max-h-[92vh]">
         <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
-            <h3 class="font-bold text-slate-900 text-base">Proyek Baru</h3>
-            <button onclick="closeAddProjectModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+            <h3 class="font-bold text-slate-900 text-base" id="modal-project-title">Proyek Baru</h3>
+            <button onclick="closeProjectModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
                 <i class="fas fa-times text-xs"></i>
             </button>
         </div>
@@ -1013,8 +1037,8 @@
             <input type="hidden" id="add-proj-selected-color" value="#6c63ff">
         </div>
         <div class="px-5 py-4 border-t border-slate-100 flex gap-3 shrink-0">
-            <button onclick="closeAddProjectModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-2xl py-3 font-bold text-sm">Batal</button>
-            <button onclick="submitAddProjectModal()" class="flex-1 text-white rounded-2xl py-3 font-bold text-sm" style="background:#6c63ff">Buat Proyek</button>
+            <button onclick="closeProjectModal()" class="flex-1 bg-slate-100 text-slate-600 rounded-2xl py-3 font-bold text-sm">Batal</button>
+            <button onclick="submitProjectModal()" id="btn-submit-project" class="flex-1 text-white rounded-2xl py-3 font-bold text-sm" style="background:#6c63ff">Buat Proyek</button>
         </div>
     </div>
 </div>
@@ -1231,6 +1255,63 @@
                 <!-- Data populated by JS -->
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- BACKUP & RESTORE MODAL -->
+<div id="backup-restore-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeBackupRestoreModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col">
+        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
+            <h3 class="font-bold text-slate-900 text-base">Backup & Restore Data</h3>
+            <button onclick="closeBackupRestoreModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="p-5 space-y-4">
+            <div class="bg-rose-50 rounded-xl p-4 text-xs text-rose-600 leading-relaxed">
+                <strong>Catatan Penting:</strong> File backup akan disimpan secara lokal di perangkat Anda (folder Download). Jika HP hilang, rusak, atau di-reset, data tidak bisa dikembalikan jika Anda tidak memindahkannya ke tempat aman (contoh: Google Drive).
+            </div>
+            
+            <div id="last-backup-info" class="bg-slate-50/80 rounded-xl p-3.5 border border-slate-100 hidden">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Backup Terakhir</p>
+                <div class="space-y-1.5 text-[11px] text-slate-600">
+                    <div class="flex gap-2">
+                        <span class="w-16 shrink-0 text-slate-400">Nama File</span>
+                        <span class="shrink-0 text-slate-300">:</span>
+                        <span id="last-backup-filename" class="font-medium text-slate-700 break-words leading-tight"></span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="w-16 shrink-0 text-slate-400">Tanggal</span>
+                        <span class="shrink-0 text-slate-300">:</span>
+                        <span id="last-backup-date" class="font-medium text-slate-700"></span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="w-16 shrink-0 text-slate-400">Folder</span>
+                        <span class="shrink-0 text-slate-300">:</span>
+                        <span class="font-medium text-slate-700">/Download</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="backupData()" class="w-full flex items-center gap-3 bg-teal-50 hover:bg-teal-100 text-teal-700 p-4 rounded-2xl transition">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
+                    <i class="fas fa-cloud-download-alt text-teal-500"></i>
+                </div>
+                <div class="text-left flex-1">
+                    <div class="font-bold text-sm">Backup Data</div>
+                    <div class="text-xs text-teal-600/70">Unduh riwayat transaksi ke JSON</div>
+                </div>
+            </button>
+            <button onclick="document.getElementById('import-file').click()" class="w-full flex items-center gap-3 bg-orange-50 hover:bg-orange-100 text-orange-700 p-4 rounded-2xl transition">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
+                    <i class="fas fa-cloud-upload-alt text-orange-500"></i>
+                </div>
+                <div class="text-left flex-1">
+                    <div class="font-bold text-sm">Restore Data</div>
+                    <div class="text-xs text-orange-600/70">Gabungkan riwayat dari JSON</div>
+                </div>
+            </button>
+        </div>
     </div>
 </div>
 
