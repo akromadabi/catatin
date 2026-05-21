@@ -958,7 +958,14 @@ function createTxnListItem(t, showDelete = false) {
             </div>
             <div class="min-w-0">
                 <h4 class="text-sm font-bold text-slate-900 leading-tight truncate">${t.desc || t.category}</h4>
-                <p class="text-[11px] text-slate-500 mt-0.5">${t.category} • ${dateStr}${window.isCollaborative && t.user ? ' • <span class=\"text-slate-400\">' + (t.user.name || '').split(' ')[0] + '</span>' : ''}</p>
+                <div class="flex items-center text-[11px] text-slate-500 mt-0.5">
+                    <span class="truncate">${t.category} • ${dateStr}</span>
+                    ${window.isCollaborative && t.user && t.user.name ? `
+                    <div class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[8px] font-bold shrink-0 ml-1" title="${t.user.name}">
+                        ${t.user.name.trim().split(/\\s+/).length === 1 ? t.user.name.trim().substring(0, 2).toUpperCase() : (t.user.name.trim().split(/\\s+/)[0][0] + t.user.name.trim().split(/\\s+/).pop()[0]).toUpperCase()}
+                    </div>
+                    ` : ''}
+                </div>
             </div>
         </div>
         <div class="flex items-center shrink-0 ml-2">
