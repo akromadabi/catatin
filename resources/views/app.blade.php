@@ -1322,19 +1322,20 @@
 </div>
 
 <!-- CATEGORY DETAILS OVERLAY -->
-<div class="voice-overlay z-[100] !justify-end" id="category-detail-overlay" onclick="closeCategoryDetails()">
-    <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-300 transform translate-y-full h-[80vh]" id="category-detail-modal" onclick="event.stopPropagation()">
-        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white rounded-t-3xl z-10 shrink-0">
+<div id="category-detail-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; background: rgba(10,15,30,0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); justify-content: center; align-items: flex-end; opacity: 0; transition: opacity 0.3s ease; touch-action: none;" onclick="closeCategoryDetails()">
+    <div id="category-detail-modal" style="background: white; width: 100%; max-width: 28rem; border-radius: 1.5rem 1.5rem 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); display: flex; flex-direction: column; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); height: 80vh; pointer-events: auto; touch-action: auto;" onclick="event.stopPropagation()">
+        
+        <div style="padding: 1rem 1.5rem; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: white; border-radius: 1.5rem 1.5rem 0 0; z-index: 10;">
             <div>
-                <h3 class="text-lg font-bold text-slate-900 leading-tight" id="cat-detail-title">Rincian Kategori</h3>
-                <p class="text-xs text-slate-500 font-medium" id="cat-detail-subtitle">Bulan Ini</p>
+                <h3 id="cat-detail-title" style="font-size: 1.125rem; font-weight: 700; color: #0f172a; margin: 0; line-height: 1.2;">Rincian Kategori</h3>
+                <p id="cat-detail-subtitle" style="font-size: 0.75rem; color: #64748b; margin: 0; margin-top: 0.25rem; font-weight: 500;">Bulan Ini</p>
             </div>
-            <button onclick="closeCategoryDetails()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition">
+            <button type="button" onclick="closeCategoryDetails()" style="width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background: #f1f5f9; color: #64748b; border: none; cursor: pointer; outline: none;">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         
-        <div class="flex-1 overflow-y-auto px-4 py-2" id="cat-detail-list">
+        <div id="cat-detail-list" style="flex: 1; overflow-y: auto; padding: 0.5rem 1rem;">
             <!-- Transactions injected here -->
         </div>
     </div>

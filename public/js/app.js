@@ -810,10 +810,9 @@ function openCategoryDetails(catName, period) {
     }
     
     overlay.style.display = 'flex';
-    setTimeout(() => {
-        overlay.style.opacity = '1';
-        modal.classList.remove('translate-y-full');
-    }, 10);
+    void overlay.offsetWidth; // Force reflow
+    overlay.style.opacity = '1';
+    modal.style.transform = 'translateY(0)';
 }
 
 function closeCategoryDetails() {
@@ -822,7 +821,7 @@ function closeCategoryDetails() {
     if (!overlay || !modal) return;
     
     overlay.style.opacity = '0';
-    modal.classList.add('translate-y-full');
+    modal.style.transform = 'translateY(100%)';
     setTimeout(() => {
         overlay.style.display = 'none';
     }, 300);
