@@ -4,6 +4,7 @@
 
 let currentPage = 'home';
 let mainChart = null;
+let currentChartView = 'bar';
 let currentBreakdownTab = 'pengeluaran';
 let editTxnId = null;
 let currentDateOffset = 0;
@@ -402,8 +403,58 @@ function updateAnalytics(period) {
         }
     }
 
-    renderBarChart(period);
+    if (currentChartView === 'bar') {
+        renderBarChart(period);
+    } else {
+        renderDonutChart(period);
+    }
     renderBreakdown(period);
+}
+
+function setChartView(type) {
+    currentChartView = type;
+    
+    // Update active tab styles
+    document.querySelectorAll('.chart-tab').forEach(b => {
+        if (b.dataset.chart === type) {
+            b.classList.add('active', 'text-slate-800', 'bg-white', 'shadow-sm');
+            b.classList.remove('text-slate-400');
+        } else {
+            b.classList.remove('active', 'text-slate-800', 'bg-white', 'shadow-sm');
+            b.classList.add('text-slate-400');
+        }
+    });
+
+    // Update title and legends
+    const titleEl = document.getElementById('chart-title');
+    if (titleEl) titleEl.textContent = type === 'bar' ? 'Arus Kas' : 'Proporsi Pengeluaran';
+    
+    if (type === 'bar') {
+        document.getElementById('bar-legend').classList.remove('hidden');
+        document.getElementById('bar-legend').classList.add('flex');
+        document.getElementById('donut-legend').classList.add('hidden');
+        document.getElementById('donut-legend').classList.remove('flex');
+        document.getElementById('donut-center-text').classList.add('hidden');
+    } else {
+        document.getElementById('bar-legend').classList.add('hidden');
+        document.getElementById('bar-legend').classList.remove('flex');
+        document.getElementById('donut-legend').classList.remove('hidden');
+        document.getElementById('donut-legend').classList.add('flex');
+        document.getElementById('donut-center-text').classList.remove('hidden');
+    }
+
+    // Determine the active period
+    let activePeriod = 'month';
+    document.querySelectorAll('.pill-tab').forEach(b => {
+        if (b.classList.contains('active')) activePeriod = b.dataset.period;
+    });
+
+    // Re-render chart
+    if (currentChartView === 'bar') {
+        renderBarChart(activePeriod);
+    } else {
+        renderDonutChart(activePeriod);
+    }
 }
 
 function changeAnalyticsOffset(dir) {
@@ -791,6 +842,84 @@ function renderBarChart(period) {
             scales: {
                 x: { grid: { display: false }, stacked: true, border: {display: false} },
                 y: { display: false, stacked: true }
+            }
+        }
+    });
+}
+
+function renderDonutChart(period) {
+    const ctx = document.getElementById('main-chart');
+    if(!ctx) return;
+
+    if(mainChart) mainChart.destroy();
+    
+    // Filter pengeluaran for donut chart
+    const txns = filterTransactions(period, currentDateOffset).filter(t => t.type === 'pengeluaran');
+    
+    let total = 0;
+    const catMap = {};
+    txns.forEach(t => {
+        const amt = parseFloat(t.amount) || 0;
+        catMap[t.category] = (catMap[t.category] || 0) + amt;
+        total += amt;
+    });
+
+    // Sort by amount descending
+    const sortedCats = Object.keys(catMap).sort((a, b) => catMap[b] - catMap[a]);
+    
+    const labels = sortedCats;
+    const data = sortedCats.map(c => catMap[c]);
+    
+    // Dynamic distinct colors for categories
+    const colors = ['#2563eb', '#8b5cf6', '#ec4899', '#f43f5e', '#f97316', '#eab308', '#10b981', '#06b6d4', '#64748b', '#3b82f6', '#d946ef', '#f472b6'];
+    const bgColors = labels.map((_, i) => colors[i % colors.length]);
+
+    // Update center text
+    const totalEl = document.getElementById('donut-total');
+    if (totalEl) totalEl.textContent = formatRupiah(total);
+
+    if (total === 0) {
+        // empty state
+        mainChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Kosong'],
+                datasets: [{ data: [1], backgroundColor: ['#f1f5f9'], borderWidth: 0 }]
+            },
+            options: {
+                cutout: '75%', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }
+            }
+        });
+        return;
+    }
+
+    mainChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: bgColors,
+                borderWidth: 2,
+                borderColor: '#ffffff',
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '75%',
+            plugins: { 
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const val = context.raw;
+                            const perc = ((val / total) * 100).toFixed(1);
+                            return ` Rp ${val.toLocaleString('id-ID')} (${perc}%)`;
+                        }
+                    }
+                }
             }
         }
     });
