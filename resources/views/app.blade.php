@@ -1321,10 +1321,27 @@
     </div>
 </div>
 
+<!-- CATEGORY DETAILS OVERLAY -->
+<div class="voice-overlay z-[100]" id="category-detail-overlay">
+    <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl shadow-2xl flex flex-col transition-transform duration-300 transform translate-y-full h-[80vh]" id="category-detail-modal">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white rounded-t-3xl z-10 shrink-0">
+            <div>
+                <h3 class="text-lg font-bold text-slate-900 leading-tight" id="cat-detail-title">Rincian Kategori</h3>
+                <p class="text-xs text-slate-500 font-medium" id="cat-detail-subtitle">Bulan Ini</p>
+            </div>
+            <button onclick="closeCategoryDetails()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto px-4 py-2" id="cat-detail-list">
+            <!-- Transactions injected here -->
+        </div>
+    </div>
+</div>
+
 <script src="{{ asset('js/data.js') }}?v={{ time() }}"></script>
-<script src="{{ asset('js/voice.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/voice.js') }}?v={{ time() }}"></script>
 </body>
-
-
-
+</html>

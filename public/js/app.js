@@ -760,8 +760,11 @@ function renderBreakdown(period) {
         const pct = Math.round((amt / total) * 100);
         const color = colors[idx % colors.length];
         
+        const safeCat = cat.replace(/'/g, "\\'");
+        const safePeriod = period.replace(/'/g, "\\'");
+        
         html += `
-        <div>
+        <div class="mb-5 cursor-pointer hover:bg-slate-50 p-2 -mx-2 rounded-xl transition" onclick="openCategoryDetails('${safeCat}', '${safePeriod}')">
             <div class="flex justify-between text-sm font-bold text-slate-900 mb-2">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full ${color}"></span>
@@ -782,7 +785,54 @@ function renderBreakdown(period) {
     box.innerHTML = html;
 }
 
+/* ================= CATEGORY DETAILS ================= */
+function openCategoryDetails(catName, period) {
+    const overlay = document.getElementById('category-detail-overlay');
+    const modal = document.getElementById('category-detail-modal');
+    if (!overlay || !modal) return;
+    
+    document.getElementById('cat-detail-title').textContent = catName;
+    document.getElementById('cat-detail-subtitle').textContent = period;
+    
+    const txns = filterTransactions(period, currentDateOffset).filter(t => t.type === currentBreakdownTab && t.category === catName);
+    txns.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    const list = document.getElementById('cat-detail-list');
+    
+    if (txns.length === 0) {
+        list.innerHTML = `<div class="p-6 text-center text-slate-500 text-sm">Tidak ada transaksi.</div>`;
+    } else {
+        const toShow = txns.slice(0, 50);
+        list.innerHTML = toShow.map(t => createTxnListItem(t, false)).join('');
+        if (txns.length > 50) {
+            list.innerHTML += `<div class="p-4 text-center text-xs text-slate-400">Menampilkan 50 transaksi terbaru.</div>`;
+        }
+    }
+    
+    overlay.style.display = 'flex';
+    setTimeout(() => {
+        overlay.style.opacity = '1';
+        modal.classList.remove('translate-y-full');
+    }, 10);
+}
+
+function closeCategoryDetails() {
+    const overlay = document.getElementById('category-detail-overlay');
+    const modal = document.getElementById('category-detail-modal');
+    if (!overlay || !modal) return;
+    
+    overlay.style.opacity = '0';
+    modal.classList.add('translate-y-full');
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 300);
+}
+
 /* ================= WALLET ================= */
+let walletPage = 1;
+const WALLET_PER_PAGE = 30;
+let filteredWalletTxns = [];
+
 function updateWallet() {
     let txns = [...appData.transactions];
     const typeF = document.getElementById('wallet-filter-type')?.value || 'all';
@@ -802,14 +852,69 @@ function updateWallet() {
         return 0;
     });
     
+    filteredWalletTxns = txns;
+    walletPage = 1;
+    
+    renderWalletList();
+}
+
+function renderWalletList() {
     const list = document.getElementById('wallet-txn-list');
-    if(txns.length === 0) {
+    if(!list) return;
+    
+    if(filteredWalletTxns.length === 0) {
         list.innerHTML = `<div class="p-6 text-center text-slate-500 text-sm">Tidak ada transaksi ditemukan.</div>`;
+        const loadMoreBtn = document.getElementById('wallet-load-more');
+        if (loadMoreBtn) loadMoreBtn.remove();
+        return;
+    }
+    
+    const start = (walletPage - 1) * WALLET_PER_PAGE;
+    const end = walletPage * WALLET_PER_PAGE;
+    const toShow = filteredWalletTxns.slice(start, end);
+    
+    const html = toShow.map(t => createTxnListItem(t, true)).join('');
+    
+    if (walletPage === 1) {
+        list.innerHTML = html;
     } else {
-        // Show delete button only in wallet page
-        list.innerHTML = txns.map(t => createTxnListItem(t, true)).join('');
+        list.insertAdjacentHTML('beforeend', html);
+    }
+    
+    let loadMoreBtn = document.getElementById('wallet-load-more');
+    if (end < filteredWalletTxns.length) {
+        if (!loadMoreBtn) {
+            list.insertAdjacentHTML('afterend', `
+                <div id="wallet-load-more" class="py-4 text-center">
+                    <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-brand-600"></div>
+                </div>
+            `);
+        }
+    } else {
+        if (loadMoreBtn) loadMoreBtn.remove();
     }
 }
+
+function loadMoreWallet() {
+    if (walletPage * WALLET_PER_PAGE < filteredWalletTxns.length) {
+        walletPage++;
+        renderWalletList();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const pageWallet = document.getElementById('page-wallet');
+    if (pageWallet) {
+        pageWallet.addEventListener('scroll', () => {
+            if (pageWallet.scrollTop + pageWallet.clientHeight >= pageWallet.scrollHeight - 50) {
+                const loadMoreBtn = document.getElementById('wallet-load-more');
+                if (loadMoreBtn) {
+                    loadMoreWallet();
+                }
+            }
+        });
+    }
+});
 
 function createTxnListItem(t, showDelete = false) {
     const isOut = t.type === 'pengeluaran';
