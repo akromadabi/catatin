@@ -54,16 +54,15 @@ class DataSyncController extends Controller
         $project = Project::findOrFail($projectId);
         abort_unless($project->isMember(auth()->id()), 403, 'Akses ditolak.');
 
-        $validator = Validator::make($request->all(), [
-            'file' => 'required|file|max:5120', // Max 5MB
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'File tidak valid atau ukurannya terlalu besar.',
-                'errors' => $validator->errors()
-            ], 422);
+        $file = $request->file('file');
+        if (!$file) {
+            return response()->json(['success' => false, 'message' => 'File tidak ditemukan dalam request.'], 400);
+        }
+        if (!$file->isValid()) {
+            return response()->json(['success' => false, 'message' => 'Gagal upload: ' . $file->getErrorMessage()], 400);
+        }
+        if ($file->getSize() > 5 * 1024 * 1024) {
+            return response()->json(['success' => false, 'message' => 'Ukuran file lebih dari 5MB.'], 400);
         }
 
         $file = $request->file('file');

@@ -475,13 +475,18 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+                    <button onclick="document.getElementById('wallet-search-container').classList.toggle('hidden')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
 
             <div class="px-6 mt-2">
+                <!-- Search Bar -->
+                <div id="wallet-search-container" class="hidden mb-4 relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="wallet-search-input" placeholder="Cari deskripsi atau kategori..." class="w-full bg-slate-100 text-sm text-slate-700 font-semibold rounded-xl pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-brand-600 transition" oninput="updateWallet()">
+                </div>
 
 
                 <!-- Transaction List -->

@@ -1069,9 +1069,16 @@ function updateWallet() {
     const typeF = document.getElementById('wallet-filter-type')?.value || 'all';
     const catF = document.getElementById('wallet-filter-cat')?.value || 'all';
     const sortVal = document.getElementById('wallet-sort')?.value || 'newest';
+    const searchVal = document.getElementById('wallet-search-input')?.value?.toLowerCase() || '';
     
     if(typeF !== 'all') txns = txns.filter(t => t.type === typeF);
     if(catF !== 'all') txns = txns.filter(t => t.category === catF);
+    if(searchVal) {
+        txns = txns.filter(t => 
+            (t.desc && t.desc.toLowerCase().includes(searchVal)) || 
+            (t.category && t.category.toLowerCase().includes(searchVal))
+        );
+    }
     
     txns.sort((a, b) => {
         if (sortVal === 'newest') return new Date(b.date) - new Date(a.date);
