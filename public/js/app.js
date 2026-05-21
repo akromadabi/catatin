@@ -825,8 +825,8 @@ function createTxnListItem(t, showDelete = false) {
     
     const iconHtml = icon.startsWith('fas ') ? `<i class="${icon}"></i>` : icon;
     
-    const amtColor = isOut ? 'text-slate-900' : 'text-emerald-500';
-    const sign = isOut ? '-' : '+';
+    const amtColor = isOut ? 'text-rose-600' : 'text-emerald-500';
+    const sign = isOut ? '' : '+';
     
     // Avatar background color based on text
     const bgColors = ['bg-rose-100 text-rose-600', 'bg-blue-100 text-blue-600', 'bg-emerald-100 text-emerald-600', 'bg-purple-100 text-purple-600', 'bg-orange-100 text-orange-600'];
