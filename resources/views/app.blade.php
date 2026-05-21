@@ -416,15 +416,15 @@
                     <div class="flex justify-end items-center mb-4 gap-2">
                         <div class="flex items-center gap-2 flex-1 sm:flex-none justify-end w-full">
                             <!-- Visual Toggle (Bar vs Donut) -->
-                            <div class="flex bg-slate-100 rounded-lg p-1">
-                                <button class="chart-tab active px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
-                                <button class="chart-tab px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" data-chart="donut" onclick="setChartView('donut')">Diagram Donat</button>
+                            <div class="flex bg-slate-100 rounded-lg p-1 flex-1 sm:flex-none sm:w-[220px]">
+                                <button class="chart-tab w-1/2 active py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
+                                <button class="chart-tab w-1/2 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" data-chart="donut" onclick="setChartView('donut')">Diagram Donat</button>
                             </div>
                             
                             <!-- Type Toggle (Pengeluaran vs Pemasukan) -->
-                            <div class="flex bg-slate-100 rounded-lg p-1">
-                                <button class="px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" id="btn-breakdown-out" onclick="setBreakdownTab('pengeluaran')">Keluar</button>
-                                <button class="px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" id="btn-breakdown-in" onclick="setBreakdownTab('pemasukan')">Masuk</button>
+                            <div class="flex bg-slate-100 rounded-lg p-1 flex-1 sm:flex-none sm:w-[150px]">
+                                <button class="w-1/2 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" id="btn-breakdown-out" onclick="setBreakdownTab('pengeluaran')">Keluar</button>
+                                <button class="w-1/2 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" id="btn-breakdown-in" onclick="setBreakdownTab('pemasukan')">Masuk</button>
                             </div>
                         </div>
                     </div>
@@ -491,12 +491,12 @@
 
                 <!-- Filters built-in -->
                 <div class="flex gap-2 mb-4 items-center">
-                    <select id="wallet-filter-type" class="w-28 bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 px-3 rounded-full outline-none border-r-8 border-transparent focus:border-brand-600 transition" onchange="updateWalletFilterCat(); updateWallet()">
+                    <select id="wallet-filter-type" class="w-[125px] bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 pl-3 pr-6 rounded-full outline-none border-r-4 border-transparent focus:border-brand-600 transition" onchange="updateWalletFilterCat(); updateWallet()">
                         <option value="all">Semua Tipe</option>
                         <option value="pemasukan">Pemasukan</option>
                         <option value="pengeluaran">Pengeluaran</option>
                     </select>
-                    <select id="wallet-filter-cat" class="w-32 bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 px-3 rounded-full outline-none border-r-8 border-transparent focus:border-brand-600 transition" onchange="updateWallet()">
+                    <select id="wallet-filter-cat" class="w-[145px] bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 pl-3 pr-6 rounded-full outline-none border-r-4 border-transparent focus:border-brand-600 transition" onchange="updateWallet()">
                         <option value="all">Semua Kategori</option>
                     </select>
 
