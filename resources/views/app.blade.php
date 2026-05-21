@@ -84,6 +84,7 @@
     /* Categories page uses absolute positioning, so active state should not alter its flex layout */
     #page-categories.active { display: block; }
     .edit-cat-modal-open { display: flex !important; }
+    .restore-option-open { display: flex !important; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -776,7 +777,7 @@
     </div>
 
     <!-- EDIT CATEGORY MODAL -->
-    <div id="edit-cat-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="display:none !important">
+    <div id="edit-cat-modal" class="fixed inset-0 z-[70] flex items-center justify-center p-4" style="display:none !important">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditCatModal()"></div>
         <div class="relative bg-white w-full max-w-sm rounded-2xl p-5">
             <h3 class="font-bold text-slate-900 mb-4 text-lg">Edit Kategori</h3>

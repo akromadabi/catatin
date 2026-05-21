@@ -3041,8 +3041,11 @@ function importData(input) {
         window.tempRestoreContent = e.target.result;
         closeBackupRestoreModal();
         
-        if (window.transactions && window.transactions.length > 0) {
-            document.getElementById('restore-option-modal').style.display = 'flex';
+        const existingTxns = (appData && appData.transactions) ? appData.transactions.length : 0;
+        if (existingTxns > 0) {
+            const rom = document.getElementById('restore-option-modal');
+            rom.style.removeProperty('display');
+            rom.classList.add('restore-option-open');
         } else {
             processRestore(0);
         }
@@ -3054,7 +3057,9 @@ function importData(input) {
 }
 
 function closeRestoreOptionModal() {
-    document.getElementById('restore-option-modal').style.display = 'none';
+    const rom = document.getElementById('restore-option-modal');
+    rom.classList.remove('restore-option-open');
+    rom.style.display = 'none';
     tempRestoreFile = null;
 }
 
