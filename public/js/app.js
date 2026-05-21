@@ -18,12 +18,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // History API (Back button) support
     window.addEventListener('popstate', (e) => {
+        // Close any open modal first before navigating pages
+        if (e.state && e.state.modal) {
+            closeModalByName(e.state.modal);
+            return;
+        }
+        if (closeAnyOpenModal()) return;
         if (e.state && e.state.pageId) {
             navigateTo(e.state.pageId, false);
         } else {
             navigateTo('home', false);
         }
     });
+
+    function pushModalHistory(modalName) {
+        history.pushState({ modal: modalName, pageId: window.location.hash.replace('#', '') || 'home' }, '', window.location.hash);
+        document.getElementById(modalName).setAttribute('data-history-pushed', 'true');
+    }
+
+    function closeModalByName(modalName) {
+        if (modalName === 'edit-cat-modal') closeEditCatModal(true);
+        else if (modalName === 'add-cat-modal') closeAddCatModal(true);
+    }
+
+    function closeAnyOpenModal() {
+        const modals = ['edit-cat-modal', 'add-cat-modal'];
+        for (let m of modals) {
+            const el = document.getElementById(m);
+            // Check if open but without history flag (meaning history already popped)
+            if (el && el.style.display !== 'none' && !el.hasAttribute('data-history-pushed')) {
+                closeModalByName(m);
+                return true;
+            }
+        }
+        return false;
+    }
 
     const initialHash = window.location.hash.replace('#', '');
     if (initialHash && document.getElementById('page-' + initialHash)) {
@@ -1588,6 +1617,7 @@ function openEditCatModal(id, type) {
         if(!modal) { showToast("Gagal: HTML Modal tidak ada!"); return; }
         modal.style.removeProperty('display');
         modal.classList.add('edit-cat-modal-open');
+        pushModalHistory('edit-cat-modal');
     } catch (error) {
         showToast("Error: " + error.message);
     }
@@ -1633,10 +1663,14 @@ function updateEditCatPreview() {
     }
 }
 
-function closeEditCatModal() {
+function closeEditCatModal(fromHistory = false) {
     const modal = document.getElementById('edit-cat-modal');
     modal.style.display = 'none';
     modal.classList.remove('edit-cat-modal-open');
+    if (!fromHistory && modal.hasAttribute('data-history-pushed')) {
+        modal.removeAttribute('data-history-pushed');
+        history.back();
+    }
 }
 
 async function confirmEditCategory() {
@@ -1953,11 +1987,17 @@ function openAddCatModal() {
     const m = document.getElementById('add-cat-modal');
     m.style.removeProperty('display');
     m.style.display = 'flex';
+    pushModalHistory('add-cat-modal');
     setTimeout(() => document.getElementById('add-cat-name-input').focus(), 300);
 }
 
-function closeAddCatModal() {
-    document.getElementById('add-cat-modal').style.display = 'none';
+function closeAddCatModal(fromHistory = false) {
+    const m = document.getElementById('add-cat-modal');
+    m.style.display = 'none';
+    if (!fromHistory && m.hasAttribute('data-history-pushed')) {
+        m.removeAttribute('data-history-pushed');
+        history.back();
+    }
 }
 
 function setAddCatType(type) {
