@@ -54,20 +54,24 @@ class DataSyncController extends Controller
         $project = Project::findOrFail($projectId);
         abort_unless($project->isMember(auth()->id()), 403, 'Akses ditolak.');
 
-        $file = $request->file('file');
-        if (!$file) {
-            $debugInfo = 'Keys in FILES: ' . implode(', ', array_keys($_FILES)) . ' | Content-Type: ' . $request->header('Content-Type') . ' | Content-Length: ' . $request->header('Content-Length');
-            return response()->json(['success' => false, 'message' => 'File tidak ditemukan dalam request. ' . $debugInfo], 400);
-        }
-        if (!$file->isValid()) {
-            return response()->json(['success' => false, 'message' => 'Gagal upload: ' . $file->getErrorMessage()], 400);
-        }
-        if ($file->getSize() > 5 * 1024 * 1024) {
-            return response()->json(['success' => false, 'message' => 'Ukuran file lebih dari 5MB.'], 400);
+        $content = '';
+        if ($request->has('json_data')) {
+            $content = $request->input('json_data');
+        } else {
+            $file = $request->file('file');
+            if (!$file) {
+                $debugInfo = 'Keys in FILES: ' . implode(', ', array_keys($_FILES)) . ' | POST data keys: ' . implode(', ', array_keys($_POST));
+                return response()->json(['success' => false, 'message' => 'File tidak ditemukan dalam request. ' . $debugInfo], 400);
+            }
+            if (!$file->isValid()) {
+                return response()->json(['success' => false, 'message' => 'Gagal upload: ' . $file->getErrorMessage()], 400);
+            }
+            if ($file->getSize() > 5 * 1024 * 1024) {
+                return response()->json(['success' => false, 'message' => 'Ukuran file lebih dari 5MB.'], 400);
+            }
+            $content = file_get_contents($file->getRealPath());
         }
 
-        $file = $request->file('file');
-        $content = file_get_contents($file->getRealPath());
         $data = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {

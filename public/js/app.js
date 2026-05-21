@@ -1552,7 +1552,7 @@ function openEditCatModal(id, type) {
             alert("Gagal: Elemen edit-cat-modal tidak ditemukan di HTML");
             return;
         }
-        modal.style.display = 'flex';
+        modal.style.removeProperty('display');
         modal.classList.add('edit-cat-modal-open');
     } catch (error) {
         alert("Terjadi error di openEditCatModal: " + error.message);
@@ -3024,21 +3024,25 @@ function importData(input) {
     }
     const file = input.files[0];
     if(!file) {
-        alert("DEBUG: input.files kosong atau tidak ada file yang dipilih.");
+        alert("Pilih file JSON terlebih dahulu.");
         return;
     }
     
-    alert("DEBUG File terpilih: " + file.name + " (" + file.size + " bytes, type: " + file.type + ")");
-    
-    tempRestoreFile = file;
-    
-    closeBackupRestoreModal();
-    
-    if (window.transactions && window.transactions.length > 0) {
-        document.getElementById('restore-option-modal').style.display = 'flex';
-    } else {
-        processRestore(0);
-    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        window.tempRestoreContent = e.target.result;
+        closeBackupRestoreModal();
+        
+        if (window.transactions && window.transactions.length > 0) {
+            document.getElementById('restore-option-modal').style.display = 'flex';
+        } else {
+            processRestore(0);
+        }
+    };
+    reader.onerror = function() {
+        alert("Gagal membaca file dari HP Anda.");
+    };
+    reader.readAsText(file);
 }
 
 function closeRestoreOptionModal() {
@@ -3052,13 +3056,16 @@ function closeRestoreSuccessModal() { document.getElementById('import-file').val
 }
 
 function processRestore(overwriteFlag) {
-    if(!tempRestoreFile) return;
+    if(!window.tempRestoreContent) {
+        alert("Tidak ada data file untuk di-restore.");
+        return;
+    }
     
     closeRestoreOptionModal();
     showToast('Memproses import data, mohon tunggu...');
     
     const formData = new FormData();
-    formData.append('file', tempRestoreFile);
+    formData.append('json_data', window.tempRestoreContent);
     formData.append('overwrite', overwriteFlag);
     
     fetch(window.baseUrl + '/api/projects/' + window.activeProject.id + '/import', {
