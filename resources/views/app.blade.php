@@ -414,15 +414,15 @@
                 <!-- Breakdown / Analytics Main Card -->
                 <div class="mb-6">
                     <div class="flex justify-end items-center mb-4 gap-2">
-                        <div class="flex items-center gap-2 flex-1 sm:flex-none justify-end w-full">
+                        <div class="flex items-center gap-2 w-full">
                             <!-- Visual Toggle (Bar vs Donut) -->
-                            <div class="flex bg-slate-100 rounded-lg p-1 flex-1 sm:flex-none sm:w-[220px]">
+                            <div class="flex flex-1 bg-slate-100 rounded-lg p-1">
                                 <button class="chart-tab w-1/2 active py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
                                 <button class="chart-tab w-1/2 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" data-chart="donut" onclick="setChartView('donut')">Diagram Donat</button>
                             </div>
                             
                             <!-- Type Toggle (Pengeluaran vs Pemasukan) -->
-                            <div class="flex bg-slate-100 rounded-lg p-1 flex-1 sm:flex-none sm:w-[150px]">
+                            <div class="flex flex-1 bg-slate-100 rounded-lg p-1">
                                 <button class="w-1/2 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" id="btn-breakdown-out" onclick="setBreakdownTab('pengeluaran')">Keluar</button>
                                 <button class="w-1/2 py-1 text-[10px] sm:text-xs font-bold rounded-md text-slate-500" id="btn-breakdown-in" onclick="setBreakdownTab('pemasukan')">Masuk</button>
                             </div>
