@@ -1463,13 +1463,22 @@ function updateCategoriesPage() {
                     ${kwBadges ? `<div class="mt-0.5 flex flex-wrap gap-0.5">${kwBadges}</div>` : ''}
                 </div>
             </div>
-            <button onclick="openEditCatModal('${c.id}', '${type}')" class="text-slate-400 p-2 hover:bg-slate-100 rounded-full transition">
-                <i class="fas fa-ellipsis-v text-sm"></i>
+            <button class="btn-edit-cat text-slate-400 p-2 hover:bg-slate-100 rounded-full transition relative z-10" data-id="${c.id}" data-type="${type}">
+                <i class="fas fa-ellipsis-v text-sm pointer-events-none"></i>
             </button>
         </div>`;
     });
     
     list.innerHTML = html;
+    
+    // Attach event listeners safely
+    list.querySelectorAll('.btn-edit-cat').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openEditCatModal(this.dataset.id, this.dataset.type);
+        });
+    });
 }
 
 function handleAddCategory(e) {
