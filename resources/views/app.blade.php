@@ -862,10 +862,16 @@
     </nav>
 
     <!-- FLOATING MIC BUTTON -->
-    <div id="mic-wrapper" class="absolute bottom-0 w-full flex justify-center pointer-events-none z-40 h-[72px] pb-safe">
-        <button class="absolute -top-10 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90 pointer-events-auto" id="fab-mic">
-            <i class="fas fa-microphone"></i>
-        </button>
+    <div id="mic-wrapper" class="absolute bottom-0 w-full h-[72px] px-2 flex justify-around items-center pointer-events-none z-40 pb-safe">
+        <div class="w-16"></div>
+        <div class="w-16"></div>
+        <div class="relative w-16 flex justify-center">
+            <button class="absolute -top-10 w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl shadow-lg border-4 border-white transition-transform active:scale-90 pointer-events-auto" id="fab-mic">
+                <i class="fas fa-microphone"></i>
+            </button>
+        </div>
+        <div class="w-16"></div>
+        <div class="w-16"></div>
     </div>
 
 </div>

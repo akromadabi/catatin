@@ -2590,7 +2590,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isMicHolding = true;
             if (navigator.vibrate) navigator.vibrate(50);
             fabMic.classList.add('holding');
-            if (micWrapper) micWrapper.style.zIndex = '110';
+            if (micWrapper) micWrapper.style.zIndex = '2001';
             openVoiceModal(); 
         }, 300);
     };
