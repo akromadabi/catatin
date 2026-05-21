@@ -512,24 +512,7 @@
 
                 <!-- Settings Blocks -->
                 <div class="bg-white border border-slate-100 shadow-sm rounded-3xl overflow-hidden mb-6">
-                    <!-- Dashboard Time Filter Setting -->
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-800 text-sm">Filter Kartu Utama</h4>
-                                <p class="text-xs text-slate-500">Tampilan data saldo di Beranda</p>
-                            </div>
-                        </div>
-                        <select id="setting-dashboard-filter" onchange="updateDashboardFilterSetting(this.value)" class="bg-slate-100 border-none text-slate-700 text-xs font-bold rounded-lg focus:ring-2 focus:ring-brand-500 block py-1.5 px-3 outline-none cursor-pointer appearance-none text-right">
-                            <option value="all">Semua</option>
-                            <option value="year">Tahun Ini</option>
-                            <option value="month">Bulan Ini</option>
-                            <option value="week">Minggu Ini</option>
-                        </select>
-                    </div>
+
 
                     <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openEditProfileModal()">
                         <div class="flex items-center gap-3">
@@ -570,6 +553,20 @@
                                 <i class="fas fa-tags"></i>
                             </div>
                             <span class="font-semibold text-slate-700">Kelola Kategori</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                    </div>
+
+                    <!-- Dashboard Time Filter Setting -->
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openDashboardFilterModal()">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-700">Filter Kartu Utama</span>
+                                <p class="text-xs text-slate-400" id="dashboard-filter-label">Semua Waktu</p>
+                            </div>
                         </div>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
@@ -1368,3 +1365,34 @@
 <script src="{{ asset('js/voice.js') }}?v={{ time() }}"></script>
 </body>
 </html>
+
+<!-- DASHBOARD FILTER MODAL -->
+<div id="dashboard-filter-modal" class="fixed inset-0 z-[90] flex items-end justify-center sm:items-center p-0 sm:p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDashboardFilterModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-t-3xl sm:rounded-2xl shadow-2xl flex flex-col transform transition-transform translate-y-full sm:translate-y-0 duration-300" id="dashboard-filter-modal-content">
+        <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center shrink-0">
+            <h3 class="font-bold text-slate-900 text-base">Filter Kartu Utama</h3>
+            <button type="button" onclick="closeDashboardFilterModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 outline-none">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="p-4 space-y-2">
+            <button type="button" onclick="selectDashboardFilter('all')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition dashboard-filter-btn" data-val="all">
+                <span class="font-semibold text-slate-700">Semua Waktu</span>
+                <i class="fas fa-check text-brand-600 hidden"></i>
+            </button>
+            <button type="button" onclick="selectDashboardFilter('year')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition dashboard-filter-btn" data-val="year">
+                <span class="font-semibold text-slate-700">Tahun Ini</span>
+                <i class="fas fa-check text-brand-600 hidden"></i>
+            </button>
+            <button type="button" onclick="selectDashboardFilter('month')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition dashboard-filter-btn" data-val="month">
+                <span class="font-semibold text-slate-700">Bulan Ini</span>
+                <i class="fas fa-check text-brand-600 hidden"></i>
+            </button>
+            <button type="button" onclick="selectDashboardFilter('week')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition dashboard-filter-btn" data-val="week">
+                <span class="font-semibold text-slate-700">Minggu Ini</span>
+                <i class="fas fa-check text-brand-600 hidden"></i>
+            </button>
+        </div>
+    </div>
+</div>

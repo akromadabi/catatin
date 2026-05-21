@@ -50,8 +50,7 @@ function initEvents() {
         });
     });
 
-    const filterSelect = document.getElementById('setting-dashboard-filter');
-    if (filterSelect) filterSelect.value = dashboardFilter;
+    updateDashboardFilterLabel();
 
     // Add Form Submit
     const form = document.getElementById('txn-form');
@@ -287,10 +286,52 @@ function toggleBalance() {
 
 let dashboardFilter = localStorage.getItem('dashboardFilter') || 'all';
 
-function updateDashboardFilterSetting(val) {
+function updateDashboardFilterLabel() {
+    const labels = { 'all': 'Semua Waktu', 'year': 'Tahun Ini', 'month': 'Bulan Ini', 'week': 'Minggu Ini' };
+    const labelEl = document.getElementById('dashboard-filter-label');
+    if (labelEl) labelEl.textContent = labels[dashboardFilter] || 'Semua Waktu';
+}
+
+function selectDashboardFilter(val) {
     dashboardFilter = val;
     localStorage.setItem('dashboardFilter', dashboardFilter);
     updateDashboard();
+    updateDashboardFilterLabel();
+    closeDashboardFilterModal();
+}
+
+function openDashboardFilterModal() {
+    const modal = document.getElementById('dashboard-filter-modal');
+    const content = document.getElementById('dashboard-filter-modal-content');
+    if(!modal) return;
+    
+    // Update checkmarks
+    document.querySelectorAll('.dashboard-filter-btn').forEach(btn => {
+        const icon = btn.querySelector('i');
+        if (btn.dataset.val === dashboardFilter) {
+            btn.classList.add('bg-brand-50', 'text-brand-700');
+            if(icon) icon.classList.remove('hidden');
+        } else {
+            btn.classList.remove('bg-brand-50', 'text-brand-700');
+            if(icon) icon.classList.add('hidden');
+        }
+    });
+
+    modal.style.setProperty('display', 'flex', 'important');
+    setTimeout(() => {
+        if(content) content.classList.remove('translate-y-full');
+    }, 10);
+}
+
+function closeDashboardFilterModal() {
+    const modal = document.getElementById('dashboard-filter-modal');
+    const content = document.getElementById('dashboard-filter-modal-content');
+    if(!modal) return;
+    
+    if(content) content.classList.add('translate-y-full');
+    setTimeout(() => {
+        modal.style.setProperty('display', 'none', 'important');
+    }, 300);
 }
 
 /* ================= HOME ================= */
