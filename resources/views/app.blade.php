@@ -263,7 +263,10 @@
                     
                     <div class="flex justify-between items-start relative z-10">
                         <div>
-                            <p class="text-blue-100 text-sm font-medium opacity-90">Total Saldo</p>
+                            <div class="flex items-center gap-2 mb-1">
+                                <p class="text-blue-100 text-sm font-medium opacity-90 m-0">Total Saldo</p>
+                                <span id="home-filter-badge" class="px-2 py-0.5 bg-white/20 rounded-full text-[9px] font-bold uppercase tracking-wider hidden text-white"></span>
+                            </div>
                             <h1 class="text-4xl font-bold mt-1 mb-6" id="home-balance">Rp 0</h1>
                         </div>
                         <button onclick="toggleBalance()" class="bg-white/20 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold hover:bg-white/30 transition">
@@ -509,6 +512,25 @@
 
                 <!-- Settings Blocks -->
                 <div class="bg-white border border-slate-100 shadow-sm rounded-3xl overflow-hidden mb-6">
+                    <!-- Dashboard Time Filter Setting -->
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Filter Kartu Utama</h4>
+                                <p class="text-xs text-slate-500">Tampilan data saldo di Beranda</p>
+                            </div>
+                        </div>
+                        <select id="setting-dashboard-filter" onchange="updateDashboardFilterSetting(this.value)" class="bg-slate-100 border-none text-slate-700 text-xs font-bold rounded-lg focus:ring-2 focus:ring-brand-500 block py-1.5 px-3 outline-none cursor-pointer appearance-none text-right">
+                            <option value="all">Semua</option>
+                            <option value="year">Tahun Ini</option>
+                            <option value="month">Bulan Ini</option>
+                            <option value="week">Minggu Ini</option>
+                        </select>
+                    </div>
+
                     <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openEditProfileModal()">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">

@@ -50,6 +50,9 @@ function initEvents() {
         });
     });
 
+    const filterSelect = document.getElementById('setting-dashboard-filter');
+    if (filterSelect) filterSelect.value = dashboardFilter;
+
     // Add Form Submit
     const form = document.getElementById('txn-form');
     if (form) {
@@ -282,9 +285,29 @@ function toggleBalance() {
     applyBalanceVisibility();
 }
 
+let dashboardFilter = localStorage.getItem('dashboardFilter') || 'all';
+
+function updateDashboardFilterSetting(val) {
+    dashboardFilter = val;
+    localStorage.setItem('dashboardFilter', dashboardFilter);
+    updateDashboard();
+}
+
 /* ================= HOME ================= */
 function updateDashboard() {
-    const { totalIn, totalOut, balance } = calculateBalances();
+    const txns = filterTransactions(dashboardFilter);
+    const { totalIn, totalOut, balance } = calculateBalances(txns);
+    
+    const badge = document.getElementById('home-filter-badge');
+    if (badge) {
+        if (dashboardFilter === 'all') {
+            badge.classList.add('hidden');
+        } else {
+            badge.classList.remove('hidden');
+            const labels = { 'year': 'Tahun Ini', 'month': 'Bulan Ini', 'week': 'Minggu Ini' };
+            badge.textContent = labels[dashboardFilter];
+        }
+    }
     
     const balanceEl = document.getElementById('home-balance');
     if(balanceEl) balanceEl.dataset.value = formatRupiah(balance);
