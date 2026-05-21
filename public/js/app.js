@@ -1456,7 +1456,7 @@ function updateCategoriesPage() {
                     ${kwBadges ? `<div class="mt-0.5 flex flex-wrap gap-0.5">${kwBadges}</div>` : ''}
                 </div>
             </div>
-            <button onclick="openEditCatModal('${c.id}', '${type}', '${c.name.replace(/'/g, '&#39;')}')" class="text-slate-400 p-2 hover:bg-slate-100 rounded-full transition">
+            <button onclick="openEditCatModal('${c.id}', '${type}')" class="text-slate-400 p-2 hover:bg-slate-100 rounded-full transition">
                 <i class="fas fa-ellipsis-v text-sm"></i>
             </button>
         </div>`;
@@ -1519,20 +1519,24 @@ function handleDeleteCategory(id, type) {
     }
 }
 
-function openEditCatModal(id, type, name) {
+function openEditCatModal(id, type) {
+    const cat = (appData.categories[type] || []).find(c => c.id == id);
+    if(!cat) return;
+    
     document.getElementById('edit-cat-id').value = id;
     document.getElementById('edit-cat-type-val').value = type;
-    document.getElementById('edit-cat-name').value = name;
+    document.getElementById('edit-cat-name').value = cat.name;
+    
     // Pre-fill keywords if available
-    const cat = (appData.categories[type] || []).find(c => c.id == id);
     const kwInput = document.getElementById('edit-cat-keywords');
-    if (kwInput && cat?.keywords) {
+    if (kwInput && cat.keywords) {
         kwInput.value = cat.keywords.join(', ');
     } else if (kwInput) {
         kwInput.value = '';
     }
+    
     const modal = document.getElementById('edit-cat-modal');
-    modal.style.removeProperty('display');
+    modal.style.display = 'flex';
     modal.classList.add('edit-cat-modal-open');
 }
 
