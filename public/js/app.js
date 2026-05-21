@@ -609,20 +609,16 @@ function setBreakdownTab(type) {
     currentBreakdownTab = type;
     const btnOut = document.getElementById('btn-breakdown-out');
     const btnIn = document.getElementById('btn-breakdown-in');
-    const title = document.getElementById('breakdown-title');
-    
     if(type === 'pengeluaran') {
         btnOut.classList.add('bg-white', 'shadow-sm', 'text-slate-900');
         btnOut.classList.remove('text-slate-500');
         btnIn.classList.remove('bg-white', 'shadow-sm', 'text-slate-900');
         btnIn.classList.add('text-slate-500');
-        title.textContent = 'Rincian (Pengeluaran)';
     } else {
         btnIn.classList.add('bg-white', 'shadow-sm', 'text-slate-900');
         btnIn.classList.remove('text-slate-500');
         btnOut.classList.remove('bg-white', 'shadow-sm', 'text-slate-900');
         btnOut.classList.add('text-slate-500');
-        title.textContent = 'Rincian (Pemasukan)';
     }
     
     // Find active period
@@ -2987,6 +2983,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+let tempRestoreFile = null;
+
 function importData(input) {
     if(!window.activeProject) {
         showToast('Pilih proyek terlebih dahulu.');
@@ -2995,12 +2993,38 @@ function importData(input) {
     }
     const file = input.files[0];
     if(!file) return;
-
-    showToast('Memproses import data, mohon tunggu...');
+    
+    tempRestoreFile = file;
+    input.value = ''; // reset input
+    
     closeBackupRestoreModal();
     
+    if (window.transactions && window.transactions.length > 0) {
+        document.getElementById('restore-option-modal').style.display = 'flex';
+    } else {
+        processRestore(0);
+    }
+}
+
+function closeRestoreOptionModal() {
+    document.getElementById('restore-option-modal').style.display = 'none';
+    tempRestoreFile = null;
+}
+
+function closeRestoreSuccessModal() {
+    document.getElementById('restore-success-modal').style.display = 'none';
+    window.location.reload();
+}
+
+function processRestore(overwriteFlag) {
+    if(!tempRestoreFile) return;
+    
+    closeRestoreOptionModal();
+    showToast('Memproses import data, mohon tunggu...');
+    
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', tempRestoreFile);
+    formData.append('overwrite', overwriteFlag);
     
     fetch(window.baseUrl + '/api/projects/' + window.activeProject.id + '/import', {
         method: 'POST',
@@ -3011,22 +3035,18 @@ function importData(input) {
     })
     .then(res => res.json())
     .then(data => {
-        input.value = ''; // reset input
         if(data.success) {
-            let msg = `Import berhasil! ${data.data.pemasukan} Pemasukan, ${data.data.pengeluaran} Pengeluaran.`;
-            if (data.data.gagal > 0) msg += ` (${data.data.gagal} data gagal/skip).`;
-            showToast(msg);
+            let successTotal = (data.data.pemasukan || 0) + (data.data.pengeluaran || 0);
+            document.getElementById('restore-stat-success').textContent = successTotal + " Data";
+            document.getElementById('restore-stat-deleted').textContent = (data.data.terhapus || 0) + " Data";
+            document.getElementById('restore-stat-failed').textContent = (data.data.gagal || 0) + " Data";
             
-            // Reload halaman setelah sukses agar data baru muncul
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
+            document.getElementById('restore-success-modal').style.display = 'flex';
         } else {
             showToast('Gagal import: ' + (data.message || 'Format salah.'));
         }
     })
     .catch(err => {
-        input.value = '';
         console.error(err);
         showToast('Terjadi kesalahan sistem saat import.');
     });

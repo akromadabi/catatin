@@ -267,7 +267,7 @@
                                 <p class="text-blue-100 text-sm font-medium opacity-90 m-0">Total Saldo</p>
                                 <span id="home-filter-badge" class="px-2 py-0.5 bg-white/20 rounded-full text-[9px] font-bold uppercase tracking-wider hidden text-white"></span>
                             </div>
-                            <h1 class="text-4xl font-bold mt-1 mb-6" id="home-balance">Rp 0</h1>
+                            <h1 class="text-3xl font-bold mt-1 mb-6" id="home-balance">Rp 0</h1>
                         </div>
                         <button onclick="toggleBalance()" class="bg-white/20 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold hover:bg-white/30 transition">
                             <i class="fas fa-eye" id="toggle-eye-icon"></i>
@@ -413,9 +413,8 @@
 
                 <!-- Breakdown / Analytics Main Card -->
                 <div class="mb-6">
-                    <div class="flex justify-between items-center mb-4 gap-2">
-                        <h3 class="font-bold text-slate-900 text-sm hidden sm:block" id="breakdown-title">Rincian</h3>
-                        <div class="flex items-center gap-2 flex-1 sm:flex-none justify-end">
+                    <div class="flex justify-end items-center mb-4 gap-2">
+                        <div class="flex items-center gap-2 flex-1 sm:flex-none justify-end w-full">
                             <!-- Visual Toggle (Bar vs Donut) -->
                             <div class="flex bg-slate-100 rounded-lg p-1">
                                 <button class="chart-tab active px-3 py-1 text-[10px] sm:text-xs font-bold rounded-md bg-white shadow-sm text-slate-900" data-chart="bar" onclick="setChartView('bar')">Daftar Bar</button>
@@ -492,12 +491,12 @@
 
                 <!-- Filters built-in -->
                 <div class="flex gap-2 mb-4 items-center">
-                    <select id="wallet-filter-type" class="shrink-0 bg-slate-100 text-slate-700 text-xs font-semibold py-2 px-3 rounded-full outline-none border-r-8 border-transparent focus:border-brand-600 transition" onchange="updateWalletFilterCat(); updateWallet()">
+                    <select id="wallet-filter-type" class="w-28 bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 px-3 rounded-full outline-none border-r-8 border-transparent focus:border-brand-600 transition" onchange="updateWalletFilterCat(); updateWallet()">
                         <option value="all">Semua Tipe</option>
                         <option value="pemasukan">Pemasukan</option>
                         <option value="pengeluaran">Pengeluaran</option>
                     </select>
-                    <select id="wallet-filter-cat" class="shrink-0 bg-slate-100 text-slate-700 text-xs font-semibold py-2 px-3 rounded-full outline-none border-r-8 border-transparent focus:border-brand-600 transition" onchange="updateWallet()">
+                    <select id="wallet-filter-cat" class="w-32 bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 px-3 rounded-full outline-none border-r-8 border-transparent focus:border-brand-600 transition" onchange="updateWallet()">
                         <option value="all">Semua Kategori</option>
                     </select>
 
@@ -1393,6 +1392,64 @@
         
         <div id="cat-detail-list" style="flex: 1; overflow-y: auto; padding: 0.5rem 1rem;">
             <!-- Transactions injected here -->
+        </div>
+    </div>
+</div>
+
+<!-- RESTORE OPTION MODAL -->
+<div id="restore-option-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeRestoreOptionModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col p-6 text-center">
+        <div class="w-16 h-16 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3 class="font-bold text-slate-900 text-lg mb-2">Data Sudah Ada</h3>
+        <p class="text-slate-500 text-sm mb-6">Aplikasi sudah memiliki data transaksi. Apakah Anda ingin menimpa (hapus data lama) atau menggabung dengan data baru?</p>
+        
+        <div class="flex flex-col gap-3">
+            <button onclick="processRestore(1)" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition">
+                Timpa Data Lama
+            </button>
+            <button onclick="processRestore(0)" class="w-full bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold py-3 rounded-xl transition border border-teal-200">
+                Gabung Data
+            </button>
+            <button onclick="closeRestoreOptionModal()" class="w-full text-slate-400 hover:text-slate-600 font-semibold py-2 mt-1">
+                Batal
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- RESTORE SUCCESS MODAL -->
+<div id="restore-success-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeRestoreSuccessModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col p-6 text-center overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-teal-50 rounded-full blur-3xl z-0"></div>
+        <div class="relative z-10">
+            <div class="w-20 h-20 bg-gradient-to-tr from-teal-400 to-emerald-400 text-white rounded-full flex items-center justify-center text-4xl mx-auto mb-5 shadow-lg shadow-teal-200">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 text-xl mb-1">Restore Berhasil!</h3>
+            <p class="text-slate-500 text-sm mb-6" id="restore-success-desc">Data transaksi telah berhasil dipulihkan.</p>
+            
+            <div class="bg-slate-50 rounded-xl p-4 mb-6 text-left space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-slate-500">Total Dipulihkan</span>
+                    <span class="text-sm font-bold text-teal-600" id="restore-stat-success">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-slate-500">Data Terhapus</span>
+                    <span class="text-sm font-bold text-rose-500" id="restore-stat-deleted">0</span>
+                </div>
+                <div class="flex justify-between items-center pt-2 border-t border-slate-200">
+                    <span class="text-sm text-slate-500">Gagal Format</span>
+                    <span class="text-sm font-bold text-slate-700" id="restore-stat-failed">0</span>
+                </div>
+            </div>
+            
+            <button onclick="closeRestoreSuccessModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition">
+                Tutup & Muat Ulang
+            </button>
         </div>
     </div>
 </div>

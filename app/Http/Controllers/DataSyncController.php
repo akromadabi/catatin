@@ -77,13 +77,20 @@ class DataSyncController extends Controller
             ], 400);
         }
 
+        $overwrite = $request->input('overwrite') == '1';
+
         $successIn = 0;
         $successOut = 0;
         $failed = 0;
+        $deletedCount = 0;
 
         DB::beginTransaction();
 
         try {
+            if ($overwrite) {
+                $deletedCount = Transaction::where('project_id', $project->id)->delete();
+            }
+
             foreach ($data as $item) {
                 // Validate item
                 if (!isset($item['tanggal'], $item['nominal'], $item['jenis'], $item['kategori'])) {
@@ -142,6 +149,7 @@ class DataSyncController extends Controller
                     'pemasukan' => $successIn,
                     'pengeluaran' => $successOut,
                     'gagal' => $failed,
+                    'terhapus' => $deletedCount,
                 ]
             ]);
 
