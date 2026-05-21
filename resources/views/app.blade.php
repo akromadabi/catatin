@@ -781,8 +781,9 @@
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeEditCatModal()"></div>
         <div class="relative bg-white w-full max-w-sm rounded-2xl flex flex-col max-h-[92vh]">
             <!-- Header -->
-            <div class="px-5 py-3 border-b border-slate-100 shrink-0">
+            <div class="px-5 py-3 border-b border-slate-100 shrink-0 flex justify-between items-center">
                 <h3 class="font-bold text-slate-900 text-base">Edit Kategori</h3>
+                <button onclick="closeEditCatModal()" class="text-slate-400 hover:text-slate-600 transition p-1"><i class="fas fa-times text-lg"></i></button>
             </div>
             <input type="hidden" id="edit-cat-id">
             <input type="hidden" id="edit-cat-type-val">
@@ -868,8 +869,9 @@
     <div id="add-cat-modal" class="fixed inset-0 z-[70] flex items-center justify-center p-4" style="display:none !important">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeAddCatModal()"></div>
         <div class="relative bg-white w-full max-w-sm rounded-2xl flex flex-col max-h-[92vh]">
-            <div class="px-5 py-3 border-b border-slate-100 shrink-0">
+            <div class="px-5 py-3 border-b border-slate-100 shrink-0 flex justify-between items-center">
                 <h3 class="font-bold text-slate-900 text-base">Kategori Baru</h3>
+                <button onclick="closeAddCatModal()" class="text-slate-400 hover:text-slate-600 transition p-1"><i class="fas fa-times text-lg"></i></button>
             </div>
 
             <div class="overflow-y-auto flex-1 px-5 py-4 space-y-4">

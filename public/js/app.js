@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function pushModalHistory(modalName) {
-        history.pushState({ modal: modalName, pageId: window.location.hash.replace('#', '') || 'home' }, '', window.location.hash);
+        history.pushState({ modal: modalName, pageId: window.location.hash.replace('#', '') || 'home' }, '', '#modal-' + modalName);
         document.getElementById(modalName).setAttribute('data-history-pushed', 'true');
     }
 
@@ -1665,12 +1665,13 @@ function updateEditCatPreview() {
 
 function closeEditCatModal(fromHistory = false) {
     const modal = document.getElementById('edit-cat-modal');
-    modal.style.display = 'none';
-    modal.classList.remove('edit-cat-modal-open');
     if (!fromHistory && modal.hasAttribute('data-history-pushed')) {
         modal.removeAttribute('data-history-pushed');
         history.back();
+        return;
     }
+    modal.style.display = 'none';
+    modal.classList.remove('edit-cat-modal-open');
 }
 
 async function confirmEditCategory() {
@@ -1993,11 +1994,12 @@ function openAddCatModal() {
 
 function closeAddCatModal(fromHistory = false) {
     const m = document.getElementById('add-cat-modal');
-    m.style.display = 'none';
     if (!fromHistory && m.hasAttribute('data-history-pushed')) {
         m.removeAttribute('data-history-pushed');
         history.back();
+        return;
     }
+    m.style.display = 'none';
 }
 
 function setAddCatType(type) {
