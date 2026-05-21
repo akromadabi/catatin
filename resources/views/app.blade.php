@@ -685,7 +685,7 @@
     </main>
 
     <!-- PAGE: CATEGORIES (sits over everything, hidden by default via .page class) -->
-    <div class="page absolute top-0 left-0 w-full h-full bg-[#f8fafc] z-40 overflow-hidden" id="page-categories">
+    <div class="page absolute top-0 left-0 w-full h-full bg-[#f8fafc] z-[60] overflow-hidden" id="page-categories">
       <div class="flex flex-col w-full h-full">
         <!-- Header -->
         <div class="px-4 pt-8 pb-4 bg-white flex items-center gap-4 border-b border-slate-100 shrink-0">

@@ -902,13 +902,15 @@ function loadMoreWallet() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const pageWallet = document.getElementById('page-wallet');
-    if (pageWallet) {
-        pageWallet.addEventListener('scroll', () => {
-            if (pageWallet.scrollTop + pageWallet.clientHeight >= pageWallet.scrollHeight - 50) {
-                const loadMoreBtn = document.getElementById('wallet-load-more');
-                if (loadMoreBtn) {
-                    loadMoreWallet();
+    const mainScroll = document.getElementById('main-scroll');
+    if (mainScroll) {
+        mainScroll.addEventListener('scroll', () => {
+            if (currentPage === 'wallet') {
+                if (mainScroll.scrollTop + mainScroll.clientHeight >= mainScroll.scrollHeight - 50) {
+                    const loadMoreBtn = document.getElementById('wallet-load-more');
+                    if (loadMoreBtn) {
+                        loadMoreWallet();
+                    }
                 }
             }
         });
