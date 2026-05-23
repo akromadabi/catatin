@@ -42,4 +42,37 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('users', 'totalTxn', 'totalVol', 'totalPackages', 'totalUsers', 'chartData'));
     }
+
+    public function settings()
+    {
+        $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
+        return view('admin.settings', compact('settings'));
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $request->validate([
+            'app_name' => 'nullable|string|max:255',
+            'app_description' => 'nullable|string',
+            'app_icon' => 'nullable|image|max:1024',
+            'app_photo' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->has('app_name')) {
+            \App\Models\Setting::updateOrCreate(['key' => 'app_name'], ['value' => $request->app_name]);
+        }
+        if ($request->has('app_description')) {
+            \App\Models\Setting::updateOrCreate(['key' => 'app_description'], ['value' => $request->app_description]);
+        }
+        if ($request->hasFile('app_icon')) {
+            $path = $request->file('app_icon')->store('settings', 'public');
+            \App\Models\Setting::updateOrCreate(['key' => 'app_icon'], ['value' => $path]);
+        }
+        if ($request->hasFile('app_photo')) {
+            $path = $request->file('app_photo')->store('settings', 'public');
+            \App\Models\Setting::updateOrCreate(['key' => 'app_photo'], ['value' => $path]);
+        }
+
+        return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui!');
+    }
 }

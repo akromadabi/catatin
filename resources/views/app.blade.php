@@ -5,11 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
-  <title>Catat-in App</title>
+  @php
+      $appName = \App\Models\Setting::get('app_name', 'Catat-in App');
+      $appDesc = \App\Models\Setting::get('app_description', 'Aplikasi pencatatan keuangan UMKM terpintar.');
+      $appIcon = \App\Models\Setting::get('app_icon') ? asset('storage/' . \App\Models\Setting::get('app_icon')) : asset('favicon.png');
+      $appPhoto = \App\Models\Setting::get('app_photo') ? asset('storage/' . \App\Models\Setting::get('app_photo')) : asset('favicon.png');
+  @endphp
+  <title>{{ $appName }}</title>
+  <meta name="description" content="{{ $appDesc }}">
+  <meta property="og:title" content="{{ $appName }}">
+  <meta property="og:description" content="{{ $appDesc }}">
+  <meta property="og:image" content="{{ $appPhoto }}">
+  <meta property="og:type" content="website">
   <meta name="theme-color" content="#ffffff">
   <link rel="manifest" href="/manifest.json?v=2">
-  <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-  <link rel="apple-touch-icon" href="/icons/icon-192x192.png?v=2">
+  <link rel="icon" type="image/png" href="{{ $appIcon }}">
+  <link rel="apple-touch-icon" href="{{ $appIcon }}">
   <!-- pdfmake PDF library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
@@ -486,20 +497,27 @@
                     <h3 class="font-bold text-slate-900 text-lg">Transaksi</h3>
                 </div>
 
-                <!-- Search Bar -->
-                <div id="wallet-search-container" class="mb-4 relative">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input type="text" id="wallet-search-input" placeholder="Cari deskripsi atau kategori..." class="w-full bg-slate-100 text-sm text-slate-700 font-semibold rounded-xl pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-brand-600 transition" oninput="updateWallet()">
+                <!-- Search Bar & Toggle Group Row -->
+                <div class="flex gap-2 mb-4 items-center">
+                    <div id="wallet-search-container" class="relative w-[70%]">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="wallet-search-input" placeholder="Cari riwayat..." class="w-full bg-slate-100 text-sm text-slate-700 font-semibold rounded-xl pl-9 pr-4 py-2.5 outline-none focus:ring-2 focus:ring-brand-600 transition" oninput="updateWallet()">
+                    </div>
+                    
+                    <button id="toggle-group-btn" onclick="toggleWalletGroup()" class="flex-1 flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-xl bg-brand-50 text-brand-600 border border-brand-100 hover:bg-brand-100 transition shrink-0" title="Sembunyikan/Tampilkan Pemisah Hari">
+                        <i id="toggle-group-icon" class="fas fa-calendar-check text-xs"></i>
+                        <span id="toggle-group-text" class="text-[11px] font-bold">Hari: Tampil</span>
+                    </button>
                 </div>
 
                 <!-- Filters built-in -->
                 <div class="flex gap-2 mb-4 items-center">
-                    <select id="wallet-filter-type" class="w-[125px] bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 pl-3 pr-6 rounded-full outline-none border-r-4 border-transparent focus:border-brand-600 transition" onchange="updateWalletFilterCat(); updateWallet()">
+                    <select id="wallet-filter-type" class="flex-1 w-0 bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 pl-3 pr-6 rounded-full outline-none border-r-4 border-transparent focus:border-brand-600 transition" onchange="updateWalletFilterCat(); updateWallet()">
                         <option value="all">Semua Tipe</option>
                         <option value="pemasukan">Pemasukan</option>
                         <option value="pengeluaran">Pengeluaran</option>
                     </select>
-                    <select id="wallet-filter-cat" class="w-[145px] bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 pl-3 pr-6 rounded-full outline-none border-r-4 border-transparent focus:border-brand-600 transition" onchange="updateWallet()">
+                    <select id="wallet-filter-cat" class="flex-1 w-0 bg-slate-100 text-slate-700 text-xs font-semibold py-1.5 pl-3 pr-6 rounded-full outline-none border-r-4 border-transparent focus:border-brand-600 transition" onchange="updateWallet()">
                         <option value="all">Semua Kategori</option>
                     </select>
 
@@ -652,7 +670,7 @@
                     </div>
 
                     <!-- Backup & Restore Data -->
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="openBackupRestoreModal()">
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition" onclick="showPage('backup')">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center">
                                 <i class="fas fa-cloud-download-alt"></i>
@@ -805,6 +823,17 @@
                         placeholder="Nama kategori..." oninput="updateEditCatPreview()">
                 </div>
 
+                <!-- Keywords -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                        Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
+                    </label>
+                    <input type="text" id="edit-cat-keywords"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none"
+                        placeholder="kado, surprise, gift (pisahkan koma)">
+                    <p class="text-[10px] text-slate-400 mt-1">Dikenali otomatis saat input suara</p>
+                </div>
+
                 <!-- Color Picker -->
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Warna</label>
@@ -840,17 +869,6 @@
 
                 <input type="hidden" id="edit-cat-selected-icon" value="fas fa-star">
                 <input type="hidden" id="edit-cat-selected-color" value="#6c63ff">
-
-                <!-- Keywords -->
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-                        Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
-                    </label>
-                    <input type="text" id="edit-cat-keywords"
-                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 focus:border-brand-600 outline-none"
-                        placeholder="kado, surprise, gift (pisahkan koma)">
-                    <p class="text-[10px] text-slate-400 mt-1">Dikenali otomatis saat input suara</p>
-                </div>
             </div>
 
             <!-- Footer -->
@@ -896,6 +914,17 @@
                     <p class="text-[10px] text-slate-400 mt-1" id="add-cat-charcount">0/30</p>
                 </div>
 
+                <!-- Keywords for Voice Recognition -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                        Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
+                    </label>
+                    <input type="text" id="add-cat-keywords-input"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6c63ff] transition"
+                        placeholder="kado, surprise, gift (pisahkan dengan koma)">
+                    <p class="text-[10px] text-slate-400 mt-1">Kata ini dikenali saat input suara. Misal kategori "Hadiah" → keyword: kado, surprise</p>
+                </div>
+
                 <!-- Color Picker -->
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Warna</label>
@@ -932,17 +961,6 @@
                 <input type="hidden" id="add-cat-selected-icon" value="fas fa-star">
                 <input type="hidden" id="add-cat-selected-color" value="#6c63ff">
                 <input type="hidden" id="add-cat-selected-type" value="pemasukan">
-
-                <!-- Keywords for Voice Recognition -->
-                <div class="mt-4">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
-                        Kata Kunci Suara <span class="text-slate-400 font-normal normal-case">(Opsional)</span>
-                    </label>
-                    <input type="text" id="add-cat-keywords-input"
-                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6c63ff] transition"
-                        placeholder="kado, surprise, gift (pisahkan dengan koma)">
-                    <p class="text-[10px] text-slate-400 mt-1">Kata ini dikenali saat input suara. Misal kategori "Hadiah" → keyword: kado, surprise</p>
-                </div>
             </div>
 
             <!-- Footer Actions -->
@@ -1241,7 +1259,7 @@
         <!-- Filter Pills -->
         <div class="px-5 py-2.5 border-b border-slate-100 flex gap-2 overflow-x-auto no-scrollbar shrink-0" style="-ms-overflow-style: none; scrollbar-width: none;">
             <style> .no-scrollbar::-webkit-scrollbar { display: none; } </style>
-            <button onclick="filterActivityLog('all', this)" class="activity-filter-btn px-3 py-1 border border-transparent bg-slate-800 text-white text-[10px] font-bold rounded-full whitespace-nowrap transition">Semua</button>
+            <button onclick="filterActivityLog('all', this)" class="activity-filter-btn px-3 py-1 border border-transparent bg-slate-900 text-white text-[10px] font-bold rounded-full whitespace-nowrap transition">Semua</button>
             <button onclick="filterActivityLog('created', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Tambah</button>
             <button onclick="filterActivityLog('updated', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Edit</button>
             <button onclick="filterActivityLog('deleted', this)" class="activity-filter-btn px-3 py-1 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-[10px] font-bold rounded-full whitespace-nowrap transition">Hapus</button>
@@ -1381,59 +1399,80 @@
     </div>
 </div>
 
-<!-- BACKUP & RESTORE MODAL -->
-<div id="backup-restore-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeBackupRestoreModal()"></div>
-    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col">
-        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center shrink-0">
-            <h3 class="font-bold text-slate-900 text-base">Backup & Restore Data</h3>
-            <button onclick="closeBackupRestoreModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
-                <i class="fas fa-times text-xs"></i>
-            </button>
+<!-- BACKUP PAGE -->
+<div id="page-backup" class="page absolute inset-0 z-[60] bg-slate-50 overflow-hidden">
+    <div class="flex flex-col w-full h-full">
+        <!-- Header -->
+        <div class="px-5 py-4 bg-white flex justify-between items-center shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] relative z-10 shrink-0">
+            <div class="flex items-center gap-3">
+                <button onclick="showPage('home')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 transition">
+                    <i class="fas fa-arrow-left text-sm"></i>
+                </button>
+                <h2 class="font-bold text-slate-800 text-lg">Backup & Restore</h2>
+            </div>
         </div>
-        <div class="p-5 space-y-4">
-            <div class="bg-rose-50 rounded-xl p-4 text-xs text-rose-600 leading-relaxed">
-                <strong>Catatan Penting:</strong> File backup akan disimpan secara lokal di perangkat Anda (folder Download). Jika HP hilang, rusak, atau di-reset, data tidak bisa dikembalikan jika Anda tidak memindahkannya ke tempat aman (contoh: Google Drive).
+        
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto p-5 pb-24 space-y-6">
+            <!-- Local Backup Section -->
+            <div>
+            <h3 class="font-bold text-slate-900 mb-3 text-sm">Backup Lokal</h3>
+            <div class="bg-rose-50 rounded-xl p-4 text-xs text-rose-600 leading-relaxed mb-4">
+                <strong>Catatan Penting:</strong> File backup lokal akan disimpan di perangkat Anda (folder Download). Jika HP hilang/rusak, data tidak bisa dikembalikan.
             </div>
             
-            <div id="last-backup-info" class="bg-slate-50/80 rounded-xl p-3.5 border border-slate-100 hidden">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Backup Terakhir</p>
-                <div class="space-y-1.5 text-[11px] text-slate-600">
-                    <div class="flex gap-2">
-                        <span class="w-16 shrink-0 text-slate-400">Nama File</span>
-                        <span class="shrink-0 text-slate-300">:</span>
-                        <span id="last-backup-filename" class="font-medium text-slate-700 break-words leading-tight"></span>
+            <div class="space-y-3">
+                <button onclick="backupData()" class="w-full flex items-center gap-3 bg-white hover:bg-teal-50 border border-slate-100 text-teal-700 p-4 rounded-2xl shadow-sm transition">
+                    <div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-lg shrink-0">
+                        <i class="fas fa-download text-teal-500"></i>
                     </div>
-                    <div class="flex gap-2">
-                        <span class="w-16 shrink-0 text-slate-400">Tanggal</span>
-                        <span class="shrink-0 text-slate-300">:</span>
-                        <span id="last-backup-date" class="font-medium text-slate-700"></span>
+                    <div class="text-left flex-1">
+                        <div class="font-bold text-sm">Download Backup (JSON)</div>
+                        <div class="text-xs text-slate-500">Simpan riwayat transaksi ke perangkat</div>
                     </div>
-                    <div class="flex gap-2">
-                        <span class="w-16 shrink-0 text-slate-400">Folder</span>
-                        <span class="shrink-0 text-slate-300">:</span>
-                        <span class="font-medium text-slate-700">/Download</span>
+                </button>
+                <button onclick="document.getElementById('import-file').click()" class="w-full flex items-center gap-3 bg-white hover:bg-orange-50 border border-slate-100 text-orange-700 p-4 rounded-2xl shadow-sm transition">
+                    <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-lg shrink-0">
+                        <i class="fas fa-upload text-orange-500"></i>
+                    </div>
+                    <div class="text-left flex-1">
+                        <div class="font-bold text-sm">Restore Lokal (JSON)</div>
+                        <div class="text-xs text-slate-500">Gabungkan riwayat dari file HP</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cloud Backup Section -->
+        <div>
+            <h3 class="font-bold text-slate-900 mb-3 text-sm flex items-center justify-between">
+                <span>Penyimpanan Cloud</span>
+                <span class="text-[10px] bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">Aman</span>
+            </h3>
+            
+            <div class="space-y-3">
+                <button onclick="cloudBackupData()" class="w-full flex items-center gap-3 bg-brand-600 hover:bg-brand-700 text-white p-4 rounded-2xl shadow-md transition">
+                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg shrink-0">
+                        <i class="fas fa-cloud-upload-alt text-white"></i>
+                    </div>
+                    <div class="text-left flex-1">
+                        <div class="font-bold text-sm">Backup ke Cloud Server</div>
+                        <div class="text-xs text-brand-100">Simpan otomatis ke server Catat-in</div>
+                    </div>
+                </button>
+                
+                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+                    <div class="px-4 py-3 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+                        <span class="text-xs font-bold text-slate-600">File Backup Cloud</span>
+                        <button onclick="loadCloudBackups()" class="text-brand-600 hover:text-brand-800"><i class="fas fa-sync-alt text-xs"></i></button>
+                    </div>
+                    <div id="cloud-backups-list" class="divide-y divide-slate-50 max-h-48 overflow-y-auto">
+                        <div class="p-4 text-center text-xs text-slate-400">
+                            <i class="fas fa-spinner fa-spin mr-1"></i> Memuat data...
+                        </div>
                     </div>
                 </div>
             </div>
-            <button onclick="backupData()" class="w-full flex items-center gap-3 bg-teal-50 hover:bg-teal-100 text-teal-700 p-4 rounded-2xl transition">
-                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
-                    <i class="fas fa-cloud-download-alt text-teal-500"></i>
-                </div>
-                <div class="text-left flex-1">
-                    <div class="font-bold text-sm">Backup Data</div>
-                    <div class="text-xs text-teal-600/70">Unduh riwayat transaksi ke JSON</div>
-                </div>
-            </button>
-            <button onclick="document.getElementById('import-file').click()" class="w-full flex items-center gap-3 bg-orange-50 hover:bg-orange-100 text-orange-700 p-4 rounded-2xl transition">
-                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-lg">
-                    <i class="fas fa-cloud-upload-alt text-orange-500"></i>
-                </div>
-                <div class="text-left flex-1">
-                    <div class="font-bold text-sm">Restore Data</div>
-                    <div class="text-xs text-orange-600/70">Gabungkan riwayat dari JSON</div>
-                </div>
-            </button>
         </div>
     </div>
 </div>

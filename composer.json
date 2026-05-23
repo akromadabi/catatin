@@ -10,7 +10,8 @@
         "laravel-notification-channels/webpush": "^10.5",
         "laravel/framework": "^13.8",
         "laravel/socialite": "^5.27",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "spatie/laravel-backup": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

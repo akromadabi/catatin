@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Admin Panel - Catat-in</title>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png?v=2">
+    @php
+        $appName = \App\Models\Setting::get('app_name', 'Catat-in');
+        $appDesc = \App\Models\Setting::get('app_description', 'Aplikasi pencatatan keuangan UMKM terpintar.');
+        $appIcon = \App\Models\Setting::get('app_icon') ? asset('storage/' . \App\Models\Setting::get('app_icon')) : asset('favicon.png');
+        $appPhoto = \App\Models\Setting::get('app_photo') ? asset('storage/' . \App\Models\Setting::get('app_photo')) : asset('favicon.png');
+    @endphp
+    <title>Admin Panel - {{ $appName }}</title>
+    <meta name="description" content="{{ $appDesc }}">
+    <meta property="og:title" content="{{ $appName }}">
+    <meta property="og:description" content="{{ $appDesc }}">
+    <meta property="og:image" content="{{ $appPhoto }}">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="{{ $appIcon }}">
+    <link rel="apple-touch-icon" href="{{ $appIcon }}">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -59,6 +70,14 @@
             <a href="{{ route('admin.packages.index') }}" class="sidebar-item flex items-center px-6 py-3 text-slate-500 font-medium hover:bg-slate-50 hover:text-slate-900 transition-colors {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
                 <i class="fas fa-box w-6 text-center"></i>
                 <span class="ml-2">Paket Langganan</span>
+            </a>
+            <a href="{{ route('admin.settings') }}" class="sidebar-item flex items-center px-6 py-3 text-slate-500 font-medium hover:bg-slate-50 hover:text-slate-900 transition-colors {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+                <i class="fas fa-cog w-6 text-center"></i>
+                <span class="ml-2">Pengaturan Website</span>
+            </a>
+            <a href="{{ route('admin.backups.index') }}" class="sidebar-item flex items-center px-6 py-3 text-slate-500 font-medium hover:bg-slate-50 hover:text-slate-900 transition-colors {{ request()->routeIs('admin.backups.*') ? 'active' : '' }}">
+                <i class="fas fa-cloud-download-alt w-6 text-center"></i>
+                <span class="ml-2">Sistem Backup</span>
             </a>
         </nav>
 
@@ -129,6 +148,14 @@
         <a href="{{ route('admin.packages.index') }}" class="flex flex-col items-center gap-1 w-16 {{ request()->routeIs('admin.packages.*') ? 'text-brand-600' : 'text-slate-400' }}">
             <i class="fas fa-box text-xl transition-transform {{ request()->routeIs('admin.packages.*') ? '-translate-y-1' : '' }}"></i>
             <span class="text-[10px] font-bold">Paket</span>
+        </a>
+        <a href="{{ route('admin.settings') }}" class="flex flex-col items-center gap-1 w-16 {{ request()->routeIs('admin.settings') ? 'text-brand-600' : 'text-slate-400' }}">
+            <i class="fas fa-cog text-xl transition-transform {{ request()->routeIs('admin.settings') ? '-translate-y-1' : '' }}"></i>
+            <span class="text-[10px] font-bold">Setting</span>
+        </a>
+        <a href="{{ route('admin.backups.index') }}" class="flex flex-col items-center gap-1 w-16 {{ request()->routeIs('admin.backups.*') ? 'text-brand-600' : 'text-slate-400' }}">
+            <i class="fas fa-cloud-download-alt text-xl transition-transform {{ request()->routeIs('admin.backups.*') ? '-translate-y-1' : '' }}"></i>
+            <span class="text-[10px] font-bold">Backup</span>
         </a>
         <form method="POST" action="{{ route('logout') }}" class="flex flex-col items-center w-16 text-slate-400 hover:text-rose-500 transition-colors">
             @csrf

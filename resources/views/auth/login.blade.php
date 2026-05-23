@@ -9,10 +9,9 @@
             <input type="hidden" name="invite" value="{{ request('invite') }}">
         @endif
 
-        <!-- Email Address -->
         <div class="mb-4">
-            <label for="email" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 font-medium focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none transition-colors" placeholder="user@example.com" />
+            <label for="email" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Email / Username</label>
+            <input id="email" type="text" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 font-medium focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none transition-colors" placeholder="admin" />
             <x-input-error :messages="$errors->get('email')" class="mt-2 text-rose-500 text-xs" />
         </div>
 

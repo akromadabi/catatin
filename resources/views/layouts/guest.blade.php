@@ -4,11 +4,22 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ config('app.name', 'Catat-in') }} - Login</title>
+        @php
+            $appName = \App\Models\Setting::get('app_name', 'Catat-in');
+            $appDesc = \App\Models\Setting::get('app_description', 'Aplikasi pencatatan keuangan UMKM terpintar.');
+            $appIcon = \App\Models\Setting::get('app_icon') ? asset('storage/' . \App\Models\Setting::get('app_icon')) : asset('favicon.png');
+            $appPhoto = \App\Models\Setting::get('app_photo') ? asset('storage/' . \App\Models\Setting::get('app_photo')) : asset('favicon.png');
+        @endphp
+        <title>{{ $appName }} - Login</title>
+        <meta name="description" content="{{ $appDesc }}">
+        <meta property="og:title" content="{{ $appName }}">
+        <meta property="og:description" content="{{ $appDesc }}">
+        <meta property="og:image" content="{{ $appPhoto }}">
+        <meta property="og:type" content="website">
         <meta name="theme-color" content="#ffffff">
         <link rel="manifest" href="/manifest.json">
-        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png?v=2">
+        <link rel="icon" type="image/png" href="{{ $appIcon }}">
+        <link rel="apple-touch-icon" href="{{ $appIcon }}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

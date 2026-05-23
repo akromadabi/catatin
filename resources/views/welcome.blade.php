@@ -3,14 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catat-in — Catat Keuangan UMKM Pakai Suara</title>
-  <meta name="description" content="Aplikasi pencatatan keuangan UMKM terpintar. Cukup ucapkan transaksimu, Catat-in akan mencatatnya otomatis. Gratis, mudah, dan akurat.">
-  <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v=2">
-  <link rel="apple-touch-icon" href="/icons/icon-192x192.png?v=2">
+  @php
+      $appName = \App\Models\Setting::get('app_name', 'Catat-in — Catat Keuangan UMKM Pakai Suara');
+      $appDesc = \App\Models\Setting::get('app_description', 'Aplikasi pencatatan keuangan UMKM terpintar. Cukup ucapkan transaksimu, Catat-in akan mencatatnya otomatis. Gratis, mudah, dan akurat.');
+      $appIcon = \App\Models\Setting::get('app_icon') ? asset('storage/' . \App\Models\Setting::get('app_icon')) : asset('favicon.png');
+      $appPhoto = \App\Models\Setting::get('app_photo') ? asset('storage/' . \App\Models\Setting::get('app_photo')) : asset('favicon.png');
+  @endphp
+  <title>{{ $appName }}</title>
+  <meta name="description" content="{{ $appDesc }}">
+  <meta property="og:title" content="{{ $appName }}">
+  <meta property="og:description" content="{{ $appDesc }}">
+  <meta property="og:image" content="{{ $appPhoto }}">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="{{ $appIcon }}">
+  <link rel="apple-touch-icon" href="{{ $appIcon }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ asset('css/landing.css') }}?v={{ filemtime(public_path('css/landing.css')) }}">
 </head>
 <body>
 
@@ -85,58 +96,106 @@
       <div class="hero-visual">
         <div class="phone-mockup">
           <div class="phone-screen">
-            <div class="mock-header">
-              <div class="mock-greeting">Selamat pagi, Bos! 👋</div>
-              <div class="mock-date">Sabtu, 17 Mei 2026</div>
+            <!-- Topbar -->
+            <div class="mock-topbar">
+              <div class="mock-project">
+                <div class="mock-project-icon"><i class="fas fa-wallet"></i></div>
+                <div class="mock-project-name">Rumah Tangga</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <i class="fas fa-bell" style="color:#94a3b8;"></i>
+                <div class="mock-avatar"></div>
+              </div>
             </div>
-            <div class="mock-balance">
-              <div class="mock-balance-label">Saldo Hari Ini</div>
-              <div class="mock-balance-value">Rp 4.750.000</div>
+
+            <!-- Balance Card -->
+            <div class="mock-balance-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div class="mock-balance-label">Total Saldo <span style="background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:100px; margin-left:4px; font-size:8px;">BULAN INI</span></div>
+                <i class="fas fa-eye-slash" style="background:rgba(255,255,255,0.2); padding:6px; border-radius:50%; font-size:10px;"></i>
+              </div>
+              <div class="mock-balance-value">Rp &bull;&bull;&bull;&bull;&bull;&bull;&bull;</div>
               <div class="mock-balance-row">
-                <div class="mock-in">↑ Rp 6.200.000</div>
-                <div class="mock-out">↓ Rp 1.450.000</div>
+                <div class="mock-balance-box">
+                  <span>↓ PEMASUKAN</span>
+                  <strong>Rp &bull;&bull;&bull;&bull;&bull;&bull;&bull;</strong>
+                </div>
+                <div class="mock-balance-box">
+                  <span>↑ PENGELUARAN</span>
+                  <strong>Rp &bull;&bull;&bull;&bull;&bull;&bull;&bull;</strong>
+                </div>
               </div>
             </div>
-            <div class="mock-voice-card">
-              <div class="mock-mic-icon">🎙️</div>
-              <div class="mock-voice-text">"bayar supplier beras 500rb"</div>
-              <div class="mock-voice-parsed">
-                <span class="parsed-badge out">Pengeluaran</span>
-                <span class="parsed-amount">Rp 500.000</span>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; margin-bottom:8px; padding:0 4px;">
+              <div class="mock-section-title" style="margin-bottom:0;">Insight AI</div>
+              <span style="font-size:10px; color:#6c63ff; font-weight:700;">Lihat semua</span>
+            </div>
+
+            <!-- Insight -->
+            <div class="mock-insight">
+              <div class="mock-insight-icon"><i class="fas fa-chart-line"></i></div>
+              <div class="mock-insight-text">
+                <strong>Kerja bagus! Pengeluaran menurun</strong>
+                <p>Pengeluaran Anda menurun dibandingkan minggu lalu.</p>
               </div>
             </div>
+
+            <div class="mock-section-title" style="margin-top:20px;">Aksi Cepat</div>
+            <!-- Actions -->
+            <div class="mock-actions">
+              <div class="mock-action">
+                <div class="mock-action-icon c1"><i class="fas fa-microphone"></i></div>
+                <span>Suara</span>
+              </div>
+              <div class="mock-action">
+                <div class="mock-action-icon c2"><i class="fas fa-list-ul"></i></div>
+                <span>Riwayat</span>
+              </div>
+              <div class="mock-action">
+                <div class="mock-action-icon c3"><i class="fas fa-chart-pie"></i></div>
+                <span>Laporan</span>
+              </div>
+              <div class="mock-action">
+                <div class="mock-action-icon c4"><i class="fas fa-cog"></i></div>
+                <span>Setelan</span>
+              </div>
+            </div>
+
+            <div class="mock-section-title" style="margin-top:24px;">Transaksi Terbaru</div>
+            <!-- Txn List -->
             <div class="mock-txn-list">
-              <div class="mock-txn in">
-                <span class="txn-icon">🛍️</span>
-                <div class="txn-detail">
-                  <span>Hasil jualan</span>
+              <div class="mock-txn">
+                <div class="mock-txn-icon" style="color:#ef4444;"><i class="fas fa-bolt"></i></div>
+                <div class="mock-txn-detail">
+                  <span>Beli Token Listrik</span>
                   <small>09:30</small>
                 </div>
-                <span class="txn-amount green">+2.500.000</span>
+                <span class="mock-txn-amount out">-150.000</span>
               </div>
-              <div class="mock-txn out">
-                <span class="txn-icon">🧾</span>
-                <div class="txn-detail">
-                  <span>Bayar listrik</span>
+              <div class="mock-txn">
+                <div class="mock-txn-icon" style="color:#10b981;"><i class="fas fa-briefcase"></i></div>
+                <div class="mock-txn-detail">
+                  <span>Gajian Bulanan</span>
                   <small>08:15</small>
                 </div>
-                <span class="txn-amount red">-150.000</span>
+                <span class="mock-txn-amount in">+4.500.000</span>
               </div>
-              <div class="mock-txn in">
-                <span class="txn-icon">💵</span>
-                <div class="txn-detail">
-                  <span>Customer bayar</span>
-                  <small>07:45</small>
-                </div>
-                <span class="txn-amount green">+350.000</span>
-              </div>
+            </div>
+
+            <!-- Bottom Nav -->
+            <div class="mock-bottom-nav">
+              <div class="mock-nav-item active"><i class="fas fa-home"></i></div>
+              <div class="mock-nav-item"><i class="fas fa-chart-pie"></i></div>
+              <div class="mock-nav-item" style="width:40px;"></div>
+              <div class="mock-nav-item"><i class="fas fa-wallet"></i></div>
+              <div class="mock-nav-item"><i class="fas fa-cog"></i></div>
             </div>
           </div>
           <div class="mic-pulse">
             <div class="mic-ring ring-1"></div>
             <div class="mic-ring ring-2"></div>
-            <div class="mic-ring ring-3"></div>
-            <button class="mic-btn-hero">🎙️</button>
+            <button class="mic-btn-hero"><i class="fas fa-microphone"></i></button>
           </div>
         </div>
       </div>
@@ -153,40 +212,40 @@
       </div>
       <div class="features-grid">
         <div class="feature-card feature-primary">
-          <div class="feature-icon">🎙️</div>
-          <h3>Voice to Transaction</h3>
-          <p>Fitur andalan kami. Ucapkan transaksi dalam bahasa sehari-hari — Catat-in memahami dan mencatatnya secara otomatis.</p>
+          <div class="feature-icon"><i class="fas fa-microphone"></i></div>
+          <h3>Pencatatan Cepat via Suara</h3>
+          <p>Fitur andalan kami. Ucapkan transaksi dalam bahasa sehari-hari — AI Catat-in memahami dan mencatatnya otomatis tanpa perlu mengetik manual.</p>
           <div class="feature-examples">
             <div class="example">"bayar listrik 150rb" →</div>
-            <div class="example-result">✅ Pengeluaran Rp 150.000 | Utilitas</div>
+            <div class="example-result"><i class="fas fa-check-circle"></i> Pengeluaran Rp 150.000</div>
             <div class="example">"dapat bayaran 2 juta" →</div>
-            <div class="example-result">✅ Pemasukan Rp 2.000.000 | Penjualan</div>
+            <div class="example-result"><i class="fas fa-check-circle"></i> Pemasukan Rp 2.000.000</div>
           </div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>Laporan Otomatis</h3>
-          <p>Laporan harian, mingguan, dan bulanan dibuat otomatis. Lihat tren keuangan usahamu dalam sekali pandang.</p>
+          <div class="feature-icon"><i class="fas fa-users"></i></div>
+          <h3>Kelola Proyek & Kolaborasi Tim</h3>
+          <p>Buat banyak proyek berbeda (Rumah Tangga, Usaha A, Usaha B) dan undang anggota tim untuk berkolaborasi mencatat keuangan bersama.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">💡</div>
-          <h3>Insight Cerdas</h3>
-          <p>Dapatkan analisis pola keuangan dan saran dari AI untuk mengembangkan usahamu.</p>
+          <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Insight AI Cerdas</h3>
+          <p>Dapatkan analisis pintar tentang tren pengeluaran dan saran langsung dari AI untuk mengoptimalkan kesehatan keuangan Anda.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🏷️</div>
+          <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+          <h3>Filter & Laporan Otomatis</h3>
+          <p>Pantau laporan harian, mingguan, dan bulanan yang dibuat otomatis. Filter riwayat transaksi berdasarkan kategori atau rentang tanggal dengan mudah.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-tags"></i></div>
           <h3>Kategori Fleksibel</h3>
-          <p>50+ kategori bawaan: bahan jualan, bayar karyawan, modal, dan lainnya. Bisa custom sesuai usahamu.</p>
+          <p>Puluhan kategori bawaan atau buat custom sendiri. Tambahkan warna ikon sesuai selera agar laporan semakin terstruktur dan mudah dibaca.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🖨️</div>
-          <h3>Export Laporan PDF</h3>
-          <p>Cetak laporan keuangan profesional kapan saja untuk keperluan bisnis atau pembukuan.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">☁️</div>
-          <h3>Tersimpan Aman</h3>
-          <p>Data tersimpan lokal di browser kamu. Privasi terjaga, akses cepat, tanpa khawatir kehilangan data.</p>
+          <div class="feature-icon"><i class="fas fa-lock"></i></div>
+          <h3>Privasi Aman Terlindungi</h3>
+          <p>Data keuangan Anda disimpan dengan aman dan dapat diakses dengan cepat kapan saja melalui perangkat smartphone maupun laptop.</p>
         </div>
       </div>
     </div>
@@ -203,21 +262,21 @@
       <div class="steps">
         <div class="step">
           <div class="step-number">01</div>
-          <div class="step-icon">👆</div>
+          <div class="step-icon"><i class="fas fa-hand-pointer text-brand-500"></i></div>
           <h3>Tekan Tombol Mic</h3>
           <p>Klik tombol mikrofon di dashboard. Izinkan akses mikrofon browser.</p>
         </div>
-        <div class="step-arrow">→</div>
+        <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
         <div class="step">
           <div class="step-number">02</div>
-          <div class="step-icon">🗣️</div>
+          <div class="step-icon"><i class="fas fa-comment-dots text-brand-500"></i></div>
           <h3>Ucapkan Transaksi</h3>
           <p>Bicara normal seperti biasa: <em>"beli bahan jualan 300 ribu"</em></p>
         </div>
-        <div class="step-arrow">→</div>
+        <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
         <div class="step">
           <div class="step-number">03</div>
-          <div class="step-icon">✅</div>
+          <div class="step-icon"><i class="fas fa-check-circle text-emerald-500"></i></div>
           <h3>Konfirmasi & Simpan</h3>
           <p>Cek hasil parsing, koreksi jika perlu, lalu simpan. Selesai!</p>
         </div>

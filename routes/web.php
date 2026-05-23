@@ -59,6 +59,9 @@ Route::get('/dashboard', function () {
 
     // Load data scoped to active project
     if ($activeProject) {
+        // Automatically check and run weekly backup
+        \App\Http\Controllers\DataSyncController::checkAndRunWeeklyBackup($activeProject);
+
         $categories = \App\Models\Category::where('project_id', $activeProject->id)->get();
         $transactions = \App\Models\Transaction::where('project_id', $activeProject->id)->orderByDesc('created_at')->get();
 
@@ -85,24 +88,55 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::middleware('can:admin')->prefix('admin')->name('admin.')->group(function() {
         Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
+        Route::get('/settings', [\App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
+        Route::post('/settings', [\App\Http\Controllers\AdminController::class, 'updateSettings'])->name('settings.update');
         Route::resource('users', \App\Http\Controllers\AdminUserController::class)->except(['create', 'show', 'edit']);
         Route::resource('packages', \App\Http\Controllers\AdminPackageController::class)->except(['create', 'show', 'edit']);
+        
+        // Backup Routes
+        Route::get('/backups', [\App\Http\Controllers\Admin\BackupController::class, 'index'])->name('backups.index');
+        Route::post('/backups', [\App\Http\Controllers\Admin\BackupController::class, 'store'])->name('backups.store');
+        Route::post('/backups/download', [\App\Http\Controllers\Admin\BackupController::class, 'download'])->name('backups.download');
+        Route::delete('/backups', [\App\Http\Controllers\Admin\BackupController::class, 'destroy'])->name('backups.destroy');
     });
 
-    // API Routes for SPA
-    Route::post('/api/transactions', [ApiController::class, 'storeTransaction']);
-    Route::put('/api/transactions/{id}', [ApiController::class, 'updateTransaction']);
-    Route::delete('/api/transactions/{id}', [ApiController::class, 'deleteTransaction']);
-    Route::post('/api/categories', [ApiController::class, 'storeCategory']);
-    Route::put('/api/categories/{id}', [ApiController::class, 'updateCategory']);
-    Route::delete('/api/categories/{id}', [ApiController::class, 'deleteCategory']);
-    Route::post('/api/profile', [ApiController::class, 'updateProfile']);
+    // API Routes for SPA (Throttled for security)
+    Route::middleware('throttle:60,1')->group(function() {
+        Route::post('/api/projects', [ProjectController::class, 'store']);
+        Route::put('/api/projects/{id}', [ProjectController::class, 'update']);
+        Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
+        
+        Route::post('/api/transactions', [ApiController::class, 'storeTransaction']);
+        Route::put('/api/transactions/{id}', [ApiController::class, 'updateTransaction']);
+        Route::delete('/api/transactions/{id}', [ApiController::class, 'deleteTransaction']);
+        Route::post('/api/categories', [ApiController::class, 'storeCategory']);
+        Route::put('/api/categories/{id}', [ApiController::class, 'updateCategory']);
+        Route::delete('/api/categories/{id}', [ApiController::class, 'deleteCategory']);
+        
+        // Collaboration Routes
+        Route::get('/api/projects/{id}/members', [CollaborationController::class, 'members']);
+        Route::post('/api/projects/{id}/invites', [CollaborationController::class, 'invite']);
+        Route::get('/api/projects/{id}/invites', [CollaborationController::class, 'getInvites']);
+        Route::delete('/api/projects/{id}/invites/{inviteId}', [CollaborationController::class, 'cancelInvite']);
+        Route::delete('/api/projects/{id}/members/{memberId}', [CollaborationController::class, 'removeMember']);
+        Route::get('/api/projects/{id}/activity', [CollaborationController::class, 'activity']);
+        
+        // Notification routes
+        Route::get('/api/notifications', [CollaborationController::class, 'notifications']);
+        Route::post('/api/notifications/read', [CollaborationController::class, 'markNotificationsRead']);
+        Route::post('/api/push-subscribe', [\App\Http\Controllers\PushNotificationController::class, 'store']);
+        
+        // Profile Update
+        Route::post('/api/profile/update', [ApiController::class, 'updateProfile']);
+        
+        // Cloud Backup & Restore Routes
+        Route::post('/api/projects/{id}/cloud-backup', [\App\Http\Controllers\DataSyncController::class, 'exportCloud']);
+        Route::get('/api/projects/{id}/cloud-backups', [\App\Http\Controllers\DataSyncController::class, 'getCloudBackups']);
+        Route::post('/api/projects/{id}/cloud-restore', [\App\Http\Controllers\DataSyncController::class, 'importCloud']);
+    });
 
     // Project Routes
     Route::get('/api/projects', [ProjectController::class, 'index']);
-    Route::post('/api/projects', [ProjectController::class, 'store']);
-    Route::put('/api/projects/{id}', [ProjectController::class, 'update']);
-    Route::delete('/api/projects/{id}', [ProjectController::class, 'destroy']);
     Route::post('/api/projects/{id}/switch', [ProjectController::class, 'switchProject']);
 
     // Data Sync Routes (Backup & Import)
@@ -110,7 +144,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/projects/{id}/import', [\App\Http\Controllers\DataSyncController::class, 'import']);
 
     // Collaboration Routes
-    Route::get('/api/projects/{id}/members', [CollaborationController::class, 'listMembers']);
     Route::post('/api/projects/{id}/invite', [CollaborationController::class, 'generateInvite']);
     Route::post('/api/projects/{id}/invite-email', [CollaborationController::class, 'inviteByEmail']);
     Route::post('/api/projects/{id}/activity/log', [CollaborationController::class, 'logGenericActivity']);

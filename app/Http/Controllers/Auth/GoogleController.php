@@ -19,6 +19,13 @@ class GoogleController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
 
+            // Security Check: Ensure the Google email is actually verified
+            $isEmailVerified = $googleUser->user['email_verified'] ?? false;
+            
+            if (!$isEmailVerified) {
+                return redirect('/login')->with('error', 'Akun Google Anda belum diverifikasi oleh Google.');
+            }
+
             $user = User::where('google_id', $googleUser->id)->orWhere('email', $googleUser->email)->first();
 
             if ($user) {
@@ -26,7 +33,7 @@ class GoogleController extends Controller
                 if (!$user->google_id) {
                     $user->update(['google_id' => $googleUser->id]);
                 }
-                Auth::login($user);
+                Auth::login($user, true);
             } else {
                 // Create new user
                 $user = User::create([
@@ -67,7 +74,7 @@ class GoogleController extends Controller
                     ]);
                 }
                 
-                Auth::login($user);
+                Auth::login($user, true);
             }
 
             return redirect('/dashboard');

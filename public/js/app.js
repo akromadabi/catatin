@@ -3,6 +3,16 @@
  */
 
 let currentPage = 'home';
+
+window.escapeHtml = function(unsafe) {
+    if (unsafe == null) return '';
+    return unsafe.toString()
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+};
 let mainChart = null;
 let barChart = null;
 let currentChartView = 'bar';
@@ -1093,6 +1103,31 @@ function closeCategoryDetails() {
 let walletPage = 1;
 const WALLET_PER_PAGE = 30;
 let filteredWalletTxns = [];
+let isWalletGrouped = true;
+
+function toggleWalletGroup() {
+    isWalletGrouped = !isWalletGrouped;
+    const btn = document.getElementById('toggle-group-btn');
+    const icon = document.getElementById('toggle-group-icon');
+    const text = document.getElementById('toggle-group-text');
+    
+    if(btn && icon && text) {
+        if(isWalletGrouped) {
+            btn.classList.replace('bg-slate-100', 'bg-brand-50');
+            btn.classList.replace('text-slate-600', 'text-brand-600');
+            btn.classList.replace('border-slate-200', 'border-brand-100');
+            icon.className = 'fas fa-calendar-check text-xs';
+            text.textContent = 'Hari: Tampil';
+        } else {
+            btn.classList.replace('bg-brand-50', 'bg-slate-100');
+            btn.classList.replace('text-brand-600', 'text-slate-600');
+            btn.classList.replace('border-brand-100', 'border-slate-200');
+            icon.className = 'fas fa-calendar-minus text-xs';
+            text.textContent = 'Hari: Sembunyi';
+        }
+    }
+    updateWallet();
+}
 
 function updateWallet() {
     let txns = [...appData.transactions];
@@ -1141,7 +1176,69 @@ function renderWalletList() {
     const end = walletPage * WALLET_PER_PAGE;
     const toShow = filteredWalletTxns.slice(start, end);
     
-    const html = toShow.map(t => createTxnListItem(t, true)).join('');
+    const sortVal = document.getElementById('wallet-sort')?.value || 'newest';
+    const shouldGroup = (sortVal === 'newest' || sortVal === 'oldest') && isWalletGrouped;
+    const daysArr = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const monthsArr = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+    let html = '';
+    for (let i = 0; i < toShow.length; i++) {
+        const t = toShow[i];
+        
+        if (shouldGroup) {
+            const tDate = new Date(t.date);
+            const y = tDate.getFullYear();
+            const m = String(tDate.getMonth() + 1).padStart(2, '0');
+            const d = String(tDate.getDate()).padStart(2, '0');
+            const dateStr = `${y}-${m}-${d}`;
+            
+            let prevDateStr = null;
+            if (i > 0) {
+                const pDate = new Date(toShow[i-1].date);
+                prevDateStr = `${pDate.getFullYear()}-${String(pDate.getMonth() + 1).padStart(2, '0')}-${String(pDate.getDate()).padStart(2, '0')}`;
+            } else if (start > 0) {
+                const pDate = new Date(filteredWalletTxns[start-1].date);
+                prevDateStr = `${pDate.getFullYear()}-${String(pDate.getMonth() + 1).padStart(2, '0')}-${String(pDate.getDate()).padStart(2, '0')}`;
+            }
+            
+            if (dateStr !== prevDateStr) {
+                const dailyTxns = filteredWalletTxns.filter(tx => {
+                    const txDate = new Date(tx.date);
+                    return txDate.getFullYear() === y && String(txDate.getMonth()+1).padStart(2,'0') === m && String(txDate.getDate()).padStart(2,'0') === d;
+                });
+                let dayIn = 0;
+                let dayOut = 0;
+                dailyTxns.forEach(tx => {
+                    if (tx.type === 'pemasukan') dayIn += parseFloat(tx.amount);
+                    if (tx.type === 'pengeluaran') dayOut += parseFloat(tx.amount);
+                });
+                
+                const dayName = daysArr[tDate.getDay()];
+                const monthName = monthsArr[tDate.getMonth()];
+                
+                html += `
+                <div class="flex items-center justify-between py-2.5 px-3 mt-3 first:mt-0 -mx-2 border-b-2 border-slate-50/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 flex flex-col items-center justify-center text-center leading-none shrink-0 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase mb-0.5 tracking-wider">${dayName.substring(0,3)}</span>
+                            <span class="text-base font-black text-slate-700 leading-none">${d}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-slate-700">${dayName}, ${d} ${monthName}</span>
+                            <span class="text-[10px] font-semibold text-slate-400">${y}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-1 text-[10px] font-bold">
+                        ${dayIn > 0 ? `<span class="text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded-sm">+ ${formatRupiah(dayIn)}</span>` : ''}
+                        ${dayOut > 0 ? `<span class="text-rose-500 bg-rose-50 px-1.5 py-0.5 rounded-sm">- ${formatRupiah(dayOut)}</span>` : ''}
+                    </div>
+                </div>
+                `;
+            }
+        }
+        
+        html += createTxnListItem(t, true);
+    }
     
     if (walletPage === 1) {
         list.innerHTML = html;
@@ -1226,12 +1323,12 @@ function createTxnListItem(t, showDelete = false) {
                 ${iconHtml}
             </div>
             <div class="min-w-0">
-                <h4 class="text-sm font-bold text-slate-900 leading-tight truncate">${t.desc || t.category}</h4>
+                <h4 class="text-sm font-bold text-slate-900 leading-tight truncate">${window.escapeHtml(t.desc) || window.escapeHtml(t.category)}</h4>
                 <div class="flex items-center text-[11px] text-slate-500 mt-0.5">
-                    <span class="truncate">${t.category} • ${dateStr}</span>
+                    <span class="truncate">${window.escapeHtml(t.category)} &bull; ${dateStr}</span>
                     ${window.isCollaborative && t.user && t.user.name ? `
-                    <div class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[8px] font-bold shrink-0 ml-1" title="${t.user.name}">
-                        ${t.user.name.trim().split(/\\s+/).length === 1 ? t.user.name.trim().substring(0, 2).toUpperCase() : (t.user.name.trim().split(/\\s+/)[0][0] + t.user.name.trim().split(/\\s+/).pop()[0]).toUpperCase()}
+                    <div class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[8px] font-bold shrink-0 ml-1" title="${window.escapeHtml(t.user.name)}">
+                        ${t.user.name.trim().split(/\s+/).length === 1 ? window.escapeHtml(t.user.name.trim().substring(0, 2).toUpperCase()) : window.escapeHtml((t.user.name.trim().split(/\s+/)[0][0] + t.user.name.trim().split(/\s+/).pop()[0]).toUpperCase())}
                     </div>
                     ` : ''}
                 </div>
@@ -2503,13 +2600,13 @@ function filterActivityLog(type, btnElement) {
     // Update button styles
     const btns = document.querySelectorAll('.activity-filter-btn');
     btns.forEach(btn => {
-        btn.classList.remove('bg-slate-800', 'text-white', 'border-transparent');
+        btn.classList.remove('bg-slate-900', 'text-white', 'border-transparent');
         btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
     });
     
     if (btnElement) {
         btnElement.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-        btnElement.classList.add('bg-slate-800', 'text-white', 'border-transparent');
+        btnElement.classList.add('bg-slate-900', 'text-white', 'border-transparent');
     }
     
     renderActivityLog();
@@ -3263,5 +3360,116 @@ function processRestore(overwriteFlag) {
         showToast('Terjadi kesalahan sistem saat import.');
     });
 }
+
+// --- CLOUD BACKUP ---
+async function cloudBackupData() {
+    const activeProjectId = window.activeProject ? window.activeProject.id : null;
+    if (!activeProjectId) {
+        showToast('Proyek tidak aktif');
+        return;
+    }
+    if (!confirm('Simpan backup transaksi ke Cloud Server? Backup sebelumnya (jika ada) akan ditimpa.')) return;
+
+    showToast('Sedang menyimpan ke Cloud...');
+    
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${activeProjectId}/cloud-backup`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            }
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast(data.message);
+            loadCloudBackups();
+        } else {
+            showToast(data.message || 'Gagal backup');
+        }
+    } catch (e) {
+        showToast('Terjadi kesalahan koneksi');
+    }
+}
+
+async function loadCloudBackups() {
+    const activeProjectId = window.activeProject ? window.activeProject.id : null;
+    if (!activeProjectId) return;
+    const list = document.getElementById('cloud-backups-list');
+    if (!list) return;
+
+    list.innerHTML = `<div class="p-4 text-center text-xs text-slate-400"><i class="fas fa-spinner fa-spin mr-1"></i> Memuat data...</div>`;
+
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${activeProjectId}/cloud-backups`);
+        const data = await res.json();
+
+        if (data.success) {
+            if (data.backups.length === 0) {
+                list.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">Belum ada file backup tersimpan di cloud.</div>`;
+                return;
+            }
+
+            list.innerHTML = '';
+            data.backups.forEach(backup => {
+                list.innerHTML += `
+                    <div class="px-4 py-3 border-b border-slate-50 flex items-center justify-between hover:bg-slate-50 transition">
+                        <div>
+                            <div class="font-bold text-slate-700 text-xs">${backup.date}</div>
+                            <div class="text-[10px] text-slate-400">${backup.size} • ${backup.name}</div>
+                        </div>
+                        <button onclick="restoreCloudBackup('${backup.name}')" class="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                            <i class="fas fa-cloud-download-alt"></i> Restore
+                        </button>
+                    </div>
+                `;
+            });
+        }
+    } catch (e) {
+        list.innerHTML = `<div class="p-4 text-center text-xs text-rose-400">Gagal memuat list backup</div>`;
+    }
+}
+
+async function restoreCloudBackup(fileName) {
+    const activeProjectId = window.activeProject ? window.activeProject.id : null;
+    if (!activeProjectId) return;
+    if (!confirm('PERHATIAN: Restore data ini akan menimpa (menghapus) seluruh transaksi Anda saat ini. Lanjutkan?')) return;
+
+    showToast('Sedang me-restore data...');
+
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${activeProjectId}/cloud-restore`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ file_name: fileName })
+        });
+        
+        const data = await res.json();
+        if (data.success) {
+            showToast('Restore berhasil! Memuat ulang...');
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            showToast(data.message || 'Gagal restore data');
+        }
+    } catch (e) {
+        showToast('Terjadi kesalahan koneksi');
+    }
+}
+
+// Intercept navigateTo to load backups when backup page opens
+const originalNavigateTo = window.navigateTo;
+window.navigateTo = function(pageId, pushState = true) {
+    if (originalNavigateTo) {
+        originalNavigateTo(pageId, pushState);
+    }
+    if (pageId === 'backup') {
+        loadCloudBackups();
+    }
+}
+window.showPage = window.navigateTo;
 
 
