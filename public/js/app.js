@@ -3395,6 +3395,13 @@ async function cloudBackupData() {
 async function loadCloudBackups() {
     const activeProjectId = window.activeProject ? window.activeProject.id : null;
     if (!activeProjectId) return;
+    
+    // Set toggle state
+    const toggle = document.getElementById('cloud-backup-toggle');
+    if (toggle) {
+        toggle.checked = window.activeProject.is_cloud_backup_enabled == 1;
+    }
+
     const list = document.getElementById('cloud-backups-list');
     if (!list) return;
 
@@ -3412,11 +3419,16 @@ async function loadCloudBackups() {
 
             list.innerHTML = '';
             data.backups.forEach(backup => {
+                const isAuto = backup.name.includes('_AUTO_BACKUP');
+                const badge = isAuto 
+                    ? `<span class="bg-brand-100 text-brand-700 text-[9px] px-1.5 py-0.5 rounded-full ml-2">Otomatis</span>`
+                    : `<span class="bg-slate-100 text-slate-600 text-[9px] px-1.5 py-0.5 rounded-full ml-2">Manual</span>`;
+
                 list.innerHTML += `
                     <div class="px-4 py-3 border-b border-slate-50 flex items-center justify-between hover:bg-slate-50 transition">
                         <div>
-                            <div class="font-bold text-slate-700 text-xs">${backup.date}</div>
-                            <div class="text-[10px] text-slate-400">${backup.size} • ${backup.name}</div>
+                            <div class="font-bold text-slate-700 text-xs flex items-center">${backup.date} ${badge}</div>
+                            <div class="text-[10px] text-slate-400 mt-0.5">${backup.size} • ${backup.name}</div>
                         </div>
                         <button onclick="restoreCloudBackup('${backup.name}')" class="bg-orange-100 hover:bg-orange-200 text-orange-700 p-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
                             <i class="fas fa-cloud-download-alt"></i> Restore
@@ -3427,6 +3439,40 @@ async function loadCloudBackups() {
         }
     } catch (e) {
         list.innerHTML = `<div class="p-4 text-center text-xs text-rose-400">Gagal memuat list backup</div>`;
+    }
+}
+
+async function toggleCloudBackup() {
+    const activeProjectId = window.activeProject ? window.activeProject.id : null;
+    if (!activeProjectId) return;
+    
+    const toggle = document.getElementById('cloud-backup-toggle');
+    if (!toggle) return;
+    
+    try {
+        const res = await fetch(`${window.baseUrl}/api/projects/${activeProjectId}/toggle-cloud-backup`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': getCsrfToken(),
+                'Accept': 'application/json'
+            }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+            window.activeProject.is_cloud_backup_enabled = data.is_enabled;
+            if (data.is_enabled) {
+                showToast('Data Anda aman, tersimpan di-backup setiap Senin pukul 3 pagi');
+            } else {
+                showToast(data.message);
+            }
+        } else {
+            toggle.checked = !toggle.checked; // revert
+            showToast(data.message || 'Gagal mengubah pengaturan backup');
+        }
+    } catch(e) {
+        toggle.checked = !toggle.checked; // revert
+        showToast('Terjadi kesalahan koneksi');
     }
 }
 

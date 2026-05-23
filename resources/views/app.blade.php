@@ -1451,16 +1451,27 @@
             </h3>
             
             <div class="space-y-3">
-                <button onclick="cloudBackupData()" class="w-full flex items-center gap-3 bg-brand-600 hover:bg-brand-700 text-white p-4 rounded-2xl shadow-md transition">
-                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg shrink-0">
-                        <i class="fas fa-cloud-upload-alt text-white"></i>
+                <div class="bg-white rounded-2xl border border-slate-100 p-4 shadow-sm flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-lg shrink-0 text-brand-600">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="text-left flex-1 min-w-0 pr-2">
+                            <div class="font-bold text-sm text-slate-800 truncate">Auto Backup Cloud</div>
+                            <div class="text-[11px] text-slate-500 leading-tight">Backup otomatis setiap Senin 03:00</div>
+                        </div>
                     </div>
-                    <div class="text-left flex-1">
-                        <div class="font-bold text-sm">Backup ke Cloud Server</div>
-                        <div class="text-xs text-brand-100">Simpan otomatis ke server Catat-in</div>
-                    </div>
-                </button>
+                    <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                        <input type="checkbox" id="cloud-backup-toggle" class="sr-only peer" onchange="toggleCloudBackup()">
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
+                    </label>
+                </div>
                 
+                <div class="flex justify-end mb-3">
+                     <button onclick="cloudBackupData()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1">
+                         <i class="fas fa-arrow-up"></i> Backup Manual Sekarang
+                     </button>
+                </div>
                 <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
                     <div class="px-4 py-3 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
                         <span class="text-xs font-bold text-slate-600">File Backup Cloud</span>

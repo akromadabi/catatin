@@ -175,6 +175,8 @@ class DataSyncController extends Controller
         $project = Project::findOrFail($projectId);
         abort_unless($project->isMember(auth()->id()), 403, 'Akses ditolak.');
 
+        $isAuto = $request->input('is_auto', false);
+
         $transactions = Transaction::where('project_id', $projectId)->get();
 
         $exportData = $transactions->map(function ($txn) {
@@ -187,7 +189,8 @@ class DataSyncController extends Controller
             ];
         });
 
-        $fileName = 'project_' . $projectId . '_' . date('d_m_Y_His') . '_BACKUP.json';
+        $suffix = $isAuto ? '_AUTO_BACKUP.json' : '_MANUAL_BACKUP.json';
+        $fileName = 'project_' . $projectId . '_' . date('d_m_Y_His') . $suffix;
         
         // Save to user_backups directory
         Storage::disk('local')->put('user_backups/' . $fileName, json_encode($exportData, JSON_PRETTY_PRINT));
@@ -221,6 +224,24 @@ class DataSyncController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Backup berhasil disimpan di Cloud.'
+        ]);
+    }
+
+    /**
+     * Toggle Auto Cloud Backup for a project
+     */
+    public function toggleCloudBackup(Request $request, $projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        abort_unless($project->isMember(auth()->id()), 403, 'Akses ditolak.');
+
+        $project->is_cloud_backup_enabled = !$project->is_cloud_backup_enabled;
+        $project->save();
+
+        return response()->json([
+            'success' => true,
+            'is_enabled' => $project->is_cloud_backup_enabled,
+            'message' => $project->is_cloud_backup_enabled ? 'Auto backup diaktifkan.' : 'Auto backup dinonaktifkan.'
         ]);
     }
 
@@ -291,15 +312,20 @@ class DataSyncController extends Controller
 
     /**
      * Helper to automatically run weekly backup for a project
+     * Fallback if cron is not running. Usually runs every Monday 03:00 AM
      */
     public static function checkAndRunWeeklyBackup($project)
     {
+        if (!$project->is_cloud_backup_enabled) {
+            return;
+        }
+
         $projectId = $project->id;
         $files = \Illuminate\Support\Facades\Storage::disk('local')->files('user_backups');
         $latestBackupTime = 0;
 
         foreach ($files as $file) {
-            if (\Illuminate\Support\Str::startsWith(basename($file), 'project_' . $projectId . '_')) {
+            if (\Illuminate\Support\Str::startsWith(basename($file), 'project_' . $projectId . '_AUTO_BACKUP')) {
                 $time = \Illuminate\Support\Facades\Storage::disk('local')->lastModified($file);
                 if ($time > $latestBackupTime) {
                     $latestBackupTime = $time;
@@ -307,8 +333,18 @@ class DataSyncController extends Controller
             }
         }
 
-        // If no backup exists, or latest is older than 7 days
-        if ($latestBackupTime == 0 || \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::createFromTimestamp($latestBackupTime)) >= 7) {
+        $now = \Carbon\Carbon::now();
+        // Target: Monday 03:00 AM of the current week
+        $lastMonday3AM = $now->copy()->startOfWeek()->addHours(3);
+        
+        if ($now->isBefore($lastMonday3AM)) {
+            $lastMonday3AM->subWeek();
+        }
+
+        $latestBackupCarbon = \Carbon\Carbon::createFromTimestamp($latestBackupTime);
+
+        // If no auto backup exists, or the latest auto backup was made before the last Monday 3 AM
+        if ($latestBackupTime == 0 || $latestBackupCarbon->isBefore($lastMonday3AM)) {
             $transactions = \App\Models\Transaction::where('project_id', $projectId)->get();
             if ($transactions->isEmpty()) return;
 
@@ -322,13 +358,13 @@ class DataSyncController extends Controller
                 ];
             });
 
-            $fileName = 'project_' . $projectId . '_' . date('d_m_Y_His') . '_BACKUP.json';
+            $fileName = 'project_' . $projectId . '_' . date('d_m_Y_His') . '_AUTO_BACKUP.json';
             \Illuminate\Support\Facades\Storage::disk('local')->put('user_backups/' . $fileName, json_encode($exportData, JSON_PRETTY_PRINT));
 
-            // Clean up old backups (keep max 3)
-            $files = \Illuminate\Support\Facades\Storage::disk('local')->files('user_backups');
+            // Clean up old backups (keep max 3 per project, auto + manual)
+            $allFiles = \Illuminate\Support\Facades\Storage::disk('local')->files('user_backups');
             $projectBackups = [];
-            foreach ($files as $file) {
+            foreach ($allFiles as $file) {
                 if (\Illuminate\Support\Str::startsWith(basename($file), 'project_' . $projectId . '_')) {
                     $projectBackups[] = [
                         'path' => $file,

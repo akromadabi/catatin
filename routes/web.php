@@ -133,6 +133,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/api/projects/{id}/cloud-backup', [\App\Http\Controllers\DataSyncController::class, 'exportCloud']);
         Route::get('/api/projects/{id}/cloud-backups', [\App\Http\Controllers\DataSyncController::class, 'getCloudBackups']);
         Route::post('/api/projects/{id}/cloud-restore', [\App\Http\Controllers\DataSyncController::class, 'importCloud']);
+        Route::post('/api/projects/{id}/toggle-cloud-backup', [\App\Http\Controllers\DataSyncController::class, 'toggleCloudBackup']);
     });
 
     // Project Routes
