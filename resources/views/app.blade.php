@@ -1202,13 +1202,13 @@
                 <i class="fas fa-users mr-1"></i>Anggota
             </button>
             <button onclick="switchMembersTab('invites')" id="tab-invites"
-                class="px-4 py-2 text-xs font-bold rounded-t-xl border-b-2 border-transparent text-slate-500 hover:text-slate-700 transition hidden" id="tab-invites">
+                class="px-4 py-2 text-xs font-bold rounded-t-xl border-b-2 border-transparent text-slate-500 hover:text-slate-700 transition hidden">
                 <i class="fas fa-envelope mr-1"></i>Undangan <span id="invite-count-badge" class="ml-1 bg-amber-100 text-amber-700 text-[9px] font-bold px-1.5 py-0.5 rounded-full hidden"></span>
             </button>
         </div>
 
         <!-- Tab: Anggota -->
-        <div id="tab-panel-members" class="overflow-y-auto flex-1 p-4" id="members-list-container">
+        <div id="tab-panel-members" class="overflow-y-auto flex-1 p-4">
             <div class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-2"></i> Memuat...</div>
         </div>
 
@@ -1486,6 +1486,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- CATEGORY DETAILS OVERLAY -->

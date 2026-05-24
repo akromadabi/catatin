@@ -56,6 +56,8 @@ class CollaborationController extends Controller
             }
         }
 
+        \Log::info('Members API Result:', $members->toArray());
+
         $isOwner = $project->isOwner(auth()->id());
 
         // Backward compatibility: if isOwner check above returned false but user is actually owner
