@@ -329,7 +329,7 @@ function toggleBalance() {
 let dashboardFilter = localStorage.getItem('dashboardFilter') || 'all';
 
 function updateDashboardFilterLabel() {
-    const labels = { 'all': 'Semua Waktu', 'year': 'Tahun Ini', 'month': 'Bulan Ini', 'week': 'Minggu Ini' };
+    const labels = { 'all': 'Semua Waktu', 'year': 'Tahun Ini', 'month': 'Bulan Ini', 'week': 'Minggu Ini', 'today': 'Hari Ini' };
     const labelEl = document.getElementById('dashboard-filter-label');
     if (labelEl) labelEl.textContent = labels[dashboardFilter] || 'Semua Waktu';
 }
@@ -387,7 +387,7 @@ function updateDashboard() {
             badge.classList.add('hidden');
         } else {
             badge.classList.remove('hidden');
-            const labels = { 'year': 'Tahun Ini', 'month': 'Bulan Ini', 'week': 'Minggu Ini' };
+            const labels = { 'year': 'Tahun Ini', 'month': 'Bulan Ini', 'week': 'Minggu Ini', 'today': 'Hari Ini' };
             badge.textContent = labels[dashboardFilter];
         }
     }

@@ -1566,12 +1566,6 @@
     </div>
 </div>
 
-<script src="{{ asset('js/data.js') }}?v={{ time() }}"></script>
-<script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
-<script src="{{ asset('js/voice.js') }}?v={{ time() }}"></script>
-</body>
-</html>
-
 <!-- DASHBOARD FILTER MODAL -->
 <div id="dashboard-filter-modal" class="fixed inset-0 z-[90] flex items-end justify-center sm:items-center p-0 sm:p-4" style="display:none !important">
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDashboardFilterModal()"></div>
@@ -1599,8 +1593,16 @@
                 <span class="font-semibold text-slate-700">Minggu Ini</span>
                 <i class="fas fa-check text-brand-600 hidden"></i>
             </button>
+            <button type="button" onclick="selectDashboardFilter('today')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition dashboard-filter-btn" data-val="today">
+                <span class="font-semibold text-slate-700">Hari Ini</span>
+                <i class="fas fa-check text-brand-600 hidden"></i>
+            </button>
         </div>
     </div>
 </div>
 
-
+<script src="{{ asset('js/data.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/app.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/voice.js') }}?v={{ time() }}"></script>
+</body>
+</html>

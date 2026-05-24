@@ -25,14 +25,43 @@ class CollaborationController extends Controller
             ->map(fn($m) => [
                 'id'        => $m->id,
                 'user_id'   => $m->user_id,
-                'name'      => $m->user->name,
-                'email'     => $m->user->email,
-                'avatar'    => $m->user->avatar ? asset('storage/' . $m->user->avatar) : null,
+                'name'      => $m->user?->name ?? 'Unknown',
+                'email'     => $m->user?->email,
+                'avatar'    => $m->user?->avatar ? asset('storage/' . $m->user->avatar) : null,
                 'role'      => $m->role,
                 'joined_at' => $m->joined_at?->format('d M Y'),
-            ]);
+            ])->values();
+
+        // Auto-seed owner if members list does not contain owner
+        // This is a backward compatibility fix for projects created before collaboration features
+        if (!$members->contains('role', 'owner')) {
+            $owner = $project->owner;
+            if ($owner) {
+                $newMember = \App\Models\ProjectMember::create([
+                    'project_id' => $project->id,
+                    'user_id'    => $owner->id,
+                    'role'       => 'owner',
+                    'status'     => 'active',
+                    'joined_at'  => $project->created_at,
+                ]);
+                $members->prepend([
+                    'id'        => $newMember->id,
+                    'user_id'   => $owner->id,
+                    'name'      => $owner->name,
+                    'email'     => $owner->email,
+                    'avatar'    => $owner->avatar ? asset('storage/' . $owner->avatar) : null,
+                    'role'      => 'owner',
+                    'joined_at' => $newMember->joined_at->format('d M Y'),
+                ]);
+            }
+        }
 
         $isOwner = $project->isOwner(auth()->id());
+
+        // Backward compatibility: if isOwner check above returned false but user is actually owner
+        if (!$isOwner && $project->user_id == auth()->id()) {
+            $isOwner = true;
+        }
 
         return response()->json([
             'members'  => $members,
