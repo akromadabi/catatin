@@ -381,7 +381,7 @@ function showDuplicateModal(newTxn, similarList) {
     };
 
     document.getElementById('dup-new-category').textContent = newTxn.category;
-    document.getElementById('dup-new-date').textContent = fmtDate(newTxn.date);
+    document.getElementById('dup-new-date').textContent = fmtDate(newTxn.date) + (newTxn.desc ? ' · ' + newTxn.desc : '');
     document.getElementById('dup-new-amount').innerHTML =
         `<span style="color:${typeColor}">${typePrefix} ${fmt(newTxn.amount)}</span>`;
 
