@@ -258,6 +258,9 @@ function formatCurrencyInput(input) {
     input.value = val;
 }
 
+// Pending transaction data saat modal duplikat terbuka
+let _pendingTxnData = null;
+
 function handleManualSubmit() {
     const type = document.getElementById('txn-type').value;
     const amountStr = document.getElementById('txn-amount').value.replace(/\./g, '');
@@ -271,26 +274,131 @@ function handleManualSubmit() {
         return;
     }
 
+    // Mode edit: langsung update, tidak perlu cek duplikat
     if (editTxnId) {
         updateTransaction(editTxnId, { type, amount, category, desc, date });
         showToast('Transaksi berhasil diperbarui!');
         editTxnId = null;
-    } else {
-        addTransaction({ type, amount, category, desc, date });
-        showToast('Transaksi berhasil disimpan!');
+        document.getElementById('txn-form').reset();
+        document.getElementById('txn-amount').value = '';
+        document.getElementById('txn-date').value = new Date().toISOString().split('T')[0];
+        updateDashboard();
+        navigateTo('home');
+        return;
     }
-    
+
+    // Cek duplikat sebelum simpan
+    const similarTxns = findSimilarTransactions({ type, amount, date });
+    if (similarTxns.length > 0) {
+        // Simpan data sementara, tampilkan modal
+        _pendingTxnData = { type, amount, category, desc, date };
+        showDuplicateModal(_pendingTxnData, similarTxns);
+        return;
+    }
+
+    // Tidak ada duplikat, langsung simpan
+    doSaveTransaction({ type, amount, category, desc, date });
+}
+
+/**
+ * Cari transaksi serupa:
+ * - Tipe sama (pengeluaran / pemasukan)
+ * - Nominal dalam toleransi ±20%
+ * - Tercatat dalam 30 hari terakhir dari tanggal yang diinput
+ */
+function findSimilarTransactions({ type, amount, date }) {
+    const TOLERANCE = 0.20; // 20%
+    const DAYS_RANGE = 30;
+
+    const inputDate = new Date(date);
+    const cutoffDate = new Date(inputDate);
+    cutoffDate.setDate(cutoffDate.getDate() - DAYS_RANGE);
+
+    const low  = amount * (1 - TOLERANCE);
+    const high = amount * (1 + TOLERANCE);
+
+    return (appData.transactions || []).filter(t => {
+        if (t.type !== type) return false;
+        const tAmount = parseFloat(t.amount);
+        if (tAmount < low || tAmount > high) return false;
+        const tDate = new Date(t.date);
+        if (tDate < cutoffDate || tDate > inputDate) return false;
+        return true;
+    });
+}
+
+function showDuplicateModal(newTxn, similarList) {
+    const modal = document.getElementById('duplicate-txn-modal');
+    if (!modal) return;
+
+    // Isi detail transaksi baru
+    const typeColor = newTxn.type === 'pengeluaran' ? '#ef4444' : '#10b981';
+    const typePrefix = newTxn.type === 'pengeluaran' ? '−' : '+';
+    const fmt = v => 'Rp ' + Number(v).toLocaleString('id-ID');
+    const fmtDate = d => {
+        const dt = new Date(d);
+        return dt.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    };
+
+    document.getElementById('dup-new-category').textContent = newTxn.category;
+    document.getElementById('dup-new-date').textContent = fmtDate(newTxn.date);
+    document.getElementById('dup-new-amount').innerHTML =
+        `<span style="color:${typeColor}">${typePrefix} ${fmt(newTxn.amount)}</span>`;
+
+    // Isi daftar transaksi serupa
+    const list = document.getElementById('dup-similar-list');
+    list.innerHTML = similarList.slice(0, 5).map(t => {
+        const tc = t.type === 'pengeluaran' ? '#ef4444' : '#10b981';
+        const tp = t.type === 'pengeluaran' ? '−' : '+';
+        const selisihPct = Math.abs((parseFloat(t.amount) - newTxn.amount) / newTxn.amount * 100).toFixed(0);
+        const selisihLabel = selisihPct == 0
+            ? '<span class="text-[9px] bg-rose-100 text-rose-600 font-bold px-1.5 py-0.5 rounded-full ml-1">Sama persis</span>'
+            : `<span class="text-[9px] bg-amber-100 text-amber-600 font-bold px-1.5 py-0.5 rounded-full ml-1">Selisih ${selisihPct}%</span>`;
+
+        return `<div class="flex items-center justify-between bg-amber-50 border border-amber-100 rounded-2xl px-3.5 py-2.5">
+            <div class="min-w-0">
+                <div class="flex items-center flex-wrap gap-1">
+                    <p class="font-bold text-slate-800 text-sm truncate">${t.category || '—'}</p>
+                    ${selisihLabel}
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">${fmtDate(t.date)}${t.desc ? ' · ' + t.desc : ''}</p>
+            </div>
+            <p class="font-bold text-sm ml-3 shrink-0" style="color:${tc}">${tp} ${fmt(t.amount)}</p>
+        </div>`;
+    }).join('');
+
+    // Tampilkan modal
+    modal.style.removeProperty('display');
+    modal.style.display = 'flex';
+}
+
+function closeDuplicateModal() {
+    const modal = document.getElementById('duplicate-txn-modal');
+    if (modal) modal.style.display = 'none';
+    _pendingTxnData = null;
+}
+
+function confirmSaveDuplicate() {
+    closeDuplicateModal();
+    if (_pendingTxnData) {
+        doSaveTransaction(_pendingTxnData);
+        _pendingTxnData = null;
+    }
+}
+
+function doSaveTransaction(txnData) {
+    addTransaction(txnData);
+    showToast('Transaksi berhasil disimpan!');
+
     document.getElementById('txn-form').reset();
     document.getElementById('txn-amount').value = '';
-    
-    // reset date
     document.getElementById('txn-date').value = new Date().toISOString().split('T')[0];
-    
-    // Update dashboard since we might be navigating back
+
     updateDashboard();
-    
     navigateTo('home');
 }
+
+
 
 let isBalanceHidden = localStorage.getItem('hideBalance') === 'true';
 

@@ -1184,6 +1184,54 @@
     </div>
 </div>
 
+<!-- DUPLICATE TRANSACTION WARNING MODAL -->
+<div id="duplicate-txn-modal" class="fixed inset-0 z-[200] flex items-end justify-center sm:items-center p-0 sm:p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDuplicateModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-slide-up">
+        <!-- Header warning stripe -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-amber-400 to-orange-400"></div>
+
+        <div class="px-5 pt-5 pb-2">
+            <!-- Icon + Title -->
+            <div class="flex items-start gap-4 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0">
+                    <i class="fas fa-exclamation-triangle text-amber-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base leading-tight">Transaksi Serupa Ditemukan</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Anda mungkin sudah mencatat ini sebelumnya</p>
+                </div>
+            </div>
+
+            <!-- New transaction being entered -->
+            <div class="bg-slate-50 rounded-2xl p-3.5 mb-3 border border-slate-100">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Transaksi yang akan disimpan</p>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p id="dup-new-category" class="font-bold text-slate-800 text-sm"></p>
+                        <p id="dup-new-date" class="text-xs text-slate-400 mt-0.5"></p>
+                    </div>
+                    <p id="dup-new-amount" class="font-bold text-base"></p>
+                </div>
+            </div>
+
+            <!-- Similar transactions found -->
+            <p class="text-[10px] font-bold text-amber-600 uppercase tracking-wider mb-2">Mirip dengan yang sudah tercatat:</p>
+            <div id="dup-similar-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="px-5 pt-3 pb-6 flex gap-3">
+            <button onclick="closeDuplicateModal()" class="flex-1 py-3 rounded-2xl bg-slate-100 text-slate-700 font-bold text-sm hover:bg-slate-200 transition">
+                <i class="fas fa-times mr-1.5 text-xs"></i>Batal
+            </button>
+            <button onclick="confirmSaveDuplicate()" class="flex-1 py-3 rounded-2xl font-bold text-sm text-white transition" style="background: linear-gradient(135deg, #f59e0b, #f97316)">
+                <i class="fas fa-check mr-1.5 text-xs"></i>Tetap Simpan
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- COLLABORATION: MEMBERS MODAL -->
 <div id="members-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4" style="display:none !important">
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeMembersModal()"></div>
