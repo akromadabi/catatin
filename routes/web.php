@@ -114,16 +114,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/api/categories/{id}', [ApiController::class, 'deleteCategory']);
         
         // Collaboration Routes
-        Route::get('/api/projects/{id}/members', [CollaborationController::class, 'members']);
-        Route::post('/api/projects/{id}/invites', [CollaborationController::class, 'invite']);
-        Route::get('/api/projects/{id}/invites', [CollaborationController::class, 'getInvites']);
-        Route::delete('/api/projects/{id}/invites/{inviteId}', [CollaborationController::class, 'cancelInvite']);
-        Route::delete('/api/projects/{id}/members/{memberId}', [CollaborationController::class, 'removeMember']);
-        Route::get('/api/projects/{id}/activity', [CollaborationController::class, 'activity']);
-        
-        // Notification routes
-        Route::get('/api/notifications', [CollaborationController::class, 'notifications']);
-        Route::post('/api/notifications/read', [CollaborationController::class, 'markNotificationsRead']);
+        Route::get('/api/projects/{id}/members', [CollaborationController::class, 'listMembers']);
+        Route::get('/api/projects/{id}/invites', [CollaborationController::class, 'listInvites']);
         Route::post('/api/push-subscribe', [\App\Http\Controllers\PushNotificationController::class, 'store']);
         
         // Profile Update
@@ -152,7 +144,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/projects/{id}/leave', [CollaborationController::class, 'leaveProject']);
     Route::get('/api/projects/{id}/activity', [CollaborationController::class, 'activityLog']);
     Route::post('/api/activity/{id}/undo', [CollaborationController::class, 'undoAction']);
-    Route::get('/api/projects/{id}/invites', [CollaborationController::class, 'listInvites']);
     Route::delete('/api/projects/{projectId}/invites/{memberId}', [CollaborationController::class, 'cancelInvite']);
 
     // Notifications and In-App Invites
