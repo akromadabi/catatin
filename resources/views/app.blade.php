@@ -20,7 +20,15 @@
   <meta name="theme-color" content="#ffffff">
   <link rel="manifest" href="/manifest.json?v=2">
   <link rel="icon" type="image/png" href="{{ $appIcon }}">
-  <link rel="apple-touch-icon" href="{{ $appIcon }}">
+  
+  <!-- iOS Safari PWA support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="{{ $appName }}">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-192x192.png">
   <!-- pdfmake PDF library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
@@ -1645,6 +1653,45 @@
             <button type="button" onclick="selectDashboardFilter('today')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition dashboard-filter-btn" data-val="today">
                 <span class="font-semibold text-slate-700">Hari Ini</span>
                 <i class="fas fa-check text-brand-600 hidden"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- iOS INSTALL MODAL -->
+<div id="ios-install-modal" class="fixed inset-0 z-[110] flex items-center justify-center p-4" style="display:none !important">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeIosInstallModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl flex flex-col p-6 overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-50 rounded-full blur-3xl z-0"></div>
+        <div class="relative z-10 flex flex-col items-center">
+            <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-sm">
+                <i class="fas fa-mobile-screen-button"></i>
+            </div>
+            
+            <h3 class="font-bold text-slate-900 text-lg mb-2 text-center">Install di iPhone / iPad</h3>
+            <p class="text-slate-500 text-sm text-center mb-6">Untuk memasang aplikasi **Catat-in** di perangkat iOS Anda, silakan ikuti petunjuk berikut:</p>
+            
+            <div class="w-full space-y-4 mb-6 text-left text-slate-700 text-sm">
+                <div class="flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+                    <p>Buka website ini menggunakan browser bawaan **Safari** di perangkat iOS Anda.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+                    <p>Ketuk tombol **Bagikan (Share)** <i class="fa-regular fa-share-from-square text-slate-600"></i> di bar navigasi Safari (biasanya terletak di bagian bawah layar iPhone Anda).</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+                    <p>Geser ke bawah lalu ketuk opsi **Tambahkan ke Layar Utama (Add to Home Screen)** <i class="fa-regular fa-square-plus text-slate-600"></i>.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">4</span>
+                    <p>Beri nama aplikasi jika diperlukan, lalu ketuk **Tambah (Add)** di sudut kanan atas.</p>
+                </div>
+            </div>
+            
+            <button onclick="closeIosInstallModal()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-2xl transition shadow-lg shadow-brand-600/30">
+                Saya Mengerti
             </button>
         </div>
     </div>

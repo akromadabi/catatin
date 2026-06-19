@@ -3076,7 +3076,21 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Catch beforeinstallprompt
+// Check for iOS and show install elements manually if not installed (since iOS Safari doesn't support beforeinstallprompt)
+window.addEventListener('load', () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+    
+    if (isIOS && !isStandalone) {
+        const pwaBanner = document.getElementById('pwa-install-banner');
+        if (pwaBanner) pwaBanner.classList.remove('hidden');
+        
+        const pwaSetting = document.getElementById('pwa-install-setting');
+        if (pwaSetting) pwaSetting.classList.remove('hidden');
+    }
+});
+
+// Catch beforeinstallprompt (Android / Chrome)
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the mini-infobar from appearing on mobile
     e.preventDefault();
@@ -3105,6 +3119,12 @@ window.addEventListener('appinstalled', (evt) => {
 
 // Function triggered by the Install buttons
 function installPWA() {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+        showIosInstallInstructions();
+        return;
+    }
+    
     if (!deferredPrompt) {
         showToast('Fitur install tidak tersedia di browser ini atau aplikasi sudah diinstall.');
         return;
@@ -3128,6 +3148,21 @@ function installPWA() {
         // Modern browsers usually reset it on reload.
         deferredPrompt = null;
     });
+}
+
+function showIosInstallInstructions() {
+    const m = document.getElementById('ios-install-modal');
+    if (m) {
+        m.style.removeProperty('display');
+        m.style.display = 'flex';
+    }
+}
+
+function closeIosInstallModal() {
+    const m = document.getElementById('ios-install-modal');
+    if (m) {
+        m.style.display = 'none';
+    }
 }
 
 /* ================= PUSH NOTIFICATION SUBSCRIPTION ================= */
