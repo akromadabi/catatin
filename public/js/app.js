@@ -288,7 +288,7 @@ function handleManualSubmit() {
     }
 
     // Cek duplikat sebelum simpan
-    const similarTxns = findSimilarTransactions({ type, amount, date });
+    const similarTxns = findSimilarTransactions({ type, amount, date, desc });
     if (similarTxns.length > 0) {
         // Simpan data sementara, tampilkan modal
         _pendingTxnData = { type, amount, category, desc, date };
@@ -305,8 +305,9 @@ function handleManualSubmit() {
  * - Tipe sama (pengeluaran / pemasukan)
  * - Nominal dalam toleransi ±20%
  * - Tercatat dalam 30 hari terakhir dari tanggal yang diinput
+ * - Catatan/deskripsi serupa (mengandung kata kunci atau kesamaan teks)
  */
-function findSimilarTransactions({ type, amount, date }) {
+function findSimilarTransactions({ type, amount, date, desc }) {
     const TOLERANCE = 0.20; // 20%
     const DAYS_RANGE = 30;
 
@@ -323,8 +324,47 @@ function findSimilarTransactions({ type, amount, date }) {
         if (tAmount < low || tAmount > high) return false;
         const tDate = new Date(t.date);
         if (tDate < cutoffDate || tDate > inputDate) return false;
-        return true;
+        
+        // Periksa kemiripan catatan/deskripsi
+        return areNotesSimilar(desc, t.desc);
     });
+}
+
+function areNotesSimilar(note1, note2) {
+    const n1 = (note1 || '').trim().toLowerCase();
+    const n2 = (note2 || '').trim().toLowerCase();
+    
+    // Keduanya kosong -> Dianggap serupa/duplikat
+    if (n1 === '' && n2 === '') {
+        return true;
+    }
+    
+    // Salah satu kosong, salah satu tidak -> Beda item
+    if (n1 === '' || n2 === '') {
+        return false;
+    }
+    
+    // Sama persis
+    if (n1 === n2) {
+        return true;
+    }
+    
+    // Salah satu mengandung yang lain (contoh: "Galon Aqua" vs "Galon")
+    if (n1.includes(n2) || n2.includes(n1)) {
+        return true;
+    }
+    
+    // Memiliki kata kunci yang sama (panjang kata >= 3 karakter)
+    const words1 = n1.split(/[^a-zA-Z0-9]+/).filter(w => w.length >= 3);
+    const words2 = n2.split(/[^a-zA-Z0-9]+/).filter(w => w.length >= 3);
+    
+    for (const w1 of words1) {
+        if (words2.includes(w1)) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 function showDuplicateModal(newTxn, similarList) {
