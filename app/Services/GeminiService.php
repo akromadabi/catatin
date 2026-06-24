@@ -118,7 +118,7 @@ class GeminiService
         ];
 
         try {
-            $response = Http::withHeaders(['Content-Type' => 'application/json'])->post($url, $payload);
+            $response = Http::retry(3, 1000)->withHeaders(['Content-Type' => 'application/json'])->post($url, $payload);
             if ($response->successful()) {
                 $data = $response->json();
                 $textResult = $data['candidates'][0]['content']['parts'][0]['text'] ?? '{}';
@@ -168,7 +168,7 @@ class GeminiService
         ];
 
         try {
-            $response = Http::withHeaders(['Content-Type' => 'application/json'])->post($url, $payload);
+            $response = Http::retry(3, 1000)->withHeaders(['Content-Type' => 'application/json'])->post($url, $payload);
             if ($response->successful()) {
                 $data = $response->json();
                 return $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Gagal membuat tanggapan AI.';
