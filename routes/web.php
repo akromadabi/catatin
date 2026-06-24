@@ -120,6 +120,7 @@ Route::middleware('auth')->group(function () {
         
         // Profile Update
         Route::post('/api/profile/update', [ApiController::class, 'updateProfile']);
+        Route::post('/api/profile', [ApiController::class, 'updateProfile']);
         
         // Cloud Backup & Restore Routes
         Route::post('/api/projects/{id}/cloud-backup', [\App\Http\Controllers\DataSyncController::class, 'exportCloud']);
@@ -175,4 +176,7 @@ require __DIR__.'/auth.php';
 // Google Auth Routes
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+// WhatsApp Webhook Route
+Route::post('/api/whatsapp/webhook', [\App\Http\Controllers\WhatsAppWebhookController::class, 'handle']);
 

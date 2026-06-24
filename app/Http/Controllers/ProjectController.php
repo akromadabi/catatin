@@ -88,6 +88,10 @@ class ProjectController extends Controller
         // Set as active project
         session(['active_project_id' => $project->id]);
 
+        $user = auth()->user();
+        $user->active_project_id = $project->id;
+        $user->save();
+
         return response()->json(['success' => true, 'project' => $project]);
     }
 
@@ -145,6 +149,11 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         abort_unless($project->isMember(auth()->id()), 403, 'Kamu bukan anggota proyek ini.');
         session(['active_project_id' => $project->id]);
+
+        $user = auth()->user();
+        $user->active_project_id = $project->id;
+        $user->save();
+
         return response()->json(['success' => true, 'project' => $project]);
     }
 }

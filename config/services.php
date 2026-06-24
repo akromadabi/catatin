@@ -41,4 +41,14 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI', 'http://localhost/catatin/public/auth/google/callback'),
     ],
 
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-1.5-flash'),
+    ],
+
+    'whatsapp' => [
+        'token' => env('WHATSAPP_API_TOKEN'),
+        'url' => env('WHATSAPP_API_URL', 'https://api.fonnte.com/send'),
+    ],
+
 ];

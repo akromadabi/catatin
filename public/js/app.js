@@ -2061,6 +2061,9 @@ async function submitEditProfile(e) {
     const avatarFile = document.getElementById('edit-profile-avatar').files[0];
     if (avatarFile) formData.append('avatar', avatarFile);
 
+    const waNumber = document.getElementById('edit-profile-whatsapp').value;
+    formData.append('whatsapp_number', waNumber);
+
     const url = window.baseUrl ? window.baseUrl + '/api/profile' : '/api/profile';
     try {
         const response = await fetch(url, {
@@ -2077,6 +2080,7 @@ async function submitEditProfile(e) {
             
             // Update local user data
             window.authUser.name = data.user.name;
+            window.authUser.whatsapp_number = data.user.whatsapp_number;
             if (data.user.avatar) window.authUser.avatar = data.user.avatar;
             
             // Update UI
@@ -2087,6 +2091,18 @@ async function submitEditProfile(e) {
                 const imgDisplays = document.querySelectorAll('#profile-avatar-img');
                 imgDisplays.forEach(el => el.src = data.user.avatar);
             }
+
+            document.getElementById('edit-profile-whatsapp').value = data.user.whatsapp_number || '';
+            const waDisplays = document.querySelectorAll('#profile-whatsapp-display');
+            waDisplays.forEach(el => {
+                if (data.user.whatsapp_number) {
+                    el.className = "text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1";
+                    el.innerHTML = `<i class="fab fa-whatsapp"></i> +${data.user.whatsapp_number}`;
+                } else {
+                    el.className = "text-xs text-slate-400 mt-1 flex items-center gap-1";
+                    el.innerHTML = `<i class="fab fa-whatsapp"></i> WA Belum Terhubung`;
+                }
+            });
             
             // Clear password field
             document.getElementById('edit-profile-password').value = '';

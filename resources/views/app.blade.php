@@ -572,6 +572,15 @@
                     </div>
                     <h2 id="profile-name-display" class="text-xl font-bold text-slate-900">{{ auth()->user()->name }}</h2>
                     <p class="text-sm text-slate-500">{{ auth()->user()->email }}</p>
+                    @if(auth()->user()->whatsapp_number)
+                        <p id="profile-whatsapp-display" class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+                            <i class="fab fa-whatsapp"></i> +{{ auth()->user()->whatsapp_number }}
+                        </p>
+                    @else
+                        <p id="profile-whatsapp-display" class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                            <i class="fab fa-whatsapp"></i> WA Belum Terhubung
+                        </p>
+                    @endif
                     <span class="mt-2 px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold uppercase tracking-wider">{{ auth()->user()->role }}</span>
                 </div>
 
@@ -1372,6 +1381,11 @@
                 <div class="mb-5">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Lengkap</label>
                     <input type="text" id="edit-profile-name" value="{{ auth()->user()->name }}" class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 outline-none transition" required>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nomor WhatsApp <span class="text-slate-400 font-normal">(Opsional, ex: 0812xxxx)</span></label>
+                    <input type="text" id="edit-profile-whatsapp" value="{{ auth()->user()->whatsapp_number }}" class="w-full bg-slate-50 border border-slate-200 text-slate-900 font-semibold rounded-2xl focus:ring-brand-500 focus:border-brand-500 block p-3.5 outline-none transition" placeholder="628xxxxxxxx">
                 </div>
 
                 <div class="mb-6">

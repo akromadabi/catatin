@@ -10,10 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'google_id', 'role', 'package_id', 'avatar'])]
+#[Fillable(['name', 'email', 'password', 'google_id', 'role', 'package_id', 'avatar', 'whatsapp_number', 'active_project_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    public function activeProject() {
+        return $this->belongsTo(Project::class, 'active_project_id');
+    }
+
     public function categories() {
         return $this->hasMany(Category::class);
     }

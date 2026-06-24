@@ -218,6 +218,7 @@ class ApiController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'nullable|string|min:8',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'whatsapp_number' => 'nullable|string|max:20',
         ]);
 
         $user->name = $request->name;
@@ -234,6 +235,16 @@ class ApiController extends Controller
             $user->avatar = $path;
         }
 
+        if ($request->filled('whatsapp_number')) {
+            $number = preg_replace('/[^0-9]/', '', $request->whatsapp_number);
+            if (str_starts_with($number, '0')) {
+                $number = '62' . substr($number, 1);
+            }
+            $user->whatsapp_number = $number;
+        } else {
+            $user->whatsapp_number = null;
+        }
+
         $user->save();
 
         // Log profile update activity
@@ -244,7 +255,7 @@ class ApiController extends Controller
                 'user_id'    => $user->id,
                 'action'     => 'updated',
                 'model_type' => 'User',
-                'data'       => ['user_name' => $user->name],
+                'data'       => ['user_name' => $user->name, 'whatsapp_number' => $user->whatsapp_number],
             ]);
         }
 
@@ -253,6 +264,7 @@ class ApiController extends Controller
             'user' => [
                 'name' => $user->name,
                 'email' => $user->email,
+                'whatsapp_number' => $user->whatsapp_number,
                 'avatar' => $user->avatar ? asset('storage/' . $user->avatar) : null
             ]
         ]);
