@@ -31,10 +31,10 @@ class WhatsAppWebhookController extends Controller
      */
     public function handle(Request $request)
     {
-        // Fonnte payload parameters: target (bot number), sender (user number), message (text), url (media url)
-        $senderRaw = $request->input('sender');
-        $message = trim($request->input('message'));
-        $mediaUrl = $request->input('url');
+        // Support both Fonnte (sender, message, url) and MPWA (from, message/body, url/file/media)
+        $senderRaw = $request->input('sender') ?? $request->input('from');
+        $message = trim($request->input('message') ?? $request->input('body') ?? '');
+        $mediaUrl = $request->input('url') ?? $request->input('url_media') ?? $request->input('file') ?? $request->input('media');
 
         if (empty($senderRaw)) {
             return response()->json(['status' => 'ignored', 'message' => 'No sender phone number']);

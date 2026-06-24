@@ -49,6 +49,7 @@ return [
     'whatsapp' => [
         'token' => env('WHATSAPP_API_TOKEN'),
         'url' => env('WHATSAPP_API_URL', 'https://api.fonnte.com/send'),
+        'sender_number' => env('WHATSAPP_SENDER_NUMBER'),
     ],
 
 ];

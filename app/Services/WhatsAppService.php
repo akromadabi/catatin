@@ -9,11 +9,13 @@ class WhatsAppService
 {
     protected $token;
     protected $apiUrl;
+    protected $senderNumber;
 
     public function __construct()
     {
         $this->token = config('services.whatsapp.token');
         $this->apiUrl = config('services.whatsapp.url', 'https://api.fonnte.com/send');
+        $this->senderNumber = config('services.whatsapp.sender_number');
     }
 
     /**
@@ -31,12 +33,23 @@ class WhatsAppService
         }
 
         try {
-            $response = Http::withHeaders([
-                'Authorization' => $this->token
-            ])->post($this->apiUrl, [
-                'target' => $to,
-                'message' => $message,
-            ]);
+            // Detect if using Fonnte or MPWA (M-Pedia) based on URL
+            if (str_contains($this->apiUrl, 'fonnte.com')) {
+                $response = Http::withHeaders([
+                    'Authorization' => $this->token
+                ])->post($this->apiUrl, [
+                    'target' => $to,
+                    'message' => $message,
+                ]);
+            } else {
+                // MPWA Format: requires api_key, sender (device number), number (destination), message
+                $response = Http::post($this->apiUrl, [
+                    'api_key' => $this->token,
+                    'sender'  => $this->senderNumber,
+                    'number'  => $to,
+                    'message' => $message,
+                ]);
+            }
 
             if (!$response->successful()) {
                 Log::error('WhatsApp Gateway Error: ' . $response->body());
