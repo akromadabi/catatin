@@ -419,10 +419,10 @@ function closeDuplicateModal() {
 }
 
 function confirmSaveDuplicate() {
+    const dataToSave = _pendingTxnData;
     closeDuplicateModal();
-    if (_pendingTxnData) {
-        doSaveTransaction(_pendingTxnData);
-        _pendingTxnData = null;
+    if (dataToSave) {
+        doSaveTransaction(dataToSave);
     }
 }
 
